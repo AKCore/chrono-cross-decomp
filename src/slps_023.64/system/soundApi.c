@@ -146,8 +146,13 @@ INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004AB6C);
 
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004AB8C);
 
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", IsSpuTransferring);
+//----------------------------------------------------------------------------------------------------------------------
+s32 IsSpuTransferring()
+{
+    return g_bSpuTransferring;
+}
 
+//----------------------------------------------------------------------------------------------------------------------
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004AC0C);
 
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004AC2C);
