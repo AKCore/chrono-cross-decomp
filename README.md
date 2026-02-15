@@ -56,7 +56,7 @@ sudo apt install qemu-user-static binfmt-support
 ### Clone the Repository
 
 ```bash
-git clone --recursive https://github.com/yourusername/chrono-cross-decomp.git
+git clone --recursive https://github.com/jdperos/chrono-cross-decomp.git
 ```
 
 ### Install Python Dependencies
