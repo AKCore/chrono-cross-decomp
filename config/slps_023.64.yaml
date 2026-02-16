@@ -16,6 +16,9 @@ options:
   ld_script_path: linker/slps_023.64.ld
   ld_dependencies: True
   ld_sections_allowlist:
+    - .pdr
+    - .mdebug
+    - .mdebug.abi32
     - .debug_line
     - .debug_info
     - .debug_abbrev
