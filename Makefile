@@ -12,8 +12,9 @@ SKIP_ASM       ?= 0
 
 # Names and Paths
 GAME_NAME    := slps_023.64
-ROM_DIR      := disc
-EXTRACT_DIR  := disc/extracted
+ASSETS_DIR   := assets
+ROM_DIR      := $(ASSETS_DIR)/disc
+EXTRACT_DIR  := $(ROM_DIR)/extracted
 CACHE_DIR    := .cache
 CONFIG_DIR   := config
 LINKER_DIR   := linker
@@ -165,7 +166,7 @@ matching: regenerate
 	$(Q)$(MAKE) check
 
 objdiff-config: regenerate
-	@echo "[objdiff] Generating non-matching expected build..."
+	@echo "[objdiff] Generating non-matching expected build..../disc"
 	$(Q)$(MAKE) NON_MATCHING=1 SKIP_ASM=1 expected
 	$(Q)$(MAKE) generate-context
 	$(Q)$(PYTHON) $(OBJDIFF_DIR)/objdiff_generate.py $(OBJDIFF_DIR)/config.yaml
@@ -188,9 +189,9 @@ expected: build
 	$(Q)mv build/asm $(EXPECTED_DIR)/asm
 
 extract:
-	@echo "[extract] Searching for cdrom.dat under ./disc"
+	@echo "[extract] Searching for cdrom.dat under $(ROM_DIR)"
 	@set -euo pipefail; \
-	DAT=$$(find disc -type f -name 'cdrom.dat' -print -quit); \
+	DAT=$$(find $(ROM_DIR) -type f -name 'cdrom.dat' -print -quit); \
 	echo "[extract] Extracting $$DAT → $(EXTRACT_DIR)"; \
 	mkdir -p "$(EXTRACT_DIR)"; \
 	if command -v 7z >/dev/null 2>&1; then \
