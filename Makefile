@@ -226,7 +226,11 @@ regenerate: reset
 	@echo "[regenerate] Regenerating split output..."
 	$(Q)$(MAKE) generate
 
-setup: reset
+lib/:
+	$(Q)mkdir -p ./lib/
+	$(Q)curl -L https://pub-3ab1ac44dbc04f458c220c0dca6f3dc3.r2.dev/psyq_obj.tar.gz | tar xz -C ./lib/
+
+setup: reset lib/
 	@echo "[setup] Extracting and generating..."
 	$(Q)$(MAKE) extract
 	$(Q)$(MAKE) generate
