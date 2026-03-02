@@ -97,9 +97,9 @@ segments:
       - [0x00BD4, o, ../lib/450/libc2/memcpy, .text]
       - [0x00C14, o, ../lib/450/libc2/memmove, .text]
       - [0x00C84, o, ../lib/450/libc2/memset, .text]
-      - [0x00CB4, asm, psyq/450/obj/libc2/putchar, .text]
+      - [0x00CB4, o, ../lib/450/libc2/putchar, .text]
       - [0x00F14, o, ../lib/450/libc2/puts, .text]
-      - [0x00F74, asm, psyq/450/obj/libc2/rand, .text]
+      - [0x00F74, o, ../lib/450/libc2/rand, .text]
       - [0x00FB4, o, ../lib/450/libc2/setjmp, .text]
       - [0x01034, o, ../lib/450/libc2/strcat, .text]
       - [0x010E4, o, ../lib/450/libc2/strchr, .text]
@@ -398,7 +398,6 @@ segments:
       - [0x5A0A8, rodata, 1BD2C]
       - [0x5A2EC, rodata, psyq/450/obj/libgte/geo_01, .rdata]
       - [0x5A394, rodata, 2225C]
-      # - [0x5A914, rodata, 2225C]
       - [0x5ABB8, rodata, 2A200]
 
       - [0x5B0A4, rodata, psyq/450/obj/libcd/event, .rdata]  # size: 0x20
@@ -407,8 +406,7 @@ segments:
 
       # === .data ===
       - [0x5B1F4, o, ../lib/450/libc2/ctype, .data]  # size: 0x90
-      # - [0x5B284, o, ../lib/450/libc2/putchar, .data]  # size: 0x10
-      - [0x5B284, data, psyq/450/obj/libc2/putchar, .data]  # size: 0x10
+      - [0x5B284, o, ../lib/450/libc2/putchar, .data]  # size: 0x10
       - [0x5B294, o, ../lib/450/libc2/puts, .data]  # size: 0x10
       - [0x5B2A4, o, ../lib/450/libc2/strtok, .data]  # size: 0x10
       - [0x5B2B4, data, psyq/450/obj/libgpu/break, .data]  # size: 0x20
@@ -450,8 +448,10 @@ segments:
       - [0x64380, data]    # 0x80073B80
 
       - [0x64380, sbss]    # 0x80073B80
-      - [0x64388, o, ../lib/450/libc2/itoa, .bss]    # 0x80073B88
-      - [0x64398, bss]    # 0x80073B98
+      - [0x64388, o, ../lib/450/libc2/itoa, .bss] # size: 0x10
+      - [0x64398, o, ../lib/450/libc2/putchar, .bss] # size: 0x20
+      - [0x643B8, o, ../lib/450/libc2/rand, .bss] # size: 0x10
+      - [0x643C8, bss]    # 0x80073B98
 
   - type: data
     start: 0x8587C
