@@ -66,7 +66,8 @@ options:
   migrate_rodata_to_functions: false
   data_string_guesser_level: 2
 
-  ld_bss_is_noload: True
+  # ld_bss_is_noload: True
+  ld_bss_is_noload: False
 segments:
   - name: header
     type: header
@@ -76,8 +77,9 @@ segments:
     type: code
     start: 0x800
     vram: 0x80010000
-    # bss_size: 0x21500
-    bss_contains_common: True
+    # bss_size: 0x25100
+    # bss_contains_common: True
+    bss_contains_common: False
     align: 4
     section_order: [".text", ".rodata", ".sdata", ".data", ".sbss", ".bss"]
     subsegments:
@@ -96,7 +98,7 @@ segments:
       - [0x00C14, asm, psyq/450/obj/libc2/memmove, .text]
       - [0x00C84, asm, psyq/450/obj/libc2/memset, .text]
       - [0x00CB4, asm, psyq/450/obj/libc2/putchar, .text]
-      - [0x00F14, asm, psyq/450/obj/libc2/puts, .text]
+      - [0x00F14, o, ../lib/450/libc2/puts, .text]
       - [0x00F74, asm, psyq/450/obj/libc2/rand, .text]
       - [0x00FB4, asm, psyq/450/obj/libc2/setjmp, .text]
       - [0x01034, asm, psyq/450/obj/libc2/strcat, .text]
@@ -374,7 +376,7 @@ segments:
 
       # === .rdata ===
       - [0x46C6C, rodata, psyq/450/obj/libc2/itoa, .rdata]  # size: 0x10
-      - [0x46C7C, rodata, psyq/450/obj/libc2/puts, .rdata]  # size: 0x10
+      - [0x46C7C, o, ../lib/450/libc2/puts, .rdata]  # size: 0x10
       - [0x46C8C, rodata, psyq/450/obj/libgpu/p02, .rdata]  # size: 0x20
       - [0x46CAC, rodata, psyq/450/obj/libgpu/p03, .rdata]  # size: 0x10
       - [0x46CBC, rodata, psyq/450/obj/libgpu/sys, .rdata]  # size: 0x220
@@ -404,11 +406,10 @@ segments:
       - [0x5B0F4, rodata, system/sound3] # 0x8006A8F4
 
       # === .data ===
-      # - [0x5B1F4, o, ../assets/psyq/450/obj/libc/ctype0, .data] # 0x8006A8F4
-      # - [0x5B1F4, data, psyq/450/obj/libc/ctype0, .data]  # size: 0x90 | duplicate with libc2
       - [0x5B1F4, o, ../lib/450/libc2/ctype, .data]  # size: 0x90
+      # - [0x5B284, o, ../lib/450/libc2/putchar, .data]  # size: 0x10
       - [0x5B284, data, psyq/450/obj/libc2/putchar, .data]  # size: 0x10
-      - [0x5B294, data, psyq/450/obj/libc2/puts, .data]  # size: 0x10
+      - [0x5B294, o, ../lib/450/libc2/puts, .data]  # size: 0x10
       - [0x5B2A4, data, psyq/450/obj/libc2/strtok, .data]  # size: 0x10
       - [0x5B2B4, data, psyq/450/obj/libgpu/break, .data]  # size: 0x20
       - [0x5B2D4, data, psyq/450/obj/libgpu/param, .data]  # size: 0x10
@@ -444,15 +445,20 @@ segments:
       - [0x636C0, data]  # gap: 0x400
       - [0x63AC0, data, psyq/450/obj/libspu/zerobuf, .data]  # size: 0x400
       - [0x63EC0, data, psyq/450/obj/libspu/s_rmp2, .data]  # size: 0x2b0
-      # - [auto, data, psyq/450/obj/libpad/padportm, .data]  # size: 0x10 | can't find in slps_023.64
-      # - [auto, data, psyq/450/obj/libc2/sprintf, .data]  # size: 0x10 | may be compiled out
-      # - [auto, data, psyq/450/obj/libmath/ferr, .data]  # size: 0x10 | Can't find in slps_023.64
-      # - [0x64380, bss]    # 0x80073B80
-      # - [0x85898]         # 0x80095098
 
-  - name: secondary
+      - [0x64170, data]    # Some rodata from the game module
+      - [0x64380, data]    # 0x80073B80
+
+      # - [0x64380, sbss]    # 0x80073B80
+      - [0x64388, data, psyq/450/obj/libc2/itoa, .bss]    # 0x80073B88
+      - [0x64398, bss]    # 0x80073B98
+
+  - type: data
+    start: 0x8587C
+    vram: 0x8009507C
+
+  - start: 0x85898 # 0x80095098
     type: code
-    start: 0x85898 # 0x80095098
     vram: 0x80095098
     # bss_size: 0x40000 # yolo
     bss_contains_common: True
