@@ -293,7 +293,6 @@ $(BUILD_DIR)/%.bin.o: %.bin
 $(LINKER_DIR)/%.ld: $(CONFIG_DIR)/%.yaml
 	$(Q)@mkdir -p $(dir $@)
 	$(Q)$(SPLAT) $(SPLAT_FLAGS) $<
-	$(Q)./tools/prebuild.sh $@
 
 $(CTX_FILE):
 	$(Q)@mkdir -p ctx
