@@ -118,10 +118,10 @@ Extracting from console versions requires additional steps beyond the scope of t
 Once you have the ROM in place:
 
 ```bash
-make extract
+make setup
 ```
 
-This will extract cdrom.dat to expose all of the program data
+This will extract cdrom.dat to expose all of the program data, as well as download necessary linked dependencies
 
 ### Build and Verify
 

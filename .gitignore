@@ -4,6 +4,7 @@ assets/
 ctx/
 disc/*
 build/
+lib/
 linker/
 tools/pcsx-redux-tools/
 .vscode/

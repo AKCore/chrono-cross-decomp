@@ -57,10 +57,19 @@ jobs:
 
       - name: Reassemble ROM
         run: |
-          mkdir -p disc
-          cat tmp/x* > disc/cdrom.dat
+          mkdir -p assets/disc
+          cat tmp/x* > assets/disc/cdrom.dat
           rm -rf tmp
-          echo "ROM size: $(stat -c%s disc/cdrom.dat) bytes"
+          echo "ROM size: $(stat -c%s assets/disc/cdrom.dat) bytes"
+
+      - name: Download psyq objects
+        run: |
+          mkdir -p lib/
+          curl -L \
+            -H "Authorization: Bearer ${{ secrets.DECOMP_DEPENDENCIES_TOKEN }}" \
+            -H "Accept: application/octet-stream" \
+            https://api.github.com/repos/jdperos/chrono-cross-decomp-dependencies/releases/assets/364315325 \
+            | tar xz -C ./lib/
 
       - name: Extract and prepare
         run: |
