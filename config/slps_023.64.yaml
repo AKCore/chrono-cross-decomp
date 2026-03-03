@@ -194,37 +194,37 @@ segments:
       - [0x099D4, asm]
       - [0x0CC50, asm]
 
-      - [0x13040, asm, psyq/450/libapi/c57, .text]
-      - [0x13050, asm, psyq/450/libapi/c68, .text]
-      - [0x13060, asm, psyq/450/libapi/c73, .text]
-      - [0x13070, asm, psyq/450/libapi/a07, .text]
-      - [0x13080, asm, psyq/450/libapi/a08, .text]
-      - [0x13090, asm, psyq/450/libapi/a09, .text]
-      - [0x130A0, asm, psyq/450/libapi/a11, .text]
-      - [0x130B0, asm, psyq/450/libapi/a12, .text]
-      - [0x130C0, asm, psyq/450/libapi/a32, .text]
-      - [0x130D0, asm, psyq/450/libapi/a36, .text]
-      - [0x130E0, asm, psyq/450/libapi/a37, .text]
-      - [0x130F0, asm, psyq/450/libapi/a50, .text]
-      - [0x13100, asm, psyq/450/libapi/a51, .text]
-      - [0x13110, asm, psyq/450/libapi/a52, .text]
-      - [0x13120, asm, psyq/450/libapi/a53, .text]
-      - [0x13130, asm, psyq/450/libapi/a54, .text]
-      - [0x13140, asm, psyq/450/libapi/a67, .text]
-      - [0x13150, asm, psyq/450/libapi/a81, .text]
-      - [0x13160, asm, psyq/450/libapi/a91, .text]
-      - [0x13170, asm, psyq/450/libapi/l02, .text]
-      - [0x13180, asm, psyq/450/libapi/l03, .text]
-      - [0x13190, asm, psyq/450/libapi/l10, .text]
-      - [0x131A0, asm, psyq/450/libapi/first, .text]
-      - [0x13440, asm, psyq/450/libapi/a66, .text]
-      - [0x13450, asm, psyq/450/libapi/pad, .text]
-      - [0x13750, asm, psyq/450/libapi/a18, .text]
-      - [0x13760, asm, psyq/450/libapi/a19, .text]
-      - [0x13770, asm, psyq/450/libapi/a20, .text]
-      - [0x13780, asm, psyq/450/libapi/a21, .text]
-      - [0x13790, asm, psyq/450/libapi/patch, .text]
-      - [0x13830, asm, psyq/450/libapi/chclrpad, .text]
+      - [0x13040, o, ../lib/450/libapi/c57, .text]
+      - [0x13050, o, ../lib/450/libapi/c68, .text]
+      - [0x13060, o, ../lib/450/libapi/c73, .text]
+      - [0x13070, o, ../lib/450/libapi/a07, .text]
+      - [0x13080, o, ../lib/450/libapi/a08, .text]
+      - [0x13090, o, ../lib/450/libapi/a09, .text]
+      - [0x130A0, o, ../lib/450/libapi/a11, .text]
+      - [0x130B0, o, ../lib/450/libapi/a12, .text]
+      - [0x130C0, o, ../lib/450/libapi/a32, .text]
+      - [0x130D0, o, ../lib/450/libapi/a36, .text]
+      - [0x130E0, o, ../lib/450/libapi/a37, .text]
+      - [0x130F0, o, ../lib/450/libapi/a50, .text]
+      - [0x13100, o, ../lib/450/libapi/a51, .text]
+      - [0x13110, o, ../lib/450/libapi/a52, .text]
+      - [0x13120, o, ../lib/450/libapi/a53, .text]
+      - [0x13130, o, ../lib/450/libapi/a54, .text]
+      - [0x13140, o, ../lib/450/libapi/a67, .text]
+      - [0x13150, o, ../lib/450/libapi/a81, .text]
+      - [0x13160, o, ../lib/450/libapi/a91, .text]
+      - [0x13170, o, ../lib/450/libapi/l02, .text]
+      - [0x13180, o, ../lib/450/libapi/l03, .text]
+      - [0x13190, o, ../lib/450/libapi/l10, .text]
+      - [0x131A0, o, ../lib/450/libapi/first, .text]
+      - [0x13440, o, ../lib/450/libapi/a66, .text]
+      - [0x13450, o, ../lib/450/libapi/pad, .text]
+      - [0x13750, o, ../lib/450/libapi/a18, .text]
+      - [0x13760, o, ../lib/450/libapi/a19, .text]
+      - [0x13770, o, ../lib/450/libapi/a20, .text]
+      - [0x13780, o, ../lib/450/libapi/a21, .text]
+      - [0x13790, o, ../lib/450/libapi/patch, .text]
+      - [0x13830, o, ../lib/450/libapi/chclrpad, .text]
 
       - [0x138A0, asm, psyq/450/libcd/sys, .text]
       - [0x13EB0, asm, psyq/450/libcd/bios, .text]
@@ -278,10 +278,10 @@ segments:
       - [0x18050, asm, psyq/450/libetc/vsync, .text]
       - [0x18260, asm, psyq/450/libetc/intr, .text]
 
-      - [0x18920, asm, psyq/450/libapi/c114, .text]
-      - [0x18940, asm, psyq/450/libapi/a23, .text]
-      - [0x18950, asm, psyq/450/libapi/a24, .text]
-      - [0x18960, asm, psyq/450/libapi/a25, .text]
+      - [0x18920, o, ../lib/450/libapi/c114, .text]
+      - [0x18940, o, ../lib/450/libapi/a23, .text]
+      - [0x18950, o, ../lib/450/libapi/a24, .text]
+      - [0x18960, o, ../lib/450/libapi/a25, .text]
       - [0x18970, asm, psyq/450/libetc/intr_vb, .text]
 
       - [0x18A90, asm, psyq/450/libetc/intr_dma, .text]
@@ -323,7 +323,7 @@ segments:
       - [0x25508, asm]  # gap: 0x1EEC
 
       - [0x273F4, asm, psyq/450/libspu/s_q, .text]
-      - [0x27474, asm, psyq/450/libapi/a13, .text]
+      - [0x27474, o, ../lib/450/libapi/a13, .text]
 
       - [0x27484, asm]  # gap: 0xB4E4
 
@@ -342,7 +342,7 @@ segments:
 
       - [0x3B914, c, system/spu]
 
-      - [0x3BFF4, asm, psyq/450/libapi/counter, .text]
+      - [0x3BFF4, o, ../lib/450/libapi/counter, .text]
       - [0x3C164, asm, psyq/450/libspu/s_m_init, .text]
       - [0x3C1C4, asm, psyq/450/libspu/s_si, .text]
       - [0x3C304, asm, psyq/450/libspu/s_sic, .text]
@@ -364,7 +364,7 @@ segments:
       - [0x41E04, asm, psyq/450/libspu/s_srmt, .text]
       - [0x41FD4, asm, psyq/450/libspu/s_sra, .text]
       - [0x424A4, asm, psyq/450/libspu/s_crwa, .text]
-      - [0x42644, asm, psyq/450/libapi/a10, .text]
+      - [0x42644, o, ../lib/450/libapi/a10, .text]
       - [0x42654, asm, psyq/450/libspu/s_grmt, .text]
 
       - [0x42664, c, system/sound3]
@@ -417,7 +417,7 @@ segments:
       - [0x5B534, o, ../lib/450/libpad/padportd, .data]  # size: 0x10
       - [0x5B544, o, ../lib/460/libcard/init, .data]  # size: 0x10
       - [0x5B554, data]  # gap: 0x1e8
-      - [0x5B73C, data, psyq/450/libapi/pad, .data]  # size: 0x10
+      - [0x5B73C, o, ../lib/450/libapi/pad, .data]  # size: 0x10
       - [0x5B74C, data, psyq/450/libcd/sys, .data]  # size: 0x80
       - [0x5B7CC, data, psyq/450/libcd/bios, .data]  # size: 0x320
       - [0x5BAEC, data, psyq/450/libgte/sincos, .data]  # size: 0x810
@@ -439,7 +439,7 @@ segments:
       - [0x623C4, data, psyq/450/libcd/event, .data]  # size: 0x10
       - [0x623D4, data, psyq/450/libspu/s_rmp0, .data]  # size: 0x30
       - [0x62404, data]  # gap: 0x129c
-      - [0x636A0, data, psyq/450/libapi/counter, .data]  # size: 0x20
+      - [0x636A0, o, ../lib/450/libapi/counter, .data]  # size: 0x20
       - [0x636C0, data]  # gap: 0x400
       - [0x63AC0, data, psyq/450/libspu/zerobuf, .data]  # size: 0x400
       - [0x63EC0, data, psyq/450/libspu/s_rmp2, .data]  # size: 0x2b0
@@ -460,6 +460,11 @@ segments:
       - [0x65FC0, o, ../lib/460/libcard/patch, .bss]  # size: 0x10
       - [0x65FD0, o, ../lib/460/libcard/end, .bss]  # size: 0x10
       - [0x65FE0, bss]    
+      - [0x75D18, o, ../lib/450/libapi/first, .bss]  # size: 0x30
+      - [0x75D48, o, ../lib/450/libapi/pad, .bss]  # size: 0x10
+      - [0x75D60, o, ../lib/450/libapi/patch, .bss]  # size: 0x10
+      - [0x75D68, o, ../lib/450/libapi/chclrpad, .bss]  # size: 0x10
+      - [0x75D78, bss]    
 
   - type: data
     start: 0x8587C
