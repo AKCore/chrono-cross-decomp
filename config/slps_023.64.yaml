@@ -230,50 +230,50 @@ segments:
       - [0x13EB0, o, ../lib/450/libcd/bios, .text]
       - [0x15620, o, ../lib/450/libcd/s_002, .text]
 
-      - [0x157B0, asm, psyq/450/libgte/geo_00, .text]
-      - [0x15880, asm, psyq/450/libgte/geo_01, .text]
-      - [0x15920, asm, psyq/450/libgte/geo_03, .text]
-      - [0x15C80, asm, psyq/450/libgte/fog_01, .text]
-      - [0x15CF0, asm, psyq/450/libgte/fog_02, .text]
-      - [0x15E00, asm, psyq/450/libgte/msc00, .text]
-      - [0x15E90, asm, psyq/450/libgte/msc01, .text]
-      - [0x15F20, asm, psyq/450/libgte/msc02, .text]
-      - [0x161D0, asm, psyq/450/libgte/msc06, .text]
-      - [0x16460, asm, psyq/450/libgte/mtx_000, .text]
-      - [0x16570, asm, psyq/450/libgte/mtx_003, .text]
-      - [0x166D0, asm, psyq/450/libgte/mtx_005, .text]
-      - [0x16700, asm, psyq/450/libgte/mtx_006, .text]
-      - [0x16850, asm, psyq/450/libgte/mtx_009, .text]
-      - [0x168A0, asm, psyq/450/libgte/mtx_00b, .text]
-      - [0x169B0, asm, psyq/450/libgte/mtx_03, .text]
-      - [0x16AC0, asm, psyq/450/libgte/mtx_05, .text]
-      - [0x16B10, asm, psyq/450/libgte/mtx_06, .text]
-      - [0x16B70, asm, psyq/450/libgte/mtx_07, .text]
-      - [0x16BA0, asm, psyq/450/libgte/mtx_08, .text]
-      - [0x16CE0, asm, psyq/450/libgte/mtx_09, .text]
-      - [0x16D10, asm, psyq/450/libgte/mtx_10, .text]
-      - [0x16D40, asm, psyq/450/libgte/mtx_11, .text]
-      - [0x16D70, asm, psyq/450/libgte/mtx_12, .text]
-      - [0x16D90, asm, psyq/450/libgte/reg03, .text]
-      - [0x16EA0, asm, psyq/450/libgte/reg09, .text]
-      - [0x16EB0, asm, psyq/450/libgte/reg10, .text]
-      - [0x16ED0, asm, psyq/450/libgte/reg11, .text]
-      - [0x16EF0, asm, psyq/450/libgte/reg12, .text]
-      - [0x16F10, asm, psyq/450/libgte/reg13, .text]
-      - [0x16F20, asm, psyq/450/libgte/smp, .text]
-      - [0x17100, asm, psyq/450/libgte/smp_00, .text]
-      - [0x17310, asm, psyq/450/libgte/smp_02, .text]
-      - [0x17340, asm, psyq/450/libgte/smp_03, .text]
-      - [0x173A0, asm, psyq/450/libgte/smp_04, .text]
+      - [0x157B0, o, ../lib/450/libgte/geo_00, .text]
+      - [0x15880, o, ../lib/450/libgte/geo_01, .text]
+      - [0x15920, o, ../lib/450/libgte/geo_03, .text]
+      - [0x15C80, o, ../lib/450/libgte/fog_01, .text]
+      - [0x15CF0, o, ../lib/450/libgte/fog_02, .text]
+      - [0x15E00, o, ../lib/450/libgte/msc00, .text]
+      - [0x15E90, o, ../lib/450/libgte/msc01, .text]
+      - [0x15F20, o, ../lib/450/libgte/msc02, .text]
+      - [0x161D0, o, ../lib/450/libgte/msc06, .text]
+      - [0x16460, o, ../lib/450/libgte/mtx_000, .text]
+      - [0x16570, o, ../lib/450/libgte/mtx_003, .text]
+      - [0x166D0, o, ../lib/450/libgte/mtx_005, .text]
+      - [0x16700, o, ../lib/450/libgte/mtx_006, .text]
+      - [0x16850, o, ../lib/450/libgte/mtx_009, .text]
+      - [0x168A0, o, ../lib/450/libgte/mtx_00b, .text]
+      - [0x169B0, o, ../lib/450/libgte/mtx_03, .text]
+      - [0x16AC0, o, ../lib/450/libgte/mtx_05, .text]
+      - [0x16B10, o, ../lib/450/libgte/mtx_06, .text]
+      - [0x16B70, o, ../lib/450/libgte/mtx_07, .text]
+      - [0x16BA0, o, ../lib/450/libgte/mtx_08, .text]
+      - [0x16CE0, o, ../lib/450/libgte/mtx_09, .text]
+      - [0x16D10, o, ../lib/450/libgte/mtx_10, .text]
+      - [0x16D40, o, ../lib/450/libgte/mtx_11, .text]
+      - [0x16D70, o, ../lib/450/libgte/mtx_12, .text]
+      - [0x16D90, o, ../lib/450/libgte/reg03, .text]
+      - [0x16EA0, o, ../lib/450/libgte/reg09, .text]
+      - [0x16EB0, o, ../lib/450/libgte/reg10, .text]
+      - [0x16ED0, o, ../lib/450/libgte/reg11, .text]
+      - [0x16EF0, o, ../lib/450/libgte/reg12, .text]
+      - [0x16F10, o, ../lib/450/libgte/reg13, .text]
+      - [0x16F20, o, ../lib/450/libgte/smp, .text]
+      - [0x17100, o, ../lib/450/libgte/smp_00, .text]
+      - [0x17310, o, ../lib/450/libgte/smp_02, .text]
+      - [0x17340, o, ../lib/450/libgte/smp_03, .text]
+      - [0x173A0, o, ../lib/450/libgte/smp_04, .text]
       - [0x173D0, asm]  # gap: 0x30 | Probably libgte/smp_05 for NormalClip()
-      - [0x17400, asm, psyq/450/libgte/cmb_00, .text]
-      - [0x17480, asm, psyq/450/libgte/cmb_11, .text]
-      - [0x174C0, asm, psyq/450/libgte/fgo_01, .text]
-      - [0x17750, asm, psyq/450/libgte/fgo_09, .text]
-      - [0x179E0, asm, psyq/450/libgte/rmat_00, .text]
-      - [0x17BE0, asm, psyq/450/libgte/rmat_01, .text]
-      - [0x17DF0, asm, psyq/450/libgte/ratan, .text]
-      - [0x17F70, asm, psyq/450/libgte/patchgte, .text]
+      - [0x17400, o, ../lib/450/libgte/cmb_00, .text]
+      - [0x17480, o, ../lib/450/libgte/cmb_11, .text]
+      - [0x174C0, o, ../lib/450/libgte/fgo_01, .text]
+      - [0x17750, o, ../lib/450/libgte/fgo_09, .text]
+      - [0x179E0, o, ../lib/450/libgte/rmat_00, .text]
+      - [0x17BE0, o, ../lib/450/libgte/rmat_01, .text]
+      - [0x17DF0, o, ../lib/450/libgte/ratan, .text]
+      - [0x17F70, o, ../lib/450/libgte/patchgte, .text]
 
       - [0x18050, asm, psyq/450/libetc/vsync, .text]
       - [0x18260, asm, psyq/450/libetc/intr, .text]
@@ -307,18 +307,18 @@ segments:
       - [0x1B5A4, asm, psyq/450/libsn/creat, .text]
       - [0x1B5C4, asm, psyq/450/libsn/write, .text]
       - [0x1B684, asm, psyq/450/libsn/snwrite, .text]
-      - [0x1B69C, asm, psyq/450/libgte/mtx_00a, .text]
+      - [0x1B69C, o, ../lib/450/libgte/mtx_00a, .text]
 
       - [0x1B7DC, asm]  # gap: 0x4820
 
-      - [0x1FFFC, asm, psyq/450/libgte/fgo_03, .text]
-      - [0x2028C, asm, psyq/450/libgte/fgo_04, .text]
-      - [0x2042C, asm, psyq/450/libgte/fgo_05, .text]
+      - [0x1FFFC, o, ../lib/450/libgte/fgo_03, .text]
+      - [0x2028C, o, ../lib/450/libgte/fgo_04, .text]
+      - [0x2042C, o, ../lib/450/libgte/fgo_05, .text]
 
       - [0x205CC, asm]  # gap: 0x4EFC
 
       - [0x254C8, asm, psyq/450/libspu/s_gr, .text]
-      - [0x254E8, asm, psyq/450/libgte/reg08, .text]
+      - [0x254E8, o, ../lib/450/libgte/reg08, .text]
 
       - [0x25508, asm]  # gap: 0x1EEC
 
@@ -327,7 +327,7 @@ segments:
 
       - [0x27484, asm]  # gap: 0xB4E4
 
-      - [0x32968, asm, psyq/450/libgte/mtx_004, .text]
+      - [0x32968, o, ../lib/450/libgte/mtx_004, .text]
 
       - [0x32AC8, asm]  # gap: 0x78B4
 
@@ -372,7 +372,7 @@ segments:
       - [0x46210, c, system/sound4]
 
       - [0x46B7C, asm, psyq/450/libspu/s_sia, .text]
-      - [0x46BBC, asm, psyq/450/libgte/cmb_07, .text] # size: 0xB0
+      - [0x46BBC, o, ../lib/450/libgte/cmb_07, .text] # size: 0xB0
 
       # === .rdata ===
       - [0x46C6C, o, ../lib/450/libc2/itoa, .rdata]  # size: 0x10
@@ -396,7 +396,7 @@ segments:
 
       - [0x59F04, rodata, 1A508]
       - [0x5A0A8, rodata, 1BD2C]
-      - [0x5A2EC, rodata, psyq/450/libgte/geo_01, .rdata]
+      - [0x5A2EC, rodata]
       - [0x5A394, rodata, 2225C]
       - [0x5ABB8, rodata, 2A200]
 
@@ -420,13 +420,13 @@ segments:
       - [0x5B73C, o, ../lib/450/libapi/pad, .data]  # size: 0x10
       - [0x5B74C, o, ../lib/450/libcd/sys, .data]  # size: 0x80
       - [0x5B7CC, o, ../lib/450/libcd/bios, .data]  # size: 0x320
-      - [0x5BAEC, data, psyq/450/libgte/sincos, .data]  # size: 0x810
-      - [0x5C2FC, data, psyq/450/libgte/msc00, .data]  # size: 0x10
-      - [0x5C30C, data, psyq/450/libgte/sqrtbl, .data]  # size: 0x180
-      - [0x5C48C, data, psyq/450/libgte/msc02, .data]  # size: 0x1a0
-      - [0x5C62C, data, psyq/450/libgte/mtx_006, .data]  # size: 0x310
-      - [0x5C93C, data, psyq/450/libgte/cstbl, .data]  # size: 0x4000
-      - [0x6093C, data, psyq/450/libgte/ratan, .data]  # size: 0x810
+      - [0x5BAEC, o, ../lib/450/libgte/sincos, .data]  # size: 0x810
+      - [0x5C2FC, o, ../lib/450/libgte/msc00, .data]  # size: 0x10
+      - [0x5C30C, o, ../lib/450/libgte/sqrtbl, .data]  # size: 0x180
+      - [0x5C48C, o, ../lib/450/libgte/msc02, .data]  # size: 0x1a0
+      - [0x5C62C, o, ../lib/450/libgte/mtx_006, .data]  # size: 0x310
+      - [0x5C93C, o, ../lib/450/libgte/cstbl, .data]  # size: 0x4000
+      - [0x6093C, o, ../lib/450/libgte/ratan, .data]  # size: 0x810
       - [0x6114C, data, psyq/450/libetc/vsync, .data]  # size: 0x20
       - [0x6116C, data, psyq/450/libetc/intr, .data]  # size: 0x1100
       - [0x6226C, data, psyq/450/libetc/intr_vb, .data]  # size: 0x30
@@ -467,6 +467,8 @@ segments:
       - [0x75D68, o, ../lib/450/libapi/chclrpad, .bss]  # size: 0x10
       - [0x75D78, o, ../lib/450/libcd/bios, .bss]  # size: 0x34
       - [0x75DAC, bss]    
+      - [0x75DB0, o, ../lib/450/libgte/patchgte, .bss]  # size: 0x10
+      - [0x75DC0, bss]    
 
 
   - type: data
