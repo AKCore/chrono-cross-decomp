@@ -51,18 +51,45 @@ class Config:
     units: list[Unit]
     progress_categories: list[ProgressCategory]
 
+def _write_default_config(path: Path) -> None:
+    example = Path(__file__).with_name("config.yaml.example")
+    if not example.exists():
+        raise FileNotFoundError(f"Missing example config: {example}")
+
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if not path.exists():
+        path.write_text(example.read_text(encoding="utf-8"), encoding="utf-8")
 
 def _create_config():
     parser = ArgumentParser()
-    parser.add_argument("config", type = Path)
+    parser.add_argument(
+        "config",
+        type=Path,
+        nargs="?",
+        default=Path("config.yaml"),
+        help="Path to YAML config (default: ./config.yaml)",
+    )
+    parser.add_argument(
+        "--init",
+        action="store_true",
+        help="Create config with defaults if it doesn't exist and exit",
+    )
     args = parser.parse_args()
 
-    if not args.config.exists() or args.config.is_dir() or args.config.suffix != ".yaml":
-        raise ValueError(f"The given path {args.objects} is not pointing towards a valid config.")
+    # If config missing: generate it
+    if not args.config.exists():
+        _write_default_config(args.config)
+        print(f"[objdiff_generate] Wrote default config to: {args.config}")
+        if args.init:
+            raise SystemExit(0)
 
-    with open(args.config) as stream:
+    # Validate
+    if args.config.is_dir() or args.config.suffix != ".yaml":
+        raise ValueError(f"The given path {args.config} is not a valid .yaml config path.")
+
+    with args.config.open("r", encoding="utf-8") as stream:
         try:
-            return yaml.safe_load(stream)
+            return yaml.safe_load(stream) or {}
         except yaml.YAMLError as exc:
             raise exc
 
