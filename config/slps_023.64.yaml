@@ -226,9 +226,9 @@ segments:
       - [0x13790, o, ../lib/450/libapi/patch, .text]
       - [0x13830, o, ../lib/450/libapi/chclrpad, .text]
 
-      - [0x138A0, asm, psyq/450/libcd/sys, .text]
-      - [0x13EB0, asm, psyq/450/libcd/bios, .text]
-      - [0x15620, asm, psyq/450/libcd/s_002, .text]
+      - [0x138A0, o, ../lib/450/libcd/sys, .text]
+      - [0x13EB0, o, ../lib/450/libcd/bios, .text]
+      - [0x15620, o, ../lib/450/libcd/s_002, .text]
 
       - [0x157B0, asm, psyq/450/libgte/geo_00, .text]
       - [0x15880, asm, psyq/450/libgte/geo_01, .text]
@@ -331,10 +331,10 @@ segments:
 
       - [0x32AC8, asm]  # gap: 0x78B4
 
-      - [0x3A37C, asm, psyq/450/libcd/event, .text]
-      - [0x3A4CC, asm, psyq/450/libgte/mtx_04, .text]
-      - [0x3A5DC, asm, psyq/450/libgte/fgo_00, .text]
-      - [0x3A61C, asm, psyq/450/libgte/smp_01, .text]
+      - [0x3A37C, o, ../lib/450/libcd/event, .text]
+      - [0x3A4CC, o, ../lib/450/libgte/mtx_04, .text]
+      - [0x3A5DC, o, ../lib/450/libgte/fgo_00, .text]
+      - [0x3A61C, o, ../lib/450/libgte/smp_01, .text]
 
       - [0x3A71C, c, system/soundApi]
 
@@ -387,8 +387,8 @@ segments:
       - [0x5983C, rodata, 19DF0]         # 0x8006903C
       - [0x599D0, rodata, CC50]
 
-      - [0x59A70, rodata, psyq/450/libcd/sys, .rdata]  # size: 0x10
-      - [0x59A80, rodata, psyq/450/libcd/bios, .rdata]  # size: 0x260
+      - [0x59A70, o, ../lib/450/libcd/sys, .rdata]  # size: 0x10
+      - [0x59A80, o, ../lib/450/libcd/bios, .rdata]  # size: 0x260
       - [0x59CE0, rodata, psyq/450/libetc/vsync, .rdata]  # size: 0x10
       - [0x59CF0, rodata, psyq/450/libetc/intr, .rdata]  # size: 0x70
       - [0x59D60, rodata, psyq/450/libetc/intr_dma, .rdata]  # size: 0x30
@@ -400,7 +400,7 @@ segments:
       - [0x5A394, rodata, 2225C]
       - [0x5ABB8, rodata, 2A200]
 
-      - [0x5B0A4, rodata, psyq/450/libcd/event, .rdata]  # size: 0x20
+      - [0x5B0A4, o, ../lib/450/libcd/event, .rdata]  # size: 0x20
       - [0x5B0C4, rodata, psyq/450/libspu/s_si, .rdata]  # size: 0x30
       - [0x5B0F4, rodata, system/sound3] # 0x8006A8F4
 
@@ -418,8 +418,8 @@ segments:
       - [0x5B544, o, ../lib/460/libcard/init, .data]  # size: 0x10
       - [0x5B554, data]  # gap: 0x1e8
       - [0x5B73C, o, ../lib/450/libapi/pad, .data]  # size: 0x10
-      - [0x5B74C, data, psyq/450/libcd/sys, .data]  # size: 0x80
-      - [0x5B7CC, data, psyq/450/libcd/bios, .data]  # size: 0x320
+      - [0x5B74C, o, ../lib/450/libcd/sys, .data]  # size: 0x80
+      - [0x5B7CC, o, ../lib/450/libcd/bios, .data]  # size: 0x320
       - [0x5BAEC, data, psyq/450/libgte/sincos, .data]  # size: 0x810
       - [0x5C2FC, data, psyq/450/libgte/msc00, .data]  # size: 0x10
       - [0x5C30C, data, psyq/450/libgte/sqrtbl, .data]  # size: 0x180
@@ -436,9 +436,10 @@ segments:
       - [0x622E4, data, psyq/450/libspu/s_ini, .data]  # size: 0x80
       - [0x62364, data, psyq/450/libspu/spu, .data]  # size: 0x60
       - [0x623C4, data, psyq/450/libspu/s_m, .data]  # size: 0x10
-      - [0x623C4, data, psyq/450/libcd/event, .data]  # size: 0x10
       - [0x623D4, data, psyq/450/libspu/s_rmp0, .data]  # size: 0x30
       - [0x62404, data]  # gap: 0x129c
+      - [0x62A24, o, ../lib/450/libcd/event, .data]  # size: 0x10
+      - [0x62A34, data]
       - [0x636A0, o, ../lib/450/libapi/counter, .data]  # size: 0x20
       - [0x636C0, data]  # gap: 0x400
       - [0x63AC0, data, psyq/450/libspu/zerobuf, .data]  # size: 0x400
@@ -464,7 +465,9 @@ segments:
       - [0x75D48, o, ../lib/450/libapi/pad, .bss]  # size: 0x10
       - [0x75D60, o, ../lib/450/libapi/patch, .bss]  # size: 0x10
       - [0x75D68, o, ../lib/450/libapi/chclrpad, .bss]  # size: 0x10
-      - [0x75D78, bss]    
+      - [0x75D78, o, ../lib/450/libcd/bios, .bss]  # size: 0x34
+      - [0x75DAC, bss]    
+
 
   - type: data
     start: 0x8587C
