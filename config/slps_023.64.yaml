@@ -295,12 +295,12 @@ segments:
       - [0x18E80, o, ../lib/450/libsn/snread, .text]
       - [0x18E98, o, ../lib/450/libsn/_fixusdf, .text]
 
-      - [0x18F20, asm, psyq/450/libspu/s_i, .text]
-      - [0x18F40, asm, psyq/450/libspu/s_ini, .text]
-      - [0x190A0, asm, psyq/450/libspu/spu, .text]
-      - [0x19BE0, asm, psyq/450/libspu/s_dcb, .text]
-      - [0x19C10, asm, psyq/450/libspu/s_sr, .text]
-      - [0x19CE0, asm, psyq/450/libspu/s_m_util, .text]
+      - [0x18F20, o, ../lib/450/libspu/s_i, .text]
+      - [0x18F40, o, ../lib/450/libspu/s_ini, .text]
+      - [0x190A0, o, ../lib/450/libspu/spu, .text]
+      - [0x19BE0, o, ../lib/450/libspu/s_dcb, .text]
+      - [0x19C10, o, ../lib/450/libspu/s_sr, .text]
+      - [0x19CE0, o, ../lib/450/libspu/s_m_util, .text]
 
       - [0x19DF0, asm]
 
@@ -317,12 +317,12 @@ segments:
 
       - [0x205CC, asm]  # gap: 0x4EFC
 
-      - [0x254C8, asm, psyq/450/libspu/s_gr, .text]
+      - [0x254C8, o, ../lib/450/libspu/s_gr, .text]
       - [0x254E8, o, ../lib/450/libgte/reg08, .text]
 
       - [0x25508, asm]  # gap: 0x1EEC
 
-      - [0x273F4, asm, psyq/450/libspu/s_q, .text]
+      - [0x273F4, o, ../lib/450/libspu/s_q, .text]
       - [0x27474, o, ../lib/450/libapi/a13, .text]
 
       - [0x27484, asm]  # gap: 0xB4E4
@@ -338,40 +338,40 @@ segments:
 
       - [0x3A71C, c, system/soundApi]
 
-      - [0x3B8B4, asm, psyq/450/libspu/s_stsa, .text]
+      - [0x3B8B4, o, ../lib/450/libspu/s_stsa, .text]
 
       - [0x3B914, c, system/spu]
 
       - [0x3BFF4, o, ../lib/450/libapi/counter, .text]
-      - [0x3C164, asm, psyq/450/libspu/s_m_init, .text]
-      - [0x3C1C4, asm, psyq/450/libspu/s_si, .text]
-      - [0x3C304, asm, psyq/450/libspu/s_sic, .text]
-      - [0x3C344, asm, psyq/450/libspu/s_cb, .text]
-      - [0x3C374, asm, psyq/450/libspu/s_r, .text]
-      - [0x3C3D4, asm, psyq/450/libspu/s_w, .text]
-      - [0x3C434, asm, psyq/450/libspu/s_stm, .text]
-      - [0x3C464, asm, psyq/450/libspu/s_stc, .text]
+      - [0x3C164, o, ../lib/450/libspu/s_m_init, .text]
+      - [0x3C1C4, o, ../lib/450/libspu/s_si, .text]
+      - [0x3C304, o, ../lib/450/libspu/s_sic, .text]
+      - [0x3C344, o, ../lib/450/libspu/s_cb, .text]
+      - [0x3C374, o, ../lib/450/libspu/s_r, .text]
+      - [0x3C3D4, o, ../lib/450/libspu/s_w, .text]
+      - [0x3C434, o, ../lib/450/libspu/s_stm, .text]
+      - [0x3C464, o, ../lib/450/libspu/s_stc, .text]
 
       - [0x3C494, c, system/sound]
 
-      - [0x3E4B0, asm, psyq/450/libspu/s_snc, .text]
-      - [0x3E500, asm, psyq/450/libspu/s_gvex, .text]
-      - [0x3E520, asm, psyq/450/libspu/s_srmd, .text]
+      - [0x3E4B0, o, ../lib/450/libspu/s_snc, .text]
+      - [0x3E500, o, ../lib/450/libspu/s_gvex, .text]
+      - [0x3E520, o, ../lib/450/libspu/s_srmd, .text]
 
       - [0x3E550, c, system/sound2]
       - [0x3F78C, c, system/soundCommand]
 
-      - [0x41E04, asm, psyq/450/libspu/s_srmt, .text]
-      - [0x41FD4, asm, psyq/450/libspu/s_sra, .text]
-      - [0x424A4, asm, psyq/450/libspu/s_crwa, .text]
+      - [0x41E04, o, ../lib/450/libspu/s_srmt, .text]
+      - [0x41FD4, o, ../lib/450/libspu/s_sra, .text]
+      - [0x424A4, o, ../lib/450/libspu/s_crwa, .text]
       - [0x42644, o, ../lib/450/libapi/a10, .text]
-      - [0x42654, asm, psyq/450/libspu/s_grmt, .text]
+      - [0x42654, o, ../lib/450/libspu/s_grmt, .text]
 
       - [0x42664, c, system/sound3]
       - [0x44668, c, system/soundVM]
       - [0x46210, c, system/sound4]
 
-      - [0x46B7C, asm, psyq/450/libspu/s_sia, .text]
+      - [0x46B7C, o, ../lib/450/libspu/s_sia, .text]
       - [0x46BBC, o, ../lib/450/libgte/cmb_07, .text] # size: 0xB0
 
       # === .rdata ===
@@ -392,8 +392,9 @@ segments:
       - [0x59CE0, o, ../lib/450/libetc/vsync, .rdata]  # size: 0x10
       - [0x59CF0, o, ../lib/450/libetc/intr, .rdata]  # size: 0x70
       - [0x59D60, o, ../lib/450/libetc/intr_dma, .rdata]  # size: 0x30
-      - [0x59D90, rodata, psyq/450/libspu/spu, .rdata]  # size: 0x50
+      - [0x59D90, o, ../lib/450/libspu/spu, .rdata]  # size: 0x50
 
+      - [0x59DE0, rodata]
       - [0x59F04, rodata, 1A508]
       - [0x5A0A8, rodata, 1BD2C]
       - [0x5A2EC, rodata]
@@ -401,7 +402,7 @@ segments:
       - [0x5ABB8, rodata, 2A200]
 
       - [0x5B0A4, o, ../lib/450/libcd/event, .rdata]  # size: 0x20
-      - [0x5B0C4, rodata, psyq/450/libspu/s_si, .rdata]  # size: 0x30
+      - [0x5B0C4, o, ../lib/450/libspu/s_si, .rdata]  # size: 0x30
       - [0x5B0F4, rodata, system/sound3] # 0x8006A8F4
 
       # === .data ===
@@ -433,17 +434,17 @@ segments:
       - [0x6229C, o, ../lib/450/libetc/intr_dma, .data]  # size: 0x30
       - [0x622CC, o, ../lib/450/libetc/vmode, .data]  # size: 0x10
       - [0x622DC, o, ../lib/450/libsn/sndef, .data]  # size: 0x8
-      - [0x622E4, data, psyq/450/libspu/s_ini, .data]  # size: 0x80
-      - [0x62364, data, psyq/450/libspu/spu, .data]  # size: 0x60
-      - [0x623C4, data, psyq/450/libspu/s_m, .data]  # size: 0x10
-      - [0x623D4, data, psyq/450/libspu/s_rmp0, .data]  # size: 0x30
+      - [0x622E4, o, ../lib/450/libspu/s_ini, .data]  # size: 0x80
+      - [0x62364, o, ../lib/450/libspu/spu, .data]  # size: 0x60
+      - [0x623C4, o, ../lib/450/libspu/s_m, .data]  # size: 0x10
+      - [0x623D4, o, ../lib/450/libspu/s_rmp0, .data]  # size: 0x30
       - [0x62404, data]  # gap: 0x129c
       - [0x62A24, o, ../lib/450/libcd/event, .data]  # size: 0x10
       - [0x62A34, data]
       - [0x636A0, o, ../lib/450/libapi/counter, .data]  # size: 0x20
       - [0x636C0, data]  # gap: 0x400
-      - [0x63AC0, data, psyq/450/libspu/zerobuf, .data]  # size: 0x400
-      - [0x63EC0, data, psyq/450/libspu/s_rmp2, .data]  # size: 0x2b0
+      - [0x63AC0, o, ../lib/450/libspu/zerobuf, .data]  # size: 0x400
+      - [0x63EC0, o, ../lib/450/libspu/s_rmp2, .data]  # size: 0x2b0
 
       - [0x64170, data]    # Some rodata from the game module
       - [0x64380, data]    # 0x80073B80
@@ -468,7 +469,9 @@ segments:
       - [0x75D78, o, ../lib/450/libcd/bios, .bss]  # size: 0x34
       - [0x75DAC, bss]    
       - [0x75DB0, o, ../lib/450/libgte/patchgte, .bss]  # size: 0x10
-      - [0x75DC0, bss]    
+      - [0x75DC0, o, ../lib/450/libspu/spu, .bss]  # size: 0x14
+      - [0x75DD4, bss]    
+
 
 
   - type: data
