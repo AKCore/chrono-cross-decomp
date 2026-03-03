@@ -287,13 +287,13 @@ segments:
       - [0x18A90, o, ../lib/450/libetc/intr_dma, .text]
       - [0x18D30, o, ../lib/450/libetc/vmode, .text]
 
-      - [0x18D60, asm, psyq/450/libsn/open, .text]
-      - [0x18D80, asm, psyq/450/libsn/close, .text]
-      - [0x18D90, asm, psyq/450/libsn/lseek, .text]
-      - [0x18DB4, asm, psyq/450/libsn/fsinit, .text]
-      - [0x18DC0, asm, psyq/450/libsn/read, .text]
-      - [0x18E80, asm, psyq/450/libsn/snread, .text]
-      - [0x18E98, asm, psyq/450/libsn/_fixusdf, .text]
+      - [0x18D60, o, ../lib/450/libsn/open, .text]
+      - [0x18D80, o, ../lib/450/libsn/close, .text]
+      - [0x18D90, o, ../lib/450/libsn/lseek, .text]
+      - [0x18DB4, o, ../lib/450/libsn/fsinit, .text]
+      - [0x18DC0, o, ../lib/450/libsn/read, .text]
+      - [0x18E80, o, ../lib/450/libsn/snread, .text]
+      - [0x18E98, o, ../lib/450/libsn/_fixusdf, .text]
 
       - [0x18F20, asm, psyq/450/libspu/s_i, .text]
       - [0x18F40, asm, psyq/450/libspu/s_ini, .text]
@@ -304,9 +304,9 @@ segments:
 
       - [0x19DF0, asm]
 
-      - [0x1B5A4, asm, psyq/450/libsn/creat, .text]
-      - [0x1B5C4, asm, psyq/450/libsn/write, .text]
-      - [0x1B684, asm, psyq/450/libsn/snwrite, .text]
+      - [0x1B5A4, o, ../lib/450/libsn/creat, .text]
+      - [0x1B5C4, o, ../lib/450/libsn/write, .text]
+      - [0x1B684, o, ../lib/450/libsn/snwrite, .text]
       - [0x1B69C, o, ../lib/450/libgte/mtx_00a, .text]
 
       - [0x1B7DC, asm]  # gap: 0x4820
@@ -432,7 +432,7 @@ segments:
       - [0x6226C, o, ../lib/450/libetc/intr_vb, .data]  # size: 0x30
       - [0x6229C, o, ../lib/450/libetc/intr_dma, .data]  # size: 0x30
       - [0x622CC, o, ../lib/450/libetc/vmode, .data]  # size: 0x10
-      - [0x622DC, data, psyq/450/libsn/sndef, .data]  # size: 0x8
+      - [0x622DC, o, ../lib/450/libsn/sndef, .data]  # size: 0x8
       - [0x622E4, data, psyq/450/libspu/s_ini, .data]  # size: 0x80
       - [0x62364, data, psyq/450/libspu/spu, .data]  # size: 0x60
       - [0x623C4, data, psyq/450/libspu/s_m, .data]  # size: 0x10
