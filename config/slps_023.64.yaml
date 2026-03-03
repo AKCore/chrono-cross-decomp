@@ -265,7 +265,7 @@ segments:
       - [0x17310, o, ../lib/450/libgte/smp_02, .text]
       - [0x17340, o, ../lib/450/libgte/smp_03, .text]
       - [0x173A0, o, ../lib/450/libgte/smp_04, .text]
-      - [0x173D0, asm]  # gap: 0x30 | Probably libgte/smp_05 for NormalClip()
+      - [0x173D0, o, ../lib/450/libgte/smp_05, .text]
       - [0x17400, o, ../lib/450/libgte/cmb_00, .text]
       - [0x17480, o, ../lib/450/libgte/cmb_11, .text]
       - [0x174C0, o, ../lib/450/libgte/fgo_01, .text]
@@ -282,8 +282,8 @@ segments:
       - [0x18940, o, ../lib/450/libapi/a23, .text]
       - [0x18950, o, ../lib/450/libapi/a24, .text]
       - [0x18960, o, ../lib/450/libapi/a25, .text]
-      - [0x18970, asm, psyq/450/libetc/intr_vb, .text]
 
+      - [0x18970, asm, psyq/450/libetc/intr_vb, .text]
       - [0x18A90, asm, psyq/450/libetc/intr_dma, .text]
       - [0x18D30, asm, psyq/450/libetc/vmode, .text]
 
