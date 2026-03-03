@@ -174,22 +174,22 @@ segments:
       - [0x090B4, o, ../lib/450/libmath/adddf3, .text]
       - [0x09434, o, ../lib/450/libmath/fixdfsi, .text]
 
-      - [0x09534, asm, psyq/460/libcard/c112, .text]
-      - [0x09544, asm, psyq/460/libcard/c171, .text]
-      - [0x09554, asm, psyq/460/libcard/c172, .text]
-      - [0x09564, asm, psyq/460/libcard/c173, .text]
-      - [0x09574, asm, psyq/460/libcard/a74, .text]
-      - [0x09584, asm, psyq/460/libcard/a75, .text]
-      - [0x09594, asm, psyq/460/libcard/a76, .text]
-      - [0x095A4, asm, psyq/460/libcard/a78, .text]
-      - [0x095B4, asm, psyq/460/libcard/a79, .text]
-      - [0x095C4, asm, psyq/460/libcard/a80, .text]
-      - [0x095D4, asm, psyq/460/libcard/a92, .text]
-      - [0x095E4, asm, psyq/460/libcard/a93, .text]
-      - [0x095F4, asm, psyq/460/libcard/card, .text]
-      - [0x09634, asm, psyq/460/libcard/patch, .text]
-      - [0x09854, asm, psyq/460/libcard/init, .text]
-      - [0x09954, asm, psyq/460/libcard/end, .text]
+      - [0x09534, o, ../lib/460/libcard/c112, .text]
+      - [0x09544, o, ../lib/460/libcard/c171, .text]
+      - [0x09554, o, ../lib/460/libcard/c172, .text]
+      - [0x09564, o, ../lib/460/libcard/c173, .text]
+      - [0x09574, o, ../lib/460/libcard/a74, .text]
+      - [0x09584, o, ../lib/460/libcard/a75, .text]
+      - [0x09594, o, ../lib/460/libcard/a76, .text]
+      - [0x095A4, o, ../lib/460/libcard/a78, .text]
+      - [0x095B4, o, ../lib/460/libcard/a79, .text]
+      - [0x095C4, o, ../lib/460/libcard/a80, .text]
+      - [0x095D4, o, ../lib/460/libcard/a92, .text]
+      - [0x095E4, o, ../lib/460/libcard/a93, .text]
+      - [0x095F4, o, ../lib/460/libcard/card, .text]
+      - [0x09634, o, ../lib/460/libcard/patch, .text]
+      - [0x09854, o, ../lib/460/libcard/init, .text]
+      - [0x09954, o, ../lib/460/libcard/end, .text]
 
       - [0x099D4, asm]
       - [0x0CC50, asm]
@@ -415,7 +415,7 @@ segments:
       - [0x5B484, o, ../lib/450/libpad/padif, .data]  # size: 0x30
       - [0x5B4B4, o, ../lib/450/libpad/padmain, .data]  # size: 0x80
       - [0x5B534, o, ../lib/450/libpad/padportd, .data]  # size: 0x10
-      - [0x5B544, data, psyq/460/libcard/init, .data]  # size: 0x10
+      - [0x5B544, o, ../lib/460/libcard/init, .data]  # size: 0x10
       - [0x5B554, data]  # gap: 0x1e8
       - [0x5B73C, data, psyq/450/libapi/pad, .data]  # size: 0x10
       - [0x5B74C, data, psyq/450/libcd/sys, .data]  # size: 0x80
@@ -457,7 +457,9 @@ segments:
       - [0x65D48, o, ../lib/450/libpad/padportd, .bss]  # size: 0x270
       # - [0x65FB8, o, ../lib/450/libpad/waitrc2, .bss]  # size: 0x8
       - [0x65FB8, bss] # libpad/waitrc2 | size: 0x8
-      - [0x65FC0, bss]    
+      - [0x65FC0, o, ../lib/460/libcard/patch, .bss]  # size: 0x10
+      - [0x65FD0, o, ../lib/460/libcard/end, .bss]  # size: 0x10
+      - [0x65FE0, bss]    
 
   - type: data
     start: 0x8587C
