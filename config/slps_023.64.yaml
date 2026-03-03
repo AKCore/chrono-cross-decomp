@@ -458,7 +458,7 @@ segments:
       - [0x65D28, o, ../lib/450/libpad/padmain, .bss]  # size: 0x20
       - [0x65D48, o, ../lib/450/libpad/padportd, .bss]  # size: 0x270
       # - [0x65FB8, o, ../lib/450/libpad/waitrc2, .bss]  # size: 0x8
-      - [0x65FB8, bss] # libpad/waitrc2 | size: 0x8
+      - [0x65FB8, bss, psyq/450/libpad/waitrc2, .bss] # size: 0x8
       - [0x65FC0, o, ../lib/460/libcard/patch, .bss]  # size: 0x10
       - [0x65FD0, o, ../lib/460/libcard/end, .bss]  # size: 0x10
       - [0x65FE0, bss]    

@@ -1,5 +1,1 @@
-# Some weirdness with libpad:waitrc2.o's bss reordering these
-_startTime      = 0x800757B8;
-_waitTime       = 0x800757BC;
-
 _mtapLastResult = 0x80344464;
