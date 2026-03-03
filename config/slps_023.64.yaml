@@ -275,17 +275,17 @@ segments:
       - [0x17DF0, o, ../lib/450/libgte/ratan, .text]
       - [0x17F70, o, ../lib/450/libgte/patchgte, .text]
 
-      - [0x18050, asm, psyq/450/libetc/vsync, .text]
-      - [0x18260, asm, psyq/450/libetc/intr, .text]
+      - [0x18050, o, ../lib/450/libetc/vsync, .text]
+      - [0x18260, o, ../lib/450/libetc/intr, .text]
 
       - [0x18920, o, ../lib/450/libapi/c114, .text]
       - [0x18940, o, ../lib/450/libapi/a23, .text]
       - [0x18950, o, ../lib/450/libapi/a24, .text]
       - [0x18960, o, ../lib/450/libapi/a25, .text]
 
-      - [0x18970, asm, psyq/450/libetc/intr_vb, .text]
-      - [0x18A90, asm, psyq/450/libetc/intr_dma, .text]
-      - [0x18D30, asm, psyq/450/libetc/vmode, .text]
+      - [0x18970, o, ../lib/450/libetc/intr_vb, .text]
+      - [0x18A90, o, ../lib/450/libetc/intr_dma, .text]
+      - [0x18D30, o, ../lib/450/libetc/vmode, .text]
 
       - [0x18D60, asm, psyq/450/libsn/open, .text]
       - [0x18D80, asm, psyq/450/libsn/close, .text]
@@ -389,9 +389,9 @@ segments:
 
       - [0x59A70, o, ../lib/450/libcd/sys, .rdata]  # size: 0x10
       - [0x59A80, o, ../lib/450/libcd/bios, .rdata]  # size: 0x260
-      - [0x59CE0, rodata, psyq/450/libetc/vsync, .rdata]  # size: 0x10
-      - [0x59CF0, rodata, psyq/450/libetc/intr, .rdata]  # size: 0x70
-      - [0x59D60, rodata, psyq/450/libetc/intr_dma, .rdata]  # size: 0x30
+      - [0x59CE0, o, ../lib/450/libetc/vsync, .rdata]  # size: 0x10
+      - [0x59CF0, o, ../lib/450/libetc/intr, .rdata]  # size: 0x70
+      - [0x59D60, o, ../lib/450/libetc/intr_dma, .rdata]  # size: 0x30
       - [0x59D90, rodata, psyq/450/libspu/spu, .rdata]  # size: 0x50
 
       - [0x59F04, rodata, 1A508]
@@ -427,11 +427,11 @@ segments:
       - [0x5C62C, o, ../lib/450/libgte/mtx_006, .data]  # size: 0x310
       - [0x5C93C, o, ../lib/450/libgte/cstbl, .data]  # size: 0x4000
       - [0x6093C, o, ../lib/450/libgte/ratan, .data]  # size: 0x810
-      - [0x6114C, data, psyq/450/libetc/vsync, .data]  # size: 0x20
-      - [0x6116C, data, psyq/450/libetc/intr, .data]  # size: 0x1100
-      - [0x6226C, data, psyq/450/libetc/intr_vb, .data]  # size: 0x30
-      - [0x6229C, data, psyq/450/libetc/intr_dma, .data]  # size: 0x30
-      - [0x622CC, data, psyq/450/libetc/vmode, .data]  # size: 0x10
+      - [0x6114C, o, ../lib/450/libetc/vsync, .data]  # size: 0x20
+      - [0x6116C, o, ../lib/450/libetc/intr, .data]  # size: 0x1100
+      - [0x6226C, o, ../lib/450/libetc/intr_vb, .data]  # size: 0x30
+      - [0x6229C, o, ../lib/450/libetc/intr_dma, .data]  # size: 0x30
+      - [0x622CC, o, ../lib/450/libetc/vmode, .data]  # size: 0x10
       - [0x622DC, data, psyq/450/libsn/sndef, .data]  # size: 0x8
       - [0x622E4, data, psyq/450/libspu/s_ini, .data]  # size: 0x80
       - [0x62364, data, psyq/450/libspu/spu, .data]  # size: 0x60
