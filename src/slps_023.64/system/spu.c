@@ -19,9 +19,9 @@ void Sound_CopyAndRelocateInstruments( FSoundInstrumentInfo* in_A, FSoundInstrum
 
 //----------------------------------------------------------------------------------------------------------------------
 // NOTE(jperos): I'm beginning to think that there are different AKAO structs that all use this function...
-bool Sound_IsNotAkaoFile( FAkaoFileBlob* in_Blob )
+bool Sound_IsNotAkaoFile( void* in_Blob )
 {
-    return in_Blob->Magic - AKAO_FILE_MAGIC;
+    return ((s32*)in_Blob)[0] - AKAO_FILE_MAGIC;
 }
 
 //----------------------------------------------------------------------------------------------------------------------

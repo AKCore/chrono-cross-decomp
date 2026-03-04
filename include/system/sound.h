@@ -541,7 +541,7 @@ bool Sound_BindAkaoSfxBlob( FAkaoFileBlob* in_Blob );
 
 // SPU management
 void Sound_CopyAndRelocateInstruments( FSoundInstrumentInfo* in_A, FSoundInstrumentInfo* in_B, s32 in_AddrOffset, s32 in_Count);
-bool Sound_IsNotAkaoFile( FAkaoFileBlob* in_Blob );
+bool Sound_IsNotAkaoFile( void* in_Blob );
 void ClearSpuTransferCallback();
 void SetSpuTransferCallback();
 void WriteSpu( s32 in_Addr, s32 in_Size );
