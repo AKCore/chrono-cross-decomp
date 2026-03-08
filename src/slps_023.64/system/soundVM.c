@@ -1294,11 +1294,11 @@ void SoundVM_D7_DisablePitchVolumeSidechain( FSoundChannel* in_pChannel, u32 in_
 void SoundVM_FE0B_800558cc( FSoundChannel* in_pChannel, u32 in_VoiceFlags )
 {
 
-    g_SoundCommandParams.Param1 = *in_pChannel->ProgramCounter++;
-    g_SoundCommandParams.Param2 = D_80090A34;
-    g_SoundCommandParams.Param3 = in_pChannel->ChannelPan >> 8;
-    g_SoundCommandParams.Param4 = in_pChannel->VolumeBalance >> 8;
-    Sound_Cmd_20_8004F518( &g_SoundCommandParams );
+    g_Sound_CommandParams_Vm_FE08.Param1 = *in_pChannel->ProgramCounter++;
+    g_Sound_CommandParams_Vm_FE08.Param2 = D_80090A34;
+    g_Sound_CommandParams_Vm_FE08.Param3 = in_pChannel->ChannelPan >> 8;
+    g_Sound_CommandParams_Vm_FE08.Param4 = in_pChannel->VolumeBalance >> 8;
+    Sound_Cmd_20_8004F518( &g_Sound_CommandParams_Vm_FE08 );
     D_80090A34 ^= 3;
 }
 

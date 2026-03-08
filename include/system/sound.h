@@ -2,6 +2,8 @@
 #include "psyq/libspu.h"
 
 #define VOICE_COUNT 24
+#define VOICE_MASK_ALL ( 0x3FF )
+
 #define SOUND_CHANNEL_COUNT 0x20
 #define SOUND_LFO_COUNT     (0x10)
 
@@ -767,6 +769,8 @@ void SoundVM_E2_ResetRandomPitchDepth( FSoundChannel* in_pChannel, u32 in_VoiceF
 void SoundVM_FE13_PreventVoicesFromRekeyingOnResume( FSoundChannel* in_pChannel, u32 in_VoiceFlags );
 void SoundVM_XX_Unimplemented( FSoundChannel* in_pChannel, u32 in_VoiceFlags );
 
+void* func_8004A234( s32 in_VoiceIndex );
+
 // sound4
 void unk_Sound_80055a10();
 u32 unk_Sound_80055e0c(s32*);
@@ -796,11 +800,12 @@ extern u16* g_Sound_Sfx_ProgramOffsets;
 extern volatile bool g_bSpuTransferring;
 extern u16* g_Sound_Sfx_MetadataTableA;
 extern u8* g_Sound_Sfx_ProgramData;
-extern FSoundCommandParams g_SoundCommandParams;
+extern FSoundCommandParams g_Sound_CommandParams_Vm_FE08;
 extern FSoundChannelConfig* g_pActiveMusicConfig;
 extern FSoundFadeTimer g_Sound_MasterFadeTimer;
 extern s16 D_80092A64;
 extern FSoundVoiceSchedulerState g_Sound_VoiceSchedulerState;
+extern FSoundCommandParams g_Sound_Vm2Params;
 extern s32 g_CdVolume;
 extern FSoundChannel g_PushedMusicChannels[0x20];
 extern u16* g_Sound_Sfx_MetadataTableB;

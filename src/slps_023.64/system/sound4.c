@@ -2,8 +2,23 @@
 #include "psyq/libspu.h"
 #include "system/sound.h"
 
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/sound4", unk_Sound_80055a10);
+//----------------------------------------------------------------------------------------------------------------------
+void unk_Sound_80055a10()
+{
+    if( g_Sound_80094FA0.VoicesInUseFlags != 0 )
+    {
+        SpuSetIRQ( NULL );
+        SpuSetIRQCallback( NULL );
+        SetVoiceKeyOff( g_Sound_80094FA0.VoicesInUseFlags );
+        SetVoiceRepeatAddr( g_Sound_80094FA0.VoiceIndex, 0x1030U );
+        SetVoiceRepeatAddr( g_Sound_80094FA0.VoiceIndex + 1, 0x1030U );
+        g_Sound_VoiceSchedulerState.ReverbVoiceFlags &= ~g_Sound_80094FA0.VoicesInUseFlags;
+        g_Sound_80094FA0.VoicesInUseFlags = 0;
+        g_Sound_GlobalFlags.UpdateFlags |= 0x100;
+    }
+}
 
+//----------------------------------------------------------------------------------------------------------------------
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/sound4", unk_Sound_80055ab0);
 
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/sound4", unk_Sound_80055b40);
