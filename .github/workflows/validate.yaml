@@ -1,0 +1,82 @@
+name: Validate
+
+on:
+  pull_request_target:
+    branches:
+      - master
+
+jobs:
+  build:
+
+    strategy:
+      matrix:
+        game_id: [ slps_023.64 ]
+      fail-fast: true
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install -U -r requirements.txt
+
+      - name: Install system dependencies
+          sudo apt-get update
+          sudo apt-get install make binutils-mips-linux-gnu cpp-mips-linux-gnu
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            make \
+            binutils-mips-linux-gnu \
+            cpp-mips-linux-gnu \
+            7zip
+
+      - name: Download ROM from private repository
+        uses: actions/checkout@v4
+        with:
+          repository: jdperos/chrono-cross-decomp-dependencies
+          token: ${{ secrets.DECOMP_DEPENDENCIES_TOKEN }}
+          path: tmp
+
+      - name: Reassemble ROM
+        run: |
+          mkdir -p assets/disc
+          cat tmp/x* > assets/disc/cdrom.dat
+          rm -rf tmp
+          echo "ROM size: $(stat -c%s assets/disc/cdrom.dat) bytes"
+
+      - name: Download psyq objects
+        run: |
+          mkdir -p lib/
+          curl -L \
+            -H "Authorization: Bearer ${{ secrets.DECOMP_DEPENDENCIES_TOKEN }}" \
+            -H "Accept: application/octet-stream" \
+            https://api.github.com/repos/jdperos/chrono-cross-decomp-dependencies/releases/assets/364315325 \
+            | tar xz -C ./lib/
+
+      - name: Extract and prepare
+        run: |
+          make extract V=1
+
+      - name: Generate ASM splits
+        run: make generate V=1
+
+      - name: Build source objects
+        run: make build V=1
+
+      - name: Check match
+        run: make check
