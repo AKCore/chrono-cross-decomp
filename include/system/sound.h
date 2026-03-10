@@ -816,5 +816,5 @@ extern FSound80094FA0 g_Sound_80094FA0;
 extern FSoundChannelConfig* g_Sound_VoiceChannelConfigs[VOICE_COUNT];
 extern FSoundVoiceModeFlags g_Sound_VoiceModeFlags;
 
-#define SPU_MALLOC_NUM_BLOCKS 4
+#define SPU_MALLOC_NUM_BLOCKS (4)
 char g_SpuMallocRecTable[ SPU_MALLOC_RECSIZ * (SPU_MALLOC_NUM_BLOCKS + 1) ];

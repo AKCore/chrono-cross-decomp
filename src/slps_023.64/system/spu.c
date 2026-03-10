@@ -1,4 +1,5 @@
 #include "common.h"
+#include "psyq/kernel.h"
 #include "psyq/libspu.h"
 #include "psyq/libapi.h"
 
@@ -76,23 +77,23 @@ void Sound_Start()
     s32 temp_v0;
 
     SpuStart();
-    SpuInitMalloc( 4, g_SpuMallocRecTable );
-    SpuSetTransferMode( 0 );
+    SpuInitMalloc( SPU_MALLOC_NUM_BLOCKS, g_SpuMallocRecTable );
+    SpuSetTransferMode( SPU_TRANSFER_BY_DMA );
     SpuSetTransferStartAddr( SPU_WAVEFORM_DATA_START );
     WriteSpu( (s32)g_Sound_NullWaveformBuf, SOUND_NULL_WAVEFORM_BUF_SIZE );
     WaitForSpuTransfer();
     Sound_Setup();
-    SpuSetIRQ( 0 );
+    SpuSetIRQ( NULL );
     SpuSetIRQCallback( NULL );
 
     do {
-    } while( SetRCnt( 0xF2000002U, 0x44E8U, 0x1000 ) == 0 );
+    } while( SetRCnt( RCntCNT2, SOUND_TIMER_TARGET, RCntMdINTR ) == 0 );
 
     do {
-    } while( StartRCnt( 0xF2000002U) == 0 );
+    } while( StartRCnt( RCntCNT2 ) == 0 );
 
     do {
-        temp_v0 = OpenEvent( 0xF2000002U, 2, 0x1000, Sound_MainLoop );
+        temp_v0 = OpenEvent( RCntCNT2, EvSpINT, EvMdINTR, Sound_MainLoop );
         g_Sound_EventDescriptor = temp_v0;
     } while( temp_v0  == -1 );
 
@@ -110,9 +111,9 @@ void Sound_Stop()
     }
 
     do {
-    } while( StopRCnt( 0xF2000002U ) == 0 );
+    } while( StopRCnt( RCntCNT2 ) == 0 );
 
-    UnDeliverEvent( 0xF2000002U, 2U );
+    UnDeliverEvent( RCntCNT2, EvSpINT );
 
     do {
     } while( DisableEvent( g_Sound_EventDescriptor ) == 0 );
