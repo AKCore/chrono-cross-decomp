@@ -21,9 +21,61 @@ void Sound_Cutscene_StopStream()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCutscene", Sound_Cutscene_FindFreeVoicePair);
+INCLUDE_ASM( "asm/slps_023.64/nonmatchings/system/soundCutscene", Sound_Cutscene_FindFreeVoicePair );
 
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCutscene", Sound_Cutscene_InitVoice);
+//----------------------------------------------------------------------------------------------------------------------
+#ifndef NON_MATCHING
+INCLUDE_ASM( "asm/slps_023.64/nonmatchings/system/soundCutscene", Sound_Cutscene_InitVoice );
+#else
+void Sound_Cutscene_InitVoice( u32 in_Voice, s32 in_PanMode, u32 in_StartAddr, u32 in_RepeatAddr )
+{
+    s32 temp_v0_2;
+    s16 VolR;
+    s32 VolL;
+
+    if( g_Sound_GlobalFlags.MixBehavior & 2 )
+    {
+        s32 Volume = (s32)( g_Sound_Cutscene_StreamState.Volume * g_Sound_StereoPanGainTableQ15[0x80] ) >> 0x10;
+        VolR = Volume;
+        VolL = Volume;
+    }
+    else
+    {
+        if( in_PanMode == 1 )
+        {
+            VolR = 0;
+            VolL = (s32)( g_Sound_Cutscene_StreamState.Volume >> 1 );
+        }
+        else if( in_PanMode == 2 )
+        {
+            VolL = 0;
+            VolR = (s32)( g_Sound_Cutscene_StreamState.Volume >> 1 );
+        }
+        else if( in_PanMode == 3 )
+        {
+            temp_v0_2 = ( (s32)g_Sound_Cutscene_StreamState.Volume >> 1 ) << 0x10;
+            VolL = ( temp_v0_2 >> 0x11 ) + ( temp_v0_2 >> 0x12 );
+            VolR = VolL;
+        }
+        else
+        {
+            s32 TING = 0xFF;
+            VolL = (s32)( ( g_Sound_Cutscene_StreamState.Volume * g_Sound_StereoPanGainTableQ15[g_Sound_Cutscene_StreamState.field20_0x4d] ) >> 0x10 );
+            VolR = (s32)( ( g_Sound_Cutscene_StreamState.Volume * g_Sound_StereoPanGainTableQ15[g_Sound_Cutscene_StreamState.field20_0x4d ^ TING] ) >> 0x10 );
+        }
+    }
+
+    SetVoiceVolume( (s32)in_Voice, (u32)(s16)VolL, (u32)(s16)VolR, 0U );
+    SetVoiceSampleRate( (s32)in_Voice, g_Sound_Cutscene_StreamState.VoiceSampleRate );
+    SetVoiceStartAddr( in_Voice, in_StartAddr );
+    SetVoiceRepeatAddr( in_Voice, in_RepeatAddr );
+    SetVoiceAdsrAttackRateAndMode( (s32)in_Voice, 0, 1U );
+    SetVoiceAdsrDecayRate( (s32)in_Voice, 0xF );
+    SetVoiceAdsrSustainLevel( (s32)in_Voice, 0xF );
+    SetVoiceAdsrSustainRateAndDirection( (s32)in_Voice, 0x7F, 3U );
+    SetVoiceAdsrReleaseRateAndMode( (s32)in_Voice, 6, 3U );
+}
+#endif
 
 //----------------------------------------------------------------------------------------------------------------------
 void Sound_Cmd_E2_StopCutsceneStream()
