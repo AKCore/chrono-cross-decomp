@@ -83,7 +83,67 @@ void Sound_Cutscene_OnInitialTransferComplete()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCutscene", Sound_Cutscene_LoadNextBuffer);
+u32 Sound_Cutscene_LoadNextBuffer( u32 in_RepeatAddressL, u32 in_RepeatAddressR, int in_Param3, SpuIRQCallbackProc in_IrqCallback )
+{
+    FSoundCutsceneStreamData* pChunk;
+    FAkaoHeader* pHeader;
+    u32 repeatAddrR;
+    u32 repeatAddrL;
+
+    if( g_Sound_Cutscene_StreamState.VoicesInUseFlags == 0 )
+    {
+        return in_RepeatAddressL;
+    }
+
+    pChunk = g_Sound_Cutscene_StreamState.pCurrentChunk;
+    pHeader = &pChunk->AkaoHeader;
+
+    if( pHeader->Magic != AKAO_FILE_MAGIC )
+    {
+        return in_RepeatAddressL;
+    }
+
+    SpuSetIRQ( SPU_OFF );
+
+    SpuSetTransferStartAddr( in_RepeatAddressL );
+    SetSpuTransferCallback();
+
+    Sound_Cutscene_AdvancePage( &g_Sound_Cutscene_StreamState.StreamPageIndex );
+
+    SpuWrite( g_Sound_Cutscene_StreamState.pCurrentChunk->AudioData, in_Param3 - SOUND_CUTSCENE_STREAM_DATA_HEADER_SIZE );
+
+    g_Sound_Cutscene_StreamState.field8_0x20 = pHeader->unk_0x04;
+    g_Sound_Cutscene_StreamState.CurrentPage = pHeader->CurrentPage;
+
+    repeatAddrL = in_RepeatAddressL;
+    repeatAddrR = in_RepeatAddressR;
+    if( (u32)pHeader->TotalPages > (u32)pHeader->CurrentPage )
+    {
+        SpuSetIRQCallback( in_IrqCallback );
+
+        g_Sound_Cutscene_StreamState.pCurrentChunk = (FSoundCutsceneStreamData*)( (u8*)g_Sound_Cutscene_StreamState.pCurrentChunk + in_Param3 );
+
+        if( g_Sound_Cutscene_StreamState.StreamPageIndex == 0 )
+        {
+            g_Sound_Cutscene_StreamState.pCurrentChunk = (FSoundCutsceneStreamData*)g_Sound_Cutscene_StreamState.field11_0x2c;
+        }
+    }
+    else
+    {
+        SpuSetIRQCallback( Sound_Cutscene_StopStream );
+
+        repeatAddrR = 0x1030;
+        repeatAddrL = 0x1030;
+    }
+
+    SetVoiceRepeatAddr( g_Sound_Cutscene_StreamState.VoiceIndex, repeatAddrL );
+    SetVoiceRepeatAddr( g_Sound_Cutscene_StreamState.VoiceIndex + 1, repeatAddrR );
+
+    SpuSetIRQAddr( repeatAddrL + 0x8 );
+    SpuSetIRQ( SPU_ON );
+
+    return repeatAddrL;
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 void Sound_Cutscene_OnBufferAComplete()
