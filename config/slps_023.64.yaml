@@ -369,7 +369,7 @@ segments:
 
       - [0x42664, c, system/sound3]
       - [0x44668, c, system/soundVM]
-      - [0x46210, c, system/sound4]
+      - [0x46210, c, system/soundCutscene]
 
       - [0x46B7C, o, ../lib/450/libspu/s_sia, .text]
       - [0x46BBC, o, ../lib/450/libgte/cmb_07, .text] # size: 0xB0

@@ -1,3 +1,5 @@
+#include "system/soundCutscene.h"
+
 #include "common.h"
 #include "psyq/libspu.h"
 #include "system/sound.h"
@@ -19,9 +21,9 @@ void Sound_Cutscene_StopStream()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/sound4", Sound_Cutscene_FindFreeVoicePair);
+INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCutscene", Sound_Cutscene_FindFreeVoicePair);
 
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/sound4", Sound_Cutscene_InitVoice);
+INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCutscene", Sound_Cutscene_InitVoice);
 
 //----------------------------------------------------------------------------------------------------------------------
 void Sound_Cmd_E2_StopCutsceneStream()
@@ -56,18 +58,18 @@ void Sound_Cmd_E5_FadeOutCutscene( FSoundCommandParams* in_Params )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/sound4", Sound_Cutscene_AdvancePage);
+INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCutscene", Sound_Cutscene_AdvancePage);
 
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/sound4", Sound_Cutscene_StartStream);
+INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCutscene", Sound_Cutscene_StartStream);
 
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/sound4", Sound_Cutscene_BeginPlayback);
+INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCutscene", Sound_Cutscene_BeginPlayback);
 
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/sound4", Sound_Cutscene_OnInitialTransferComplete);
+INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCutscene", Sound_Cutscene_OnInitialTransferComplete);
 
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/sound4", Sound_Cutscene_LoadNextBuffer);
+INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCutscene", Sound_Cutscene_LoadNextBuffer);
 
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/sound4", Sound_Cutscene_OnBufferAComplete);
+INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCutscene", Sound_Cutscene_OnBufferAComplete);
 
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/sound4", Sound_Cutscene_OnBufferBComplete);
+INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCutscene", Sound_Cutscene_OnBufferBComplete);
 
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/sound4", Sound_Cmd_E8_80056308);
+INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCutscene", Sound_Cmd_E8_80056308);

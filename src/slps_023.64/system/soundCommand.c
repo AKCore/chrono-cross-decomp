@@ -1,5 +1,8 @@
+#include "system/soundCommand.h"
+
 #include "common.h"
 #include "system/sound.h"
+#include "system/soundCutscene.h"
 
 //----------------------------------------------------------------------------------------------------------------------
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_10_StartFieldMusic);

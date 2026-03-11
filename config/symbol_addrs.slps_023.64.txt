@@ -682,7 +682,7 @@ SoundVM_FE13_PreventVoicesFromRekeyingOnResume = 0x800559D0;
 SoundVM_XX_Unimplemented                       = 0x800559F0;
 
 //----------------------------------------------------------------------------------------------------------------------
-// sound 4
+// soundCutscene
 Sound_Cutscene_StopStream                = 0x80055A10;
 Sound_Cutscene_FindFreeVoicePair         = 0x80055AB0;
 Sound_Cutscene_InitVoice                 = 0x80055B40;

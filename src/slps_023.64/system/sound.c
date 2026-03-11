@@ -2,7 +2,7 @@
 #include "hw.h"
 #include "psyq/libspu.h"
 #include "system/sound.h"
-
+#include "system/soundCutscene.h"
 
 typedef struct
 {

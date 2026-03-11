@@ -1,11 +1,15 @@
+#include "system/spu.h"
+
 #include "common.h"
-#include "hw.h"
+
 #include "psyq/kernel.h"
 #include "psyq/libspu.h"
 #include "psyq/libapi.h"
 
-#include "system/spu.h"
+#include "hw.h"
+
 #include "system/sound.h"
+#include "system/soundCutscene.h"
 
 //----------------------------------------------------------------------------------------------------------------------
 void Sound_CopyAndRelocateInstruments( FSoundInstrumentInfo* in_A, FSoundInstrumentInfo* in_B, s32 in_AddrOffset, s32 in_Count )
