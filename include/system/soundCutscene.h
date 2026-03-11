@@ -40,6 +40,10 @@ void Sound_Cutscene_StopStream();
 u32 Sound_Cutscene_AdvancePage(u32*);
 u32 Sound_Cutscene_LoadNextBuffer( u32 in_RepeatAddressL, u32 in_RepeatAddressR, int in_Param3, SpuIRQCallbackProc in_IrqCallback );
 
+void Sound_Cutscene_OnBufferAComplete();
+void Sound_Cutscene_OnBufferBComplete();
+
+
 extern FSoundCutsceneStreamState g_Sound_Cutscene_StreamState;
 
 #endif // _SOUND_CUTSCENE_H

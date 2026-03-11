@@ -78,8 +78,17 @@ INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCutscene", Sound_Cutscene_
 
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCutscene", Sound_Cutscene_LoadNextBuffer);
 
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCutscene", Sound_Cutscene_OnBufferAComplete);
+//----------------------------------------------------------------------------------------------------------------------
+void Sound_Cutscene_OnBufferAComplete()
+{
+    Sound_Cutscene_LoadNextBuffer( 0xF100U, 0xF900U, 0x1000, Sound_Cutscene_OnBufferBComplete );
+}
 
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCutscene", Sound_Cutscene_OnBufferBComplete);
+//----------------------------------------------------------------------------------------------------------------------
+void Sound_Cutscene_OnBufferBComplete()
+{
+    Sound_Cutscene_LoadNextBuffer( 0x10100U, 0x10900U, 0x1000, Sound_Cutscene_OnBufferAComplete );
+}
 
+//----------------------------------------------------------------------------------------------------------------------
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCutscene", Sound_Cmd_E8_80056308);
