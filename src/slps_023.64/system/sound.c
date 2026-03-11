@@ -1268,7 +1268,7 @@ void func_8004D3D4(void) {
 
     KeyOnFlags = 0;
     // TODO(jperos): Clarify these flags... some of them say channel and others say voice
-    Flags = g_Sound_VoiceSchedulerState.ActiveChannelMask | g_Sound_VoiceSchedulerState.unk_Flags_0x10 | g_Sound_80094FA0.VoicesInUseFlags;
+    Flags = g_Sound_VoiceSchedulerState.ActiveChannelMask | g_Sound_VoiceSchedulerState.unk_Flags_0x10 | g_Sound_Cutscene_StreamState.VoicesInUseFlags;
     if (!(g_pActiveMusicConfig->ActiveChannelMask & g_pActiveMusicConfig->PendingKeyOnMask))
     {
         if (g_pSavedMousicConfig != NULL)
@@ -1456,7 +1456,7 @@ void Sound_ProcessKeyOffRequests()
     Filter = ~(
         g_Sound_VoiceSchedulerState.ActiveChannelMask 
         | g_Sound_VoiceSchedulerState.unk_Flags_0x10
-        | g_Sound_80094FA0.VoicesInUseFlags
+        | g_Sound_Cutscene_StreamState.VoicesInUseFlags
     );
     VoiceMask = 0;
     SavedOffMask = 0;
@@ -1520,7 +1520,7 @@ void Sound_BuildVoiceModeMask( s32* out_VoiceModeMask, s32 in_SavedChannelModeMa
     Filter = ~(
         g_Sound_VoiceSchedulerState.ActiveChannelMask
         | g_Sound_VoiceSchedulerState.unk_Flags_0x10
-        | g_Sound_80094FA0.VoicesInUseFlags
+        | g_Sound_Cutscene_StreamState.VoicesInUseFlags
     );
 
     if( g_pSavedMousicConfig )

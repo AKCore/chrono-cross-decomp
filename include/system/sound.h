@@ -286,7 +286,7 @@ typedef struct
     /* 0x54 */ s32 field24_0x54;
     /* 0x58 */ s32 VoiceSampleRate;
     /* 0x5C */ s32 ControlFlags;
-} FSound80094FA0; /* size 0x60 */
+} FSoundCutsceneStreamState; /* size 0x60 */
 
 typedef struct
 {
@@ -774,9 +774,9 @@ void SoundVM_XX_Unimplemented( FSoundChannel* in_pChannel, u32 in_VoiceFlags );
 void* func_8004A234( s32 in_VoiceIndex );
 
 // sound4
-void unk_Sound_80055a10();
-u32 unk_Sound_80055e0c(s32*);
-u32 unk_Sound_80056144( u32 in_RepeatAddressL, u32 in_RepeatAddressR, int in_Param3, SpuIRQCallbackProc in_IrqCallback );
+void Sound_Cutscene_StopStream();
+u32 Sound_Cutscene_AdvancePage(s32*);
+u32 Sound_Cutscene_LoadNextBuffer( u32 in_RepeatAddressL, u32 in_RepeatAddressR, int in_Param3, SpuIRQCallbackProc in_IrqCallback );
 
 extern s32 g_Sound_EventDescriptor;
 #define SOUND_NULL_WAVEFORM_BUF_SIZE (64)
@@ -815,7 +815,7 @@ extern FSoundChannel g_PushedMusicChannels[0x20];
 extern u16* g_Sound_Sfx_MetadataTableB;
 extern s32 g_Sound_MasterPitchScaleQ16_16;
 extern FSoundGlobalFlags g_Sound_GlobalFlags;
-extern FSound80094FA0 g_Sound_80094FA0;
+extern FSoundCutsceneStreamState g_Sound_Cutscene_StreamState;
 extern FSoundChannelConfig* g_Sound_VoiceChannelConfigs[VOICE_COUNT];
 extern FSoundVoiceModeFlags g_Sound_VoiceModeFlags;
 

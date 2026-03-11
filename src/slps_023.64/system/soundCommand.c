@@ -163,13 +163,13 @@ INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_9C_800
 //----------------------------------------------------------------------------------------------------------------------
 void Sound_Cmd_9F_ResetGlobalVoice( FSoundCommandParams* in_Params )
 {
-    if( g_Sound_80094FA0.VoicesInUseFlags != 0 )
+    if( g_Sound_Cutscene_StreamState.VoicesInUseFlags != 0 )
     {
         // Looks like we have a stereo pair, one left and one right
-        SetVoiceSampleRate( g_Sound_80094FA0.VoiceIndex, 0 );
-        SetVoiceSampleRate( g_Sound_80094FA0.VoiceIndex + 1, 0 );
-        SetVoiceVolume( g_Sound_80094FA0.VoiceIndex, 0, 0, 0 );
-        SetVoiceVolume( g_Sound_80094FA0.VoiceIndex + 1, 0, 0, 0 );
+        SetVoiceSampleRate( g_Sound_Cutscene_StreamState.VoiceIndex, 0 );
+        SetVoiceSampleRate( g_Sound_Cutscene_StreamState.VoiceIndex + 1, 0 );
+        SetVoiceVolume( g_Sound_Cutscene_StreamState.VoiceIndex, 0, 0, 0 );
+        SetVoiceVolume( g_Sound_Cutscene_StreamState.VoiceIndex + 1, 0, 0, 0 );
     }
 }
 
@@ -178,16 +178,16 @@ void Sound_Cmd_9E_80051000( FSoundCommandParams* in_Params )
 {
     s32 unpackedVolume;
 
-    if( g_Sound_80094FA0.VoicesInUseFlags != 0 )
+    if( g_Sound_Cutscene_StreamState.VoicesInUseFlags != 0 )
     {
         // Looks like we have a stereo pair, one left and one right
-        SetVoiceSampleRate( g_Sound_80094FA0.VoiceIndex, g_Sound_80094FA0.VoiceSampleRate );
-        SetVoiceSampleRate( g_Sound_80094FA0.VoiceIndex + 1, g_Sound_80094FA0.VoiceSampleRate );
+        SetVoiceSampleRate( g_Sound_Cutscene_StreamState.VoiceIndex, g_Sound_Cutscene_StreamState.VoiceSampleRate );
+        SetVoiceSampleRate( g_Sound_Cutscene_StreamState.VoiceIndex + 1, g_Sound_Cutscene_StreamState.VoiceSampleRate );
 
         // Unpack in sign extended way
-        unpackedVolume = (s32) (g_Sound_80094FA0.Volume << 0xF) >> 0x10;
-        SetVoiceVolume( g_Sound_80094FA0.VoiceIndex, unpackedVolume, 0, 0 );
-        SetVoiceVolume( g_Sound_80094FA0.VoiceIndex + 1, 0, unpackedVolume, 0 );
+        unpackedVolume = (s32) (g_Sound_Cutscene_StreamState.Volume << 0xF) >> 0x10;
+        SetVoiceVolume( g_Sound_Cutscene_StreamState.VoiceIndex, unpackedVolume, 0, 0 );
+        SetVoiceVolume( g_Sound_Cutscene_StreamState.VoiceIndex + 1, 0, unpackedVolume, 0 );
     }
 }
 

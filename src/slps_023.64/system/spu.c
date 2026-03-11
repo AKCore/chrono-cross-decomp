@@ -142,9 +142,9 @@ void Sound_Setup()
 
     g_Music_LoopCounter = 0;
     g_Sound_UnkFlags_80092AFC = 0;
-    g_Sound_80094FA0.field18_0x48 = 0;
-    g_Sound_80094FA0.ControlFlags = 0;
-    g_Sound_80094FA0.Volume = 0x7F00;
+    g_Sound_Cutscene_StreamState.field18_0x48 = 0;
+    g_Sound_Cutscene_StreamState.ControlFlags = 0;
+    g_Sound_Cutscene_StreamState.Volume = 0x7F00;
     g_Sound_VoiceModeFlags.Fm = 0;
     g_Sound_VoiceModeFlags.Noise = 0;
     g_Sound_VoiceModeFlags.Reverb = 0;

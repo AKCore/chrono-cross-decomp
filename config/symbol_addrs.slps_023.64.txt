@@ -683,20 +683,20 @@ SoundVM_XX_Unimplemented                       = 0x800559F0;
 
 //----------------------------------------------------------------------------------------------------------------------
 // sound 4
-unk_Sound_80055a10               = 0x80055A10;
-unk_Sound_80055ab0               = 0x80055AB0;
-unk_Sound_80055b40               = 0x80055B40;
-Sound_Cmd_E2_80055cfc            = 0x80055CFC;
-Sound_Cmd_E4_SetVolumeStereoPair = 0x80055D1C;
-Sound_Cmd_E5_80055d8c            = 0x80055D8C;
-unk_Sound_80055e0c               = 0x80055E0C;
-unk_Sound_80055e60               = 0x80055E60;
-unk_Sound_8005600c               = 0x8005600C;
-unk_Sound_800560d4               = 0x800560D4;
-unk_Sound_80056144               = 0x80056144;
-unk_Sound_800562a0               = 0x800562A0;
-unk_Sound_800562d0               = 0x800562D0;
-Sound_Cmd_E8_80056308            = 0x80056308;
+Sound_Cutscene_StopStream                = 0x80055A10;
+Sound_Cutscene_FindFreeVoicePair         = 0x80055AB0;
+Sound_Cutscene_InitVoice                 = 0x80055B40;
+Sound_Cmd_E2_StopCutsceneStream          = 0x80055CFC;
+Sound_Cmd_E4_SetCutsceneVolume           = 0x80055D1C;
+Sound_Cmd_E5_FadeOutCutscene             = 0x80055D8C;
+Sound_Cutscene_AdvancePage               = 0x80055E0C;
+Sound_Cutscene_StartStream               = 0x80055E60;
+Sound_Cutscene_BeginPlayback             = 0x8005600C;
+Sound_Cutscene_OnInitialTransferComplete = 0x800560D4;
+Sound_Cutscene_LoadNextBuffer            = 0x80056144;
+Sound_Cutscene_OnBufferAComplete         = 0x800562A0;
+Sound_Cutscene_OnBufferBComplete         = 0x800562D0;
+Sound_Cmd_E8_80056308                    = 0x80056308;
 
 //----------------------------------------------------------------------------------------------------------------------
 // More libspu
@@ -754,7 +754,7 @@ g_Sound_LfoPhase               = 0x80094F84;
 g_Sound_MasterPitchScaleQ16_16 = 0x80094F88;
 g_Sound_TempoMultiplier        = 0x80094F8C;
 g_Sound_GlobalFlags            = 0x80094F90; // type:FSoundGlobalFlags size:0xC
-g_Sound_80094FA0               = 0x80094FA0; // type:FSound80094FA0  size:0x60
+g_Sound_Cutscene_StreamState   = 0x80094FA0; // type:FSoundCutsceneStreamState  size:0x60
 g_Sound_VoiceChannelConfigs    = 0x80095000;
 g_Sound_VoiceModeFlags         = 0x80095070; // type:FSoundVoiceModeFlags size:0xC
 
