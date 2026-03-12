@@ -86,7 +86,20 @@ void Sound_Cmd_12_8004f3c4( FSoundCommandParams* in_Params )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_34_8004F404);
+void Sound_Cmd_34_8004F404( FSoundCommandParams* in_Params )
+{
+    u32 Pc1;
+    u32 Pc2;
+
+    Pc1 = in_Params->Param1;
+    Pc2 = in_Params->Param2;
+    in_Params->Param1 = 0x400;
+    in_Params->Param2 = 0x01000000;
+    in_Params->Param3 = 0x80;
+    in_Params->Param4 = 0x7F;
+    in_Params->ExtParam1 = 0;
+    Sound_PlaySfxProgram( in_Params, (u8*)Pc1, (u8*)Pc2, 0 );
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_30_8004F450);
