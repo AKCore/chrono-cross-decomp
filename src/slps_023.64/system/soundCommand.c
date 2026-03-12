@@ -259,7 +259,25 @@ INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_A4_800
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_A5_80050504);
 
 //----------------------------------------------------------------------------------------------------------------------
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_AC_8005068C);
+void Sound_Cmd_AC_8005068C( FSoundCommandParams* in_Params )
+{
+    s32 ChannelIndex;
+    FSoundChannel* pChannel;
+
+    ChannelIndex = SOUND_SFX_CHANNEL_COUNT;
+    pChannel = SfxSoundChannels;
+
+    do {
+        if( !( pChannel->unk_Flags & (1 << 25) ) )
+        {
+            pChannel->E_Value = (u8)in_Params->Param1 << 8;
+            pChannel->E_StepsRemaining = 0;
+            pChannel->VoiceParams.VoiceParamFlags |= VOICE_PARAM_SAMPLE_RATE;
+        }
+        ChannelIndex--;
+        pChannel++;
+    } while( ChannelIndex != 0 );
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_AD_800506E4);
