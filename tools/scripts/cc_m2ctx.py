@@ -11,34 +11,29 @@ import sys
 import subprocess
 import tempfile
 from pathlib import Path
+import cc_symbol
 
 # Get project root directory
 script_dir = Path(__file__).parent.absolute()
-root_dir = script_dir.parent if script_dir.name == "tools" else script_dir
+root_dir = cc_symbol.find_repo_root(script_dir)
 src_dir = root_dir / "src"
 
-# Project-specific preprocessor flags
-# CUSTOMIZE THESE for your Chrono Cross project
-CPP_FLAGS = [
-    "-Iinclude",           # Your include directory
-    "-Iinclude/psyq",      # PSY-Q SDK headers (so <kernel.h> can be found)
-    "-Isrc",               # Source directory
-    "-D_LANGUAGE_C",       # MIPS/PSY-Q convention
-    "-D_MIPS_SZLONG=32",   # 32-bit longs
-    "-ffreestanding",      # Freestanding environment
-    "-DM2CTX",             # Flag to indicate we're building context
-    # Add any other project-specific defines here
-    # Examples:
-    # "-DVERSION_US",
-    # "-DPLATFORM_PSX",
-]
+def load_cpp_flags(repo_root: Path) -> list[str]:
+    flags_file = repo_root / "compile_flags.txt"
+    if not flags_file.is_file():
+        raise RuntimeError(f"compile_flags.txt not found at {flags_file}")
+    return [
+        line.strip()
+        for line in flags_file.read_text(encoding="utf-8").splitlines()
+        if line.strip() and not line.startswith("#")
+    ]
 
 def get_compiler():
     """Detect platform and return appropriate GCC compiler"""
     if sys.platform in ("linux", "linux2"):
         return "gcc", True  # compiler, delete_temp
     elif sys.platform == "win32":
-        # Adjust this path to your Windows GCC location
+        # Adjust this path to Windows GCC location
         return "tools/win-gcc/bin/gcc.exe", False
     elif sys.platform == "darwin":
         return "gcc", True
@@ -70,7 +65,8 @@ def preprocess_c_file(c_file: Path) -> str:
             stock_macros = ""
     
     # Now preprocess the actual file
-    cpp_command = [cpp, "-E", "-P", "-dD", *CPP_FLAGS, str(rel_path)]
+    cpp_flags = load_cpp_flags(root_dir)
+    cpp_command = [cpp, "-E", "-P", "-dD", *cpp_flags, str(rel_path)]
     
     try:
         preprocessed = subprocess.check_output(

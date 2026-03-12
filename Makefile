@@ -297,7 +297,7 @@ $(LINKER_DIR)/%.ld: $(CONFIG_DIR)/%.yaml
 
 $(CTX_FILE):
 	$(Q)@mkdir -p ctx
-	$(Q)$(PYTHON) tools/cc_m2ctx.py --auto -o $(CTX_FILE)
+	$(Q)$(PYTHON) tools/scripts/cc_m2ctx.py --auto -o $(CTX_FILE)
 
 
 ### Settings

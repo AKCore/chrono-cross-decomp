@@ -1,4 +1,5 @@
 -Iinclude
+-Iinclude/psyq
 -Ibuild
 -D_LANGUAGE_C
 -DUSE_INCLUDE_ASM
