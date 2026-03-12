@@ -17,7 +17,16 @@ void Sound_Cmd_10_StartFieldMusic( FSoundCommandParams* in_Params )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_14_StartBattleMusic);
+void Sound_Cmd_14_StartBattleMusic( FSoundCommandParams* in_Params )
+{
+    if( ( g_PushedMusicConfig.MusicId != 0 ) && ( g_PushedMusicConfig.MusicId == in_Params->Param3 ) )
+    {
+        Sound_SetMusicSequence( (FAkaoSequence*)in_Params->Param1, false );
+        return;
+    }
+    Sound_LoadAkaoSequence( (FAkaoSequence*)in_Params->Param1, (s32)in_Params->Param4 );
+    g_pActiveMusicConfig->MusicId = (u16)in_Params->Param3;
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 void Sound_Cmd_40_PushMusicState( FSoundCommandParams* in_Params )
