@@ -13,7 +13,7 @@ SKIP_ASM       ?= 0
 # Names and Paths
 GAME_NAME    := slps_023.64
 ROM_DIR      := disc
-EXTRACT_DIR  := $(ROM_DIR)/extracted
+EXTRACT_DIR  := game
 CACHE_DIR    := .cache
 CONFIG_DIR   := config
 LINKER_DIR   := linker

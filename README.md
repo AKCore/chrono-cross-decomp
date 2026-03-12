@@ -133,7 +133,7 @@ make clean-check
 
 If successful, you should see:
 ```
-build/out/extracted/prog/slps_023.64: OK
+build/out/prog/slps_023.64: OK
 ```
 
 ### Additional Make Commands
@@ -208,12 +208,12 @@ chrono-cross-decomp/
 │   └── src/                        # Built from decompiled source code
 ├── config/                         # Splat configuration and symbol addresses
 ├── ctx/                            # Generated context files (gitignored)
-├── disc/                           # ROM and extracted game data (gitignored)
-│   ├── extracted/                  # Game files extracted from cdrom.dat
-│   │   └── prog/                   # Game program data
-│   │       └── slps_023.64         # Main game executable
+├── disc/                           # ROM (gitignored)
 │   └── cdrom.dat                   # Disk image copied from Radical Dreamers edition
 ├── expected/                       # Compiled objs from decompiled, used for objdiff
+├── game/                           # Game files extracted from cdrom.dat (gitignored)
+│   └── prog/                       # Game program data
+│       └── slps_023.64             # Main game executable
 ├── include/                        # C header files
 │   ├── psyq/                       # PSY-Q SDK headers
 │   └── system/                     # Game system headers

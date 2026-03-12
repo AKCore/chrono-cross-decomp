@@ -4,6 +4,7 @@ assets/
 ctx/
 disc/*
 build/
+game/
 lib/
 linker/
 tools/pcsx-redux-tools/
