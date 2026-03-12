@@ -119,7 +119,31 @@ u32 Sound_Cutscene_AdvancePage( u32* in_pStreamPageIndex )
 //----------------------------------------------------------------------------------------------------------------------
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCutscene", Sound_Cutscene_StartStream);
 
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCutscene", Sound_Cutscene_BeginPlayback);
+//----------------------------------------------------------------------------------------------------------------------
+void Sound_Cutscene_BeginPlayback( s32 in_SomeIndex, u32 in_SampleAddr, SpuIRQCallbackProc in_Callback )
+{
+    u32 SampleAddr;
+
+    SampleAddr = in_SampleAddr;
+    if( g_Sound_Cutscene_StreamState.VoicesInUseFlags != 0 )
+    {
+        SpuSetTransferCallback( NULL );
+        g_bSpuTransferring = false;
+        if( (u32)g_Sound_Cutscene_StreamState.ChannelFlags >= 0xE61U )
+        {
+            g_Sound_Cutscene_StreamState.pCurrentChunk = (FSoundCutsceneStreamData*)&g_Sound_Cutscene_StreamState.pCurrentChunk->unk_0x00[ in_SomeIndex ];
+            SpuSetIRQCallback( in_Callback );
+        }
+        else
+        {
+            SpuSetIRQCallback( Sound_Cutscene_StopStream );
+            SampleAddr = 0x1030;
+        }
+        SpuSetIRQAddr( SampleAddr + 8 );
+        SetVoiceKeyOn( (u32)g_Sound_Cutscene_StreamState.VoicesInUseFlags );
+        SpuSetIRQ( SPU_ON );
+    }
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 void Sound_Cutscene_OnInitialTransferComplete()

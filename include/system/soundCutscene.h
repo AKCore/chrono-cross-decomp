@@ -17,7 +17,7 @@ typedef struct FAkaoHeader
 
 typedef struct FSoundCutsceneStreamData
 {
-    /* 0x00 */ u8          unk_0x00[0x80];
+    /* 0x00 */ u8          unk_0x00[0x80]; // Probably some pointers to Chunks
     /* 0x80 */ FAkaoHeader AkaoHeader;
     /* 0xA4 */ u8          unk_0xA4[0x2C];
     /* 0xD0 */ DataBlob    AudioData[1];
@@ -31,7 +31,7 @@ typedef struct FSoundCutsceneStreamState
     /* 0x08 */ s32 field2_0x8;
     /* 0x0C */ s32 VoicesInUseFlags;
     /* 0x10 */ s32 VoiceIndex;
-    /* 0x14 */ s32 ChannelFlags;
+    /* 0x14 */ s32 ChannelFlags; // Probably a bad name judged on the usage in Sound_Cutscene_BeginPlayback
     /* 0x18 */ s32 CurrentPage;
     /* 0x1C */ s32 field7_0x1c;
     /* 0x20 */ s32 field8_0x20;
