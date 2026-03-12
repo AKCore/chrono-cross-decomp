@@ -502,7 +502,7 @@ Sound_SetMusicSequence                    = 0x8004ECDC;
 // soundCommand
 Sound_Cmd_10_StartFieldMusic                              = 0x8004EF8C;
 Sound_Cmd_14_StartBattleMusic                             = 0x8004F008;
-Sound_Cmd_40_8004F088                                     = 0x8004F088;
+Sound_Cmd_40_PushMusicState                               = 0x8004F088;
 Sound_Cmd_19_SetMusicLevelImmediate                       = 0x8004F130;
 Sound_Cmd_1A_StartMasterAndMusicVolumeFade                = 0x8004F1F8;
 Sound_Cmd_12_8004f3c4                                     = 0x8004F3C4;

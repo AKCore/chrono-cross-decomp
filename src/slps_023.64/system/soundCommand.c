@@ -5,13 +5,41 @@
 #include "system/soundCutscene.h"
 
 //----------------------------------------------------------------------------------------------------------------------
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_10_StartFieldMusic);
+void Sound_Cmd_10_StartFieldMusic( FSoundCommandParams* in_Params )
+{
+    if( ( g_PushedMusicConfig.MusicId != 0 ) && ( g_PushedMusicConfig.MusicId == in_Params->Param3 ) )
+    {
+        Sound_SetMusicSequence( (FAkaoSequence*)in_Params->Param1, false );
+        return;
+    }
+    Sound_LoadAkaoSequence( (FAkaoSequence*)in_Params->Param1, 0xFFFFFFFF );
+    g_pActiveMusicConfig->MusicId = (u16)in_Params->Param3;
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_14_StartBattleMusic);
 
 //----------------------------------------------------------------------------------------------------------------------
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_40_8004F088);
+void Sound_Cmd_40_PushMusicState( FSoundCommandParams* in_Params )
+{
+    FSoundChannel* pChannel;
+    u32 Count;
+
+    if( g_pActiveMusicConfig->ActiveChannelMask != NULL )
+    {
+        memcpy32( (s32*)g_pActiveMusicConfig, (s32*)&g_PushedMusicConfig, sizeof(FSoundChannelConfig) );
+        memcpy32( (s32*)g_ActiveMusicChannels, (s32*)g_PushedMusicChannels, sizeof(FSoundChannel) * SOUND_CHANNEL_COUNT );
+        Count = 0;
+        pChannel = g_PushedMusicChannels;
+        while( Count < SOUND_CHANNEL_COUNT )
+        {
+            Sound_MapInstrumentToBaseSampleBank( g_PushedMusicConfig.StatusFlags, pChannel );
+            Count++;
+            pChannel++;
+        };
+        g_PushedMusicConfig.ActiveNoteMask &= ~g_PushedMusicConfig.PreventRekeyOnMusicResumeMask;
+    }
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_19_SetMusicLevelImmediate);

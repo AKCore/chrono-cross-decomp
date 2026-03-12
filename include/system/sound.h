@@ -420,7 +420,7 @@ typedef struct
 
 typedef struct 
 {
-    /* 0x00 */ s32 StatusFlags; /*   0x01 - Voice exhaustion (couldn't allocate even with stealing) 0x02 - Voice stealing occurred */
+    /* 0x00 */ u32 StatusFlags; /*   0x01 - Voice exhaustion (couldn't allocate even with stealing) 0x02 - Voice stealing occurred */
     /* 0x04 */ u32 ActiveChannelMask;
     /* 0x08 */ u32 KeyedMask; /* SPU voices currently keyed-on */
     /* 0x0C */ u32 AllocatedVoiceMask; /* Channels with SPU voices allocated */
@@ -584,7 +584,7 @@ void Sound_SetMusicSequence( FAkaoSequence *in_Sequence, int in_SwapWithSavedSta
 // SoundCommand
 void Sound_Cmd_10_StartFieldMusic( FSoundCommandParams* in_Params );
 void Sound_Cmd_14_StartBattleMusic( FSoundCommandParams* in_Params );
-void Sound_Cmd_40_8004F088( FSoundCommandParams* in_Params );
+void Sound_Cmd_40_PushMusicState( FSoundCommandParams* in_Params );
 void Sound_Cmd_19_SetMusicLevelImmediate( FSoundCommandParams* in_Params );
 void Sound_Cmd_1A_StartMasterAndMusicVolumeFade( FSoundCommandParams* in_Params );
 void Sound_Cmd_12_8004f3c4( FSoundCommandParams* in_Params );
@@ -766,7 +766,7 @@ extern s16* g_Sound_LfoTable[SOUND_LFO_COUNT];
 extern s16 g_Sound_StereoPanGainTableQ15[SPU_PAN_TABLE_SIZE];
 
 // DATA I think
-extern FSoundChannel g_ActiveMusicChannels[0x20];
+extern FSoundChannel g_ActiveMusicChannels[SOUND_CHANNEL_COUNT];
 extern u32 D_80090A34;
 extern FSoundChannel SfxSoundChannels[SOUND_SFX_CHANNEL_COUNT];
 extern FSoundChannel* g_pSecondaryMusicChannels;
@@ -788,7 +788,7 @@ extern s16 g_Sound_CdVolumeFadeLength;
 extern FSoundVoiceSchedulerState g_Sound_VoiceSchedulerState;
 extern FSoundCommandParams g_Sound_Vm2Params;
 extern s32 g_CdVolume;
-extern FSoundChannel g_PushedMusicChannels[0x20];
+extern FSoundChannel g_PushedMusicChannels[SOUND_CHANNEL_COUNT];
 extern u16* g_Sound_Sfx_MetadataTableB;
 extern s32 g_Sound_MasterPitchScaleQ16_16;
 extern FSoundGlobalFlags g_Sound_GlobalFlags;
