@@ -1,6 +1,7 @@
 CompileFlags:
   Add:
     - -DNON_MATCHING=1
+    - -m32
 
 IndentWidth: 4
 TabWidth: 4
