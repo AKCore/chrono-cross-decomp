@@ -2,7 +2,7 @@
 asm/
 assets/
 ctx/
-disc/*
+disc/cdrom.dat
 build/
 game/
 lib/
