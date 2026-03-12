@@ -158,7 +158,10 @@ void Sound_Cmd_20_8004F518( FSoundCommandParams* in_Params )
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_24_8004F5C8);
 
 //----------------------------------------------------------------------------------------------------------------------
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_21_8004F6E8);
+void Sound_Cmd_21_8004F6E8( FSoundCommandParams* in_Params )
+{
+    Sound_EvictSfxVoice( in_Params->Param1, in_Params->Param2 );
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_C0_8004F714);
