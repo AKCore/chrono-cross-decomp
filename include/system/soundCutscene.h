@@ -5,6 +5,14 @@
 
 #include "psyq/libspu.h"
 
+#define SOUND_CUTSCENE_BUFFER_A_L             ( 0xF100 )
+#define SOUND_CUTSCENE_BUFFER_A_R             ( 0xF900 )
+#define SOUND_CUTSCENE_BUFFER_B_L             ( 0x10100 )
+#define SOUND_CUTSCENE_BUFFER_B_R             ( 0x10900 )
+#define SOUND_CUTSCENE_BUFFER_SIZE            ( 0x1000 )
+#define SOUND_CUTSCENE_INITIAL_TRANSFER_SIZE  ( 0x2000 )
+#define STREAM_PAGE_INDEX_INACTIVE            ( 0xFFFFFFFF )
+
 typedef struct FAkaoHeader
 {
     /* 0x00 */ u32 Magic;
@@ -36,20 +44,20 @@ typedef struct FSoundCutsceneStreamState
     /* 0x08 */ s32 field2_0x8;
     /* 0x0C */ s32 VoicesInUseFlags;
     /* 0x10 */ s32 VoiceIndex;
-    /* 0x14 */ s32 ChannelFlags; // Probably a bad name judged on the usage in Sound_Cutscene_BeginPlayback
+    /* 0x14 */ s32 TotalPages; // Probably a bad name judged on the usage in Sound_Cutscene_BeginPlayback
     /* 0x18 */ s32 CurrentPage;
     /* 0x1C */ s32 field7_0x1c;
     /* 0x20 */ s32 field8_0x20;
     /* 0x24 */ s32 field9_0x24;
     /* 0x28 */ s32 PageIndex;
-    /* 0x2C */ FSoundCutsceneStreamData* field11_0x2c;
+    /* 0x2C */ FSoundCutsceneStreamData* pStreamBase;
     /* 0x30 */ s32 field12_0x30;
     /* 0x34 */ u32 StreamPageIndex;
     /* 0x38 */ s32 field14_0x38;
-    /* 0x3C */ u32 TotalPageCount;
+    /* 0x3C */ u32 PageRingBufferSize;
     /* 0x40 */ s32 Volume;
-    /* 0x44 */ s32 field17_0x44;
-    /* 0x48 */ s32 field18_0x48;
+    /* 0x44 */ s32 VolFadeStepSize;
+    /* 0x48 */ s32 VolFadeStepsRemaining;
     /* 0x4C */ u8 field19_0x4c;
     /* 0x4D */ u8 PanPosition;
     /* 0x4E */ u8 field21_0x4e;

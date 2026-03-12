@@ -111,7 +111,7 @@ void Sound_Cmd_E2_StopCutsceneStream()
 void Sound_Cmd_E4_SetCutsceneVolume( FSoundCommandParams* in_Params )
 {
     g_Sound_Cutscene_StreamState.Volume = in_Params->Param1;
-    g_Sound_Cutscene_StreamState.field18_0x48 = 0;
+    g_Sound_Cutscene_StreamState.VolFadeStepsRemaining = 0;
     if( g_Sound_Cutscene_StreamState.VoicesInUseFlags != 0 )
     {
         SetVoiceVolume( g_Sound_Cutscene_StreamState.VoiceIndex, (u32) ((s32) (g_Sound_Cutscene_StreamState.Volume << 15) >> 16), 0U, 0U );
@@ -129,8 +129,8 @@ void Sound_Cmd_E5_FadeOutCutscene( FSoundCommandParams* in_Params )
     {
         var_a1 = (u16)in_Params->Param1;
     }
-    g_Sound_Cutscene_StreamState.field17_0x44 = (s16) ((s16) (in_Params->Param2 - g_Sound_Cutscene_StreamState.Volume) / (s16) var_a1);
-    g_Sound_Cutscene_StreamState.field18_0x48 = (s16) var_a1;
+    g_Sound_Cutscene_StreamState.VolFadeStepSize = (s16) ((s16) (in_Params->Param2 - g_Sound_Cutscene_StreamState.Volume) / (s16) var_a1);
+    g_Sound_Cutscene_StreamState.VolFadeStepsRemaining = (s16) var_a1;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -138,7 +138,7 @@ u32 Sound_Cutscene_AdvancePage( u32* in_pStreamPageIndex )
 {
     g_Sound_Cutscene_StreamState.PageIndex++;
     (*in_pStreamPageIndex)++;
-    if( ( g_Sound_Cutscene_StreamState.TotalPageCount - 1 ) < *in_pStreamPageIndex )
+    if( ( g_Sound_Cutscene_StreamState.PageRingBufferSize - 1 ) < *in_pStreamPageIndex )
     {
         *in_pStreamPageIndex = 0;
     }
@@ -148,15 +148,15 @@ u32 Sound_Cutscene_AdvancePage( u32* in_pStreamPageIndex )
 //----------------------------------------------------------------------------------------------------------------------
 void func_8004AF50( s32, s32 );
 
-void Sound_Cutscene_StartStream( void )
+void Sound_Cutscene_StartStream()
 {
-    s32 voiceIndex;
+    s32 VoiceIndex;
     FAkaoHeader* pAkaoHeader;
-    s32 volume;
-    s32 page;
+    s32 Volume;
+    s32 Page;
 
-    voiceIndex = Sound_Cutscene_FindFreeVoicePair();
-    if( voiceIndex == -1 )
+    VoiceIndex = Sound_Cutscene_FindFreeVoicePair();
+    if( VoiceIndex == -1 )
     {
         return;
     }
@@ -164,25 +164,25 @@ void Sound_Cutscene_StartStream( void )
     SpuSetIRQ( SPU_OFF );
     SpuSetIRQCallback( NULL );
 
-    pAkaoHeader = &g_Sound_Cutscene_StreamState.field11_0x2c->AkaoHeader;
+    pAkaoHeader = &g_Sound_Cutscene_StreamState.pStreamBase->AkaoHeader;
 
     if( pAkaoHeader->unk_0x28 != 0 )
     {
-        if( g_Sound_Cutscene_StreamState.field18_0x48 == 0 )
+        if( g_Sound_Cutscene_StreamState.VolFadeStepsRemaining == 0 )
         {
-            volume = g_Sound_Cutscene_StreamState.Volume;
+            Volume = g_Sound_Cutscene_StreamState.Volume;
             g_Sound_Cutscene_StreamState.Volume = 0;
-            func_8004AF50( pAkaoHeader->unk_0x28, volume >> 8 );
+            func_8004AF50( pAkaoHeader->unk_0x28, Volume >> 8 );
         }
     }
 
-    g_Sound_Cutscene_StreamState.pCurrentChunk = g_Sound_Cutscene_StreamState.field11_0x2c;
-    g_Sound_Cutscene_StreamState.ChannelFlags = pAkaoHeader->TotalPages;
-    page = pAkaoHeader->CurrentPage;
-    g_Sound_Cutscene_StreamState.VoiceIndex = voiceIndex;
-    g_Sound_Cutscene_StreamState.VoicesInUseFlags = ( 1 << voiceIndex ) | ( 1 << ( voiceIndex + 1 ) );
+    g_Sound_Cutscene_StreamState.pCurrentChunk = g_Sound_Cutscene_StreamState.pStreamBase;
+    g_Sound_Cutscene_StreamState.TotalPages = pAkaoHeader->TotalPages;
+    Page = pAkaoHeader->CurrentPage;
+    g_Sound_Cutscene_StreamState.VoiceIndex = VoiceIndex;
+    g_Sound_Cutscene_StreamState.VoicesInUseFlags = ( 1 << VoiceIndex ) | ( 1 << ( VoiceIndex + 1 ) );
     g_Sound_Cutscene_StreamState.StreamPageIndex = 0;
-    g_Sound_Cutscene_StreamState.CurrentPage = page;
+    g_Sound_Cutscene_StreamState.CurrentPage = Page;
 
     SetVoiceRepeatAddr( g_Sound_Cutscene_StreamState.VoiceIndex, 0x1030 );
     SetVoiceRepeatAddr( g_Sound_Cutscene_StreamState.VoiceIndex + 1, 0x1030 );
@@ -191,19 +191,19 @@ void Sound_Cutscene_StartStream( void )
     g_Sound_Cutscene_StreamState.field2_0x8 = pAkaoHeader->unk_0x18;
     g_Sound_Cutscene_StreamState.VoiceSampleRate = pAkaoHeader->SampleRate;
     SpuSetTransferMode( SPU_TRANSFER_BY_DMA );
-    SpuSetTransferStartAddr( 0xF100 );
+    SpuSetTransferStartAddr( SOUND_CUTSCENE_BUFFER_A_L );
 
     g_bSpuTransferring = 1;
     SpuSetTransferCallback( Sound_Cutscene_OnInitialTransferComplete );
 
-    SpuWrite( g_Sound_Cutscene_StreamState.pCurrentChunk->AudioData, 0x2000 );
+    SpuWrite( g_Sound_Cutscene_StreamState.pCurrentChunk->AudioData, SOUND_CUTSCENE_INITIAL_TRANSFER_SIZE );
     Sound_Cutscene_AdvancePage( &g_Sound_Cutscene_StreamState.StreamPageIndex );
     Sound_Cutscene_AdvancePage( &g_Sound_Cutscene_StreamState.StreamPageIndex );
 
     g_Sound_VoiceSchedulerState.ReverbVoiceFlags &= ~g_Sound_Cutscene_StreamState.VoicesInUseFlags;
     g_Sound_VoiceSchedulerState.FmVoiceFlags &= ~g_Sound_Cutscene_StreamState.VoicesInUseFlags;
     g_Sound_VoiceSchedulerState.NoiseVoiceFlags &= ~g_Sound_Cutscene_StreamState.VoicesInUseFlags;
-    g_Sound_GlobalFlags.UpdateFlags |= 0x100;
+    g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_08;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -216,7 +216,7 @@ void Sound_Cutscene_BeginPlayback( s32 in_SomeIndex, u32 in_SampleAddr, SpuIRQCa
     {
         SpuSetTransferCallback( NULL );
         g_bSpuTransferring = false;
-        if( (u32)g_Sound_Cutscene_StreamState.ChannelFlags >= 0xE61U )
+        if( (u32)g_Sound_Cutscene_StreamState.TotalPages >= 0xE61U )
         {
             g_Sound_Cutscene_StreamState.pCurrentChunk = (FSoundCutsceneStreamData*)&g_Sound_Cutscene_StreamState.pCurrentChunk->unk_0x00[ in_SomeIndex ];
             SpuSetIRQCallback( in_Callback );
@@ -235,9 +235,9 @@ void Sound_Cutscene_BeginPlayback( s32 in_SomeIndex, u32 in_SampleAddr, SpuIRQCa
 //----------------------------------------------------------------------------------------------------------------------
 void Sound_Cutscene_OnInitialTransferComplete()
 {
-    Sound_Cutscene_InitVoice( g_Sound_Cutscene_StreamState.VoiceIndex, 1, 0xF100, 0x10100 );
-    Sound_Cutscene_InitVoice( g_Sound_Cutscene_StreamState.VoiceIndex + 1, 2, 0xF900, 0x10900 );
-    Sound_Cutscene_BeginPlayback( 0x2000, 0x10100, Sound_Cutscene_OnBufferAComplete );
+    Sound_Cutscene_InitVoice( g_Sound_Cutscene_StreamState.VoiceIndex, 1, SOUND_CUTSCENE_BUFFER_A_L, SOUND_CUTSCENE_BUFFER_B_L );
+    Sound_Cutscene_InitVoice( g_Sound_Cutscene_StreamState.VoiceIndex + 1, 2, SOUND_CUTSCENE_BUFFER_A_R, SOUND_CUTSCENE_BUFFER_B_R );
+    Sound_Cutscene_BeginPlayback( SOUND_CUTSCENE_INITIAL_TRANSFER_SIZE, SOUND_CUTSCENE_BUFFER_B_L, Sound_Cutscene_OnBufferAComplete );
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -283,7 +283,7 @@ u32 Sound_Cutscene_LoadNextBuffer( u32 in_RepeatAddressL, u32 in_RepeatAddressR,
 
         if( g_Sound_Cutscene_StreamState.StreamPageIndex == 0 )
         {
-            g_Sound_Cutscene_StreamState.pCurrentChunk = g_Sound_Cutscene_StreamState.field11_0x2c;
+            g_Sound_Cutscene_StreamState.pCurrentChunk = g_Sound_Cutscene_StreamState.pStreamBase;
         }
     }
     else
@@ -306,13 +306,13 @@ u32 Sound_Cutscene_LoadNextBuffer( u32 in_RepeatAddressL, u32 in_RepeatAddressR,
 //----------------------------------------------------------------------------------------------------------------------
 void Sound_Cutscene_OnBufferAComplete()
 {
-    Sound_Cutscene_LoadNextBuffer( 0xF100U, 0xF900U, 0x1000, Sound_Cutscene_OnBufferBComplete );
+    Sound_Cutscene_LoadNextBuffer( SOUND_CUTSCENE_BUFFER_A_L, SOUND_CUTSCENE_BUFFER_A_R, SOUND_CUTSCENE_BUFFER_SIZE, Sound_Cutscene_OnBufferBComplete );
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 void Sound_Cutscene_OnBufferBComplete()
 {
-    Sound_Cutscene_LoadNextBuffer( 0x10100U, 0x10900U, 0x1000, Sound_Cutscene_OnBufferAComplete );
+    Sound_Cutscene_LoadNextBuffer( SOUND_CUTSCENE_BUFFER_B_L, SOUND_CUTSCENE_BUFFER_B_R, SOUND_CUTSCENE_BUFFER_SIZE, Sound_Cutscene_OnBufferAComplete );
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -325,7 +325,7 @@ void Sound_Cmd_E8_80056308( FSoundCommandParams* in_Params )
     g_Sound_Cutscene_StreamState.PageIndex = 0;
     g_Sound_Cutscene_StreamState.field14_0x38 = 0;
     g_Sound_Cutscene_StreamState.field2_0x8 = 0x01000000;
-    g_Sound_Cutscene_StreamState.TotalPageCount = (u32)g_Sound_Vm2Params.Param2 >> 0xC;
-    g_Sound_Cutscene_StreamState.field11_0x2c = (FSoundCutsceneStreamData*)in_Params->Param1;
+    g_Sound_Cutscene_StreamState.PageRingBufferSize = (u32)g_Sound_Vm2Params.Param2 >> 0xC;
+    g_Sound_Cutscene_StreamState.pStreamBase = (FSoundCutsceneStreamData*)in_Params->Param1;
     g_Sound_Cutscene_StreamState.field12_0x30 = in_Params->Param2;
 }
