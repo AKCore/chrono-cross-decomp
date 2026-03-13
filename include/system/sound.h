@@ -8,7 +8,8 @@
 #define SOUND_CHANNEL_COUNT 0x20
 #define SOUND_LFO_COUNT     (0x10)
 
-#define SOUND_SFX_CHANNEL_COUNT (12)
+#define SOUND_SFX_CHANNEL_START_INDEX (12) // Starting voice in th SPU from which SFX can be assigned
+#define SOUND_SFX_CHANNEL_COUNT       (12) // Number of FSoundChannels assigned to SFX
 
 #define MUSIC_ID_ANY (0)
 
@@ -318,8 +319,8 @@ typedef struct
     /* 0x07A */ s16  Length1;
     /* 0x07C */ s16  Length2;
     /* 0x07E */ u16  InstrumentIndex;
-    /* 0x080 */ u16  field41_0x80;
-    /* 0x082 */ s16  field42_0x82;
+    /* 0x080 */ u16  D_Value;
+    /* 0x082 */ s16  D_StepsRemaining;
     /* 0x084 */ u16  OpcodeStepCounter;
     /* 0x086 */ u16  LoopIterationCount[SOUND_LOOP_STACK_SIZE];
     /* 0x08E */ s16  LoopStepCounterSnapshot[SOUND_LOOP_STACK_SIZE];

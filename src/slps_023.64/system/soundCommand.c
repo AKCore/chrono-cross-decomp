@@ -267,7 +267,31 @@ INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_A2_800
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_A3_80050170);
 
 //----------------------------------------------------------------------------------------------------------------------
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_AA_800502E8);
+void Sound_Cmd_AA_800502E8( FSoundCommandParams* in_Params )
+{
+    s32 Mask;
+    s32 ActiveChannelMask;
+    u32 Index;
+    FSoundChannel* pChannel;
+
+    Mask = 1 << SOUND_SFX_CHANNEL_START_INDEX;
+    ActiveChannelMask = g_Sound_VoiceSchedulerState.ActiveChannelMask;
+    pChannel = SfxSoundChannels;
+
+    Index = 0;
+    while( Index < SOUND_SFX_CHANNEL_COUNT )
+    {
+        if( ( ActiveChannelMask & Mask ) && !( pChannel->unk_Flags & ( 1 << 25 ) ) )
+        {
+            pChannel->D_Value = (u8)in_Params->Param1 << 8;
+            pChannel->D_StepsRemaining = 0;
+            pChannel->VoiceParams.VoiceParamFlags |= 3;
+        }
+        Index++;
+        pChannel++;
+        Mask <<= 1;
+    } ;
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_AB_80050360);
