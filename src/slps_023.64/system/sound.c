@@ -907,7 +907,7 @@ void func_8004CA1C(FSoundChannel* in_pChannel )
     {
         BaseVolume = var_a3 + in_pChannel->TremeloVolume;
 
-        if( !(in_pChannel->unk_Flags & 0x02000000) )
+        if( !(in_pChannel->unk_Flags & SOUND_CHANNEL_UNK_FLAGS_25) )
         {
             int Temp;
             
@@ -942,7 +942,7 @@ void func_8004CA1C(FSoundChannel* in_pChannel )
     {
         var_a1 = *((u16*)in_pChannel - 0x6) + in_pChannel->VibratoPitch + (in_pChannel->PitchSlide >> 16);
         temp_a0_4 = in_pChannel->E_Value & 0xFF00;
-        if (!(in_pChannel->unk_Flags & 0x02000000))
+        if (!(in_pChannel->unk_Flags & SOUND_CHANNEL_UNK_FLAGS_25))
         {
             temp_a0_5 = temp_a0_4 >> 8;
             if (temp_a0_4 != 0)
@@ -964,7 +964,7 @@ void func_8004CA1C(FSoundChannel* in_pChannel )
     {
         var_a1_2 = in_pChannel->PitchBase + in_pChannel->VibratoPitch + (in_pChannel->PitchSlide >> 16);
         temp_a0_6 = in_pChannel->E_Value & 0xFF00;
-        if (!(in_pChannel->unk_Flags & 0x02000000))
+        if (!(in_pChannel->unk_Flags & SOUND_CHANNEL_UNK_FLAGS_25))
         {
             temp_a0_7 = temp_a0_6 >> 8;
             if (temp_a0_6 != 0)

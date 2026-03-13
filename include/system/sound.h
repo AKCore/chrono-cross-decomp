@@ -76,6 +76,9 @@
 #define SOUND_UPDATE_UNKNOWN_28       ( 1 << 28 )
 
 
+#define SOUND_CHANNEL_UNK_FLAGS_25 (1 << 25)
+
+
 #define SOUND_GLOBAL_UPDATE_00              ( 1 <<  0 )
 #define SOUND_GLOBAL_UPDATE_01              ( 1 <<  1 )
 #define SOUND_GLOBAL_UPDATE_02              ( 1 <<  2 )
@@ -303,8 +306,8 @@ typedef struct
     /* 0x048 */ u32  AutoPanRatePhase;
     /* 0x04C */ s32  AutoPanRateSlideStep;
     /* 0x050 */ s32  field23_0x50;
-    /* 0x054 */ u32  E_Value;
-    /* 0x058 */ u8   field26_0x58;
+    /* 0x054 */ u32  E_SampleRate_Value;
+    /* 0x058 */ u8   E_SampleRate_Step;
     /* 0x059 */ u8   field27_0x59;
     /* 0x05A */ u8   field28_0x5a;
     /* 0x05B */ u8   field29_0x5b;
@@ -319,14 +322,14 @@ typedef struct
     /* 0x07A */ s16  Length1;
     /* 0x07C */ s16  Length2;
     /* 0x07E */ u16  InstrumentIndex;
-    /* 0x080 */ u16  D_Value;
-    /* 0x082 */ s16  D_StepsRemaining;
+    /* 0x080 */ u16  D_Volume_Value;
+    /* 0x082 */ s16  D_Volume_StepsRemaining;
     /* 0x084 */ u16  OpcodeStepCounter;
     /* 0x086 */ u16  LoopIterationCount[SOUND_LOOP_STACK_SIZE];
     /* 0x08E */ s16  LoopStepCounterSnapshot[SOUND_LOOP_STACK_SIZE];
     /* 0x096 */ u16  VolumeBalance; /* Volume is set by "volume << 8" */
     /* 0x098 */ u16  VolumeBalanceSlideLength;
-    /* 0x09A */ s16  E_StepsRemaining;
+    /* 0x09A */ s16  E_SampleRate_StepsRemaining;
     /* 0x09C */ u16  ChannelVolumeSlideLength;
     /* 0x09E */ u16  KeyOnVolumeSlideLength;
     /* 0x0A0 */ s16  C_StepsRemaining;
@@ -368,7 +371,7 @@ typedef struct
     /* 0x0E8 */ s16  LengthStored;
     /* 0x0EA */ u16  LengthFixed;
     /* 0x0EC */ s16  VolumeBalanceSlideStep;
-    /* 0x0EE */ s16  D_Step;
+    /* 0x0EE */ s16  D_Volume_Step;
     /* 0x0F0 */ u16  C_Value;
     /* 0x0F2 */ s16  C_Step;
     /* 0x0F4 */ s16  PanSlideStep;

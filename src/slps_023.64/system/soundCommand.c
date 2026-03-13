@@ -267,6 +267,8 @@ INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_A2_800
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_A3_80050170);
 
 //----------------------------------------------------------------------------------------------------------------------
+// Sets volume on all active SFX voices IF flag 1 << 25 isn't set - currently unknown
+// Hints that D is a timer for SFX Volume
 void Sound_Cmd_AA_800502E8( FSoundCommandParams* in_Params )
 {
     s32 Mask;
@@ -281,11 +283,11 @@ void Sound_Cmd_AA_800502E8( FSoundCommandParams* in_Params )
     Index = 0;
     while( Index < SOUND_SFX_CHANNEL_COUNT )
     {
-        if( ( ActiveChannelMask & Mask ) && !( pChannel->unk_Flags & ( 1 << 25 ) ) )
+        if( ( ActiveChannelMask & Mask ) && !( pChannel->unk_Flags & SOUND_CHANNEL_UNK_FLAGS_25 ) )
         {
-            pChannel->D_Value = (u8)in_Params->Param1 << 8;
-            pChannel->D_StepsRemaining = 0;
-            pChannel->VoiceParams.VoiceParamFlags |= 3;
+            pChannel->D_Volume_Value = (u8)in_Params->Param1 << 8;
+            pChannel->D_Volume_StepsRemaining = 0;
+            pChannel->VoiceParams.VoiceParamFlags |= VOICE_PARAM_VOLUME;
         }
         Index++;
         pChannel++;
@@ -303,6 +305,8 @@ INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_A4_800
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_A5_80050504);
 
 //----------------------------------------------------------------------------------------------------------------------
+// Sets sample rate on all active SFX voices IF flag 1 << 25 isn't set - currently unknown
+// Hints that E is a timer for SFX sample rate
 void Sound_Cmd_AC_8005068C( FSoundCommandParams* in_Params )
 {
     s32 ChannelIndex;
@@ -312,10 +316,10 @@ void Sound_Cmd_AC_8005068C( FSoundCommandParams* in_Params )
     pChannel = SfxSoundChannels;
 
     do {
-        if( !( pChannel->unk_Flags & (1 << 25) ) )
+        if( !( pChannel->unk_Flags & SOUND_CHANNEL_UNK_FLAGS_25 ) )
         {
-            pChannel->E_Value = (u8)in_Params->Param1 << 8;
-            pChannel->E_StepsRemaining = 0;
+            pChannel->E_SampleRate_Value = (u8)in_Params->Param1 << 8;
+            pChannel->E_SampleRate_StepsRemaining = 0;
             pChannel->VoiceParams.VoiceParamFlags |= VOICE_PARAM_SAMPLE_RATE;
         }
         ChannelIndex--;

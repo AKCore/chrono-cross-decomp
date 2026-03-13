@@ -635,8 +635,8 @@ void func_8004E7D8( FSoundChannel* in_pChannel, FSoundCommandParams* in_pCommand
     in_pChannel->Type = 1;
     in_pChannel->C_StepsRemaining = 0;
     in_pChannel->Priority = -2;
-    in_pChannel->E_Value = 0;
-    in_pChannel->E_StepsRemaining = 0;
+    in_pChannel->E_SampleRate_Value = 0;
+    in_pChannel->E_SampleRate_StepsRemaining = 0;
     in_pChannel->C_Value = (in_pCommandParams->Param4 & 0x7F) << 8;
 
     Sound_ResetChannel(in_pChannel, in_ProgramCounter);
@@ -658,7 +658,7 @@ void func_8004E7D8( FSoundChannel* in_pChannel, FSoundCommandParams* in_pCommand
         pChannel = SfxSoundChannels;
         Mask = 0xC;
         do {
-            if( (g_Sound_VoiceSchedulerState.ActiveChannelMask & Flag) && !(pChannel->unk_Flags & 0x02000000) )
+            if( (g_Sound_VoiceSchedulerState.ActiveChannelMask & Flag) && !(pChannel->unk_Flags & SOUND_CHANNEL_UNK_FLAGS_25) )
             {
                 g_Sound_VoiceSchedulerState.ActiveChannelMask &= ~Flag;
                 g_Sound_VoiceSchedulerState.unk_Flags_0x10 |= Flag;
