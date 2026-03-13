@@ -107,7 +107,7 @@ void Sound_ReconcileSavedMusicVoices()
 #endif
 
 //----------------------------------------------------------------------------------------------------------------------
-// Completely unused in the codebase - modifies a struct, but I'm unaware of what struct exactly
+// Completely unused in the codebase - modifies a struct, but I'm unaware of what struct exactly (this is a pure guess...)
 s32 func_8004DED8( FSoundChannelConfig* in_pStruct )
 {
     s32 count;
@@ -863,6 +863,9 @@ void Sound_MarkScheduledSfxChannelsVolumeDirty()
 #ifndef NON_MATCHING
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/sound2", Sound_SetMusicSequence);
 #else
+extern s32 D_80094FAC[];
+extern s32 D_80094FFC;
+
 void Sound_SetMusicSequence( FAkaoSequence* in_Sequence, s32 in_SwapWithSavedState )
 {
     FAkaoSequence* PrevSequence;
@@ -870,7 +873,6 @@ void Sound_SetMusicSequence( FAkaoSequence* in_Sequence, s32 in_SwapWithSavedSta
     u32 Delta;
     u32 Mask;
     u32 Flags;
-    u32 ActiveChannelMask;
     u32 PrevActiveChannelMask;
     u32 VoiceMask;
     u32 VoicesToKeyOff;
@@ -878,13 +880,13 @@ void Sound_SetMusicSequence( FAkaoSequence* in_Sequence, s32 in_SwapWithSavedSta
 
     if (in_SwapWithSavedState == 0)
     {
-        memcpy32(&g_PushedMusicConfig, g_pActiveMusicConfig, 0x80U);
-        memcpy32(g_PushedMusicChannels, g_ActiveMusicChannels, 0x2480U);
+        memcpy32((s32*)&g_PushedMusicConfig, (s32*)g_pActiveMusicConfig, 0x80U);
+        memcpy32((s32*)g_PushedMusicChannels, (s32*)g_ActiveMusicChannels, 0x2480U);
     }
     else
     {
-        memswap32(&g_PushedMusicConfig, g_pActiveMusicConfig, 0x80U);
-        memswap32(g_PushedMusicChannels, g_ActiveMusicChannels, 0x2480U);
+        memswap32((s32*)&g_PushedMusicConfig, (s32*)g_pActiveMusicConfig, 0x80U);
+        memswap32((s32*)g_PushedMusicChannels, (s32*)g_ActiveMusicChannels, 0x2480U);
     }
     pChannel = g_ActiveMusicChannels;
     Flags = 0x20;
@@ -895,13 +897,13 @@ void Sound_SetMusicSequence( FAkaoSequence* in_Sequence, s32 in_SwapWithSavedSta
     g_pActiveMusicConfig->StatusFlags &= ~0x30;
     Delta = (u32)in_Sequence - (u32)PrevSequence;
     g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_07;
-    ActiveChannelMask = g_pActiveMusicConfig->ActiveChannelMask;
     g_pActiveMusicConfig->SequencePatchTable += Delta;
     g_pActiveMusicConfig->KeymapTable += Delta;
     g_pActiveMusicConfig->PendingKeyOnMask = g_pActiveMusicConfig->ActiveNoteMask;
+    VoiceMask = g_pActiveMusicConfig->ActiveChannelMask;
    
     while (Flags != 0) {
-        if( ActiveChannelMask & Mask )
+        if( VoiceMask & Mask )
         {
             pChannel->ProgramCounter += Delta;
             pChannel->Keymap += Delta;
@@ -934,7 +936,7 @@ void Sound_SetMusicSequence( FAkaoSequence* in_Sequence, s32 in_SwapWithSavedSta
     {
         VoiceMask = 0;
     }
-    
+
     g_PushedMusicConfig.MusicId = 0;
     g_pActiveMusicConfig->PendingKeyOffMask = 0;
 
