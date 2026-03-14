@@ -185,8 +185,8 @@ void Sound_Setup()
         pChannel->Priority = 0;
         pChannel->C_Value = 0x7F00;
         pChannel->C_StepsRemaining = 0;
-        pChannel->E_StepsRemaining = 0;
-        pChannel->E_Value = 0;
+        pChannel->E_SampleRate_StepsRemaining = 0;
+        pChannel->E_SampleRate_Value = 0;
         pChannel->KeyOnVolumeSlideLength = 0;
         pChannel++;
     };

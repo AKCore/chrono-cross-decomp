@@ -627,9 +627,9 @@ void func_8004E7D8( FSoundChannel* in_pChannel, FSoundCommandParams* in_pCommand
     in_pChannel->field23_0x50 = in_pCommandParams->Param1;
     in_pChannel->unk_Flags = in_pCommandParams->Param2;
     in_pChannel->ChannelPan = 0x8000;
-    in_pChannel->field42_0x82 = 0;
+    in_pChannel->D_Volume_StepsRemaining = 0;
     in_pChannel->ChannelPanSlideLength = 0;
-    in_pChannel->field41_0x80 = in_pCommandParams->Param3 << 8;
+    in_pChannel->D_Volume_Value = in_pCommandParams->Param3 << 8;
     in_pChannel->Length1 = 2;
     in_pChannel->Length2 = 1;
     in_pChannel->Type = 1;
