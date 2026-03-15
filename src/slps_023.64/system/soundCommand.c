@@ -417,7 +417,46 @@ void Sound_Cmd_A2_80050090( FSoundCommandParams* in_Params )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_A3_80050170);
+void Sound_Cmd_A3_80050170( FSoundCommandParams* in_Param )
+{
+    u32 ChannelIndex;
+    FSoundChannel* pChannel = g_SfxSoundChannels;
+    s32 ActiveChannelMask = g_Sound_VoiceSchedulerState.ActiveChannelMask;
+    s32 CurrentChannelMask = 1 << SOUND_SFX_CHANNEL_START_INDEX;
+
+    if( in_Param->Param2 != 0 )
+    {
+        ChannelIndex = 0; 
+        while( ChannelIndex < SOUND_SFX_CHANNEL_COUNT )
+        {
+            if( ( ActiveChannelMask & CurrentChannelMask ) && ( pChannel->unk_Flags & in_Param->Param2 ) )
+            {
+                s16 Length = in_Param->Param3 != 0 ? in_Param->Param3 : 1;
+                pChannel->D_Volume_Step = (short)( ( ( (u8)in_Param->Param4 ) << 8 ) - pChannel->D_Volume_Value ) / Length;
+                pChannel->D_Volume_StepsRemaining = Length;
+            }
+            ChannelIndex++;
+            pChannel++;
+            CurrentChannelMask <<= 1;
+        }
+    }
+    else
+    {
+        ChannelIndex = 0; 
+        while( ChannelIndex < SOUND_SFX_CHANNEL_COUNT )
+        {
+            if( ( ActiveChannelMask & CurrentChannelMask ) && ( pChannel->field23_0x50 == in_Param->Param1 ) )
+            {
+                s16 Length = in_Param->Param3 != 0 ? in_Param->Param3 : 1;
+                pChannel->D_Volume_Step = (short)( ( ( (u8)in_Param->Param4 ) << 8 ) - pChannel->D_Volume_Value ) / Length;
+                pChannel->D_Volume_StepsRemaining = Length;
+            }
+            ChannelIndex++;
+            pChannel++;
+            CurrentChannelMask <<= 1;
+        }
+    }
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 // Sets volume on all active SFX voices IF flag 1 << 25 isn't set - currently unknown
