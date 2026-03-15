@@ -45,6 +45,7 @@ TODO_HEADER = """\
 #   > Description line                — synced issue body (top-level only)
 #   [c] @user — Comment               — create a new comment
 #   [#c987654321] @user — Comment     — sync existing comment
+#   >> continuation line               — multi-line comment body
 #
 # Tokens in [...] before the title can appear in any order.
 # Indented lines and list items sync title/labels/state only (no body or comments).
@@ -267,7 +268,8 @@ class ParsedIssueLine:
 class ParsedCommentLine:
     raw: str
     line_no: int
-    comment_marker: object  # "new" | int
+    end_line_no: int         # last line (== line_no if single-line)
+    comment_marker: object   # "new" | int
     author: Optional[str]
     text: str
 
@@ -371,6 +373,7 @@ def _parse_comment_line(raw: str, line_no: int) -> Optional[ParsedCommentLine]:
     return ParsedCommentLine(
         raw=raw,
         line_no=line_no,
+        end_line_no=line_no,
         comment_marker=comment_marker,
         author=author,
         text=text,
@@ -441,6 +444,23 @@ class ParsedDocument:
                 if parsed_c:
                     current_block.comment_lines.append(parsed_c)
                     i += 1
+
+                    # Greedily consume >> continuation lines
+                    cont_parts = [parsed_c.text]
+                    while i < n:
+                        cont_raw = lines[i].rstrip("\n")
+                        if cont_raw.startswith(">> "):
+                            cont_parts.append(cont_raw[3:])
+                            parsed_c.end_line_no = i
+                            i += 1
+                        elif cont_raw.rstrip() == ">>":
+                            cont_parts.append("")
+                            parsed_c.end_line_no = i
+                            i += 1
+                        else:
+                            break
+                    parsed_c.text = "\n".join(cont_parts)
+
                     continue
 
             # ── Everything else is local-only; leave it alone ─────────────
@@ -470,14 +490,26 @@ def render_issue_line(
     return f"{indent}{tokens} {title}\n" if title else f"{indent}{tokens}\n"
 
 
-def render_comment_line(
+def render_comment_lines(
     comment_marker: object,
     author: Optional[str],
     text: str,
-) -> str:
+) -> list[str]:
+    """Render a comment as one or more lines.
+
+    Single-line:   [#c123] @user — text
+    Multi-line:    [#c123] @user — first line
+                   >> second line
+                   >>
+                   >> fourth line
+    """
     marker = f"[#c{comment_marker}]" if isinstance(comment_marker, int) else "[c]"
     author_part = f"@{author} — " if author else ""
-    return f"{marker} {author_part}{text}\n"
+    lines = text.split("\n") if "\n" in text else [text]
+    result = [f"{marker} {author_part}{lines[0]}\n"]
+    for cont in lines[1:]:
+        result.append(f">> {cont}\n" if cont else ">>\n")
+    return result
 
 
 def body_to_desc_lines(body: str) -> list[str]:
@@ -810,7 +842,7 @@ def cmd_pull(doc: ParsedDocument, cfg: Config, gh: GitHub, path: Path) -> None:
             if match is None:
                 warn(f"Comment #{c.comment_marker} no longer exists on GitHub.")
                 continue
-            rw.replace(c.line_no, render_comment_line(
+            rw.replace_range(c.line_no, c.end_line_no + 1, render_comment_lines(
                 c.comment_marker,
                 match["user"]["login"],
                 match["body"],
@@ -819,10 +851,10 @@ def cmd_pull(doc: ParsedDocument, cfg: Config, gh: GitHub, path: Path) -> None:
         # Append new remote comments not yet tracked locally
         new_remote = [r for r in remote_comments if r["id"] not in local_comment_ids]
         if new_remote:
-            # Find the line to insert after: last comment line, or last desc line,
+            # Find the line to insert after: last comment line (end), or last desc line,
             # or the issue line itself — whichever is latest.
             if block.comment_lines:
-                insert_after = block.comment_lines[-1].line_no
+                insert_after = block.comment_lines[-1].end_line_no
             elif block.desc_line_nos:
                 insert_after = block.desc_line_nos[-1]
             else:
@@ -830,7 +862,7 @@ def cmd_pull(doc: ParsedDocument, cfg: Config, gh: GitHub, path: Path) -> None:
 
             lines_to_add = []
             for r in new_remote:
-                lines_to_add.append(render_comment_line(
+                lines_to_add.extend(render_comment_lines(
                     r["id"], r["user"]["login"], r["body"]
                 ))
                 new_comments += 1
@@ -875,7 +907,7 @@ def cmd_pull(doc: ParsedDocument, cfg: Config, gh: GitHub, path: Path) -> None:
                     warn(f"Could not fetch comments for #{number}: {e.message}")
                     remote_comments = []
                 for rc in remote_comments:
-                    append_lines.append(render_comment_line(
+                    append_lines.extend(render_comment_lines(
                         rc["id"], rc["user"]["login"], rc["body"]
                     ))
                     new_comments += 1
@@ -965,7 +997,7 @@ def cmd_push(doc: ParsedDocument, cfg: Config, gh: GitHub, path: Path) -> None:
                     continue
                 comment_id = remote_c["id"]
                 print(f"    Created comment #{comment_id} on #{actual_number}")
-                rw.replace(c.line_no, render_comment_line(
+                rw.replace_range(c.line_no, c.end_line_no + 1, render_comment_lines(
                     comment_id, gh.username, c.text
                 ))
 

@@ -805,7 +805,7 @@ void Sound_Cmd_9D_80050DD4( FSoundCommandParams* in_Params )
     s32 CurrentChannelMask;
     s32 VoiceIndex;
     s32 ActiveChannelMask;
-    u_int ChannelIndex;
+    u32 ChannelIndex;
 
     if( g_Sound_VoiceSchedulerState.ActiveChannelMask != 0 )
     {
@@ -907,10 +907,80 @@ void Sound_Cmd_9E_80051000( FSoundCommandParams* in_Params )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_AE_80051094);
+void Sound_Cmd_AE_80051094( FSoundCommandParams* in_Params )
+{
+    FSoundChannel* pChannel;
+    s32* C_Values;
+    u16 C_Value;
+    u32 ChannelIndex;
+
+    ChannelIndex = 0;
+    C_Values = &D_80090A00;
+    pChannel = g_SfxSoundChannels;
+
+    while( ChannelIndex < SOUND_SFX_CHANNEL_COUNT )
+    {
+        C_Value = pChannel->C_Value;
+        *C_Values = (s32)( C_Value << 0x10 ) >> 0x18;
+        pChannel++;
+        C_Values++;
+        ChannelIndex++;
+    };
+
+    in_Params->Param2 = 0;
+    Sound_Cmd_A9_8004FFC8( in_Params );
+
+    if( g_Sound_VoiceSchedulerState.ActiveChannelMask != 0 )
+    {
+        g_Sound_GlobalFlags.ControlLatches |= 0x10000;
+    }
+}
 
 //----------------------------------------------------------------------------------------------------------------------
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_AF_80051110);
+void Sound_Cmd_AF_80051110( FSoundCommandParams* in_Params )
+{
+    FSoundChannel* pChannel;
+    s32 CurrentChannelMask;
+    u16 Length;
+    s32* C_Value;
+    u32 Latches;
+    u32 ChannelIndex;
+    s32 ActiveChannelMask;
+    
+    Latches = g_Sound_GlobalFlags.ControlLatches & 0xFFFEFFFF;
+    g_Sound_GlobalFlags.ControlLatches = Latches;
+
+    if( g_Sound_VoiceSchedulerState.unk_Flags_0x10 != 0 )
+    {
+        g_Sound_GlobalFlags.ControlLatches = Latches & 0xFFFEFFFF;
+        Sound_Cmd_9C_80050EF0( in_Params );
+
+        CurrentChannelMask = 1 << SOUND_SFX_CHANNEL_START_INDEX;
+        pChannel = g_SfxSoundChannels;
+        ActiveChannelMask = g_Sound_VoiceSchedulerState.ActiveChannelMask;
+        Length = 1;
+        if( in_Params->Param1 != 0 )
+        {
+            Length = (u16)in_Params->Param1;
+        }
+
+        ChannelIndex = 0;
+
+        while( ChannelIndex < SOUND_SFX_CHANNEL_COUNT )
+        {
+            C_Value = &((s32*)D_80090A00)[ ChannelIndex ];
+            if( ( ActiveChannelMask & CurrentChannelMask ) && !( pChannel->unk_Flags & 0x02000000 ) )
+            {
+                pChannel->C_Step = (s16)( (s16)( ( *C_Value << 8 ) + 0x80 ) / (s16)Length );
+                pChannel->C_Value = 0;
+                pChannel->C_StepsRemaining = (s16)Length;
+            }
+            ChannelIndex++;
+            pChannel++;
+            CurrentChannelMask <<= 1;
+        } ;
+    }
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 void Sound_Cmd_XX_Null( FSoundCommandParams* in_Params ) {}

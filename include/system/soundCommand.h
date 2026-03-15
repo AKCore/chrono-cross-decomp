@@ -8,6 +8,7 @@
 #define SOUND_COMMAND_UNK_F1 ( 0xF1U )
 
 // TODO(jperos): What this is
+extern s32 D_80090A00[0x20];
 extern s32 g_Sound_UnkFlags_80092AFC ;
 extern s32 D_80094FFC;
 
