@@ -699,7 +699,17 @@ void Sound_Cmd_80_80050B34( FSoundCommandParams* in_Params )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_81_80050B94);
+void Sound_Cmd_81_80050B94( FSoundCommandParams* in_Params )
+{
+    g_Sound_GlobalFlags.MixBehavior = 1 << 1;
+    Sound_MarkActiveChannelsVolumeDirty( g_pActiveMusicConfig, g_ActiveMusicChannels );
+    if( g_pSavedMousicConfig != NULL )
+    {
+        Sound_MarkActiveChannelsVolumeDirty(
+            g_pSavedMousicConfig, g_pSecondaryMusicChannels );
+    }
+    Sound_MarkScheduledSfxChannelsVolumeDirty();
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_90_FlagAllChannelsUpdateVolume);
