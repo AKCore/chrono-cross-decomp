@@ -65,7 +65,6 @@ typedef struct FSoundCutsceneStreamState
     /* 0x50 */ s32 field23_0x50;
     /* 0x54 */ s32 field24_0x54;
     /* 0x58 */ s32 VoiceSampleRate;
-    /* 0x5C */ s32 ControlFlags;
 } FSoundCutsceneStreamState; /* size 0x60 */
 
 void Sound_Cutscene_StopStream();

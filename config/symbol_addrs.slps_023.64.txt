@@ -755,7 +755,7 @@ g_Sound_LfoPhase               = 0x80094F84;
 g_Sound_MasterPitchScaleQ16_16 = 0x80094F88;
 g_Sound_TempoMultiplier        = 0x80094F8C;
 g_Sound_GlobalFlags            = 0x80094F90; // type:FSoundGlobalFlags size:0xC
-g_Sound_Cutscene_StreamState   = 0x80094FA0; // type:FSoundCutsceneStreamState  size:0x60
+g_Sound_Cutscene_StreamState   = 0x80094FA0; // type:FSoundCutsceneStreamState  size:0x5C
 g_Sound_VoiceChannelConfigs    = 0x80095000;
 g_Sound_VoiceModeFlags         = 0x80095070; // type:FSoundVoiceModeFlags size:0xC
 

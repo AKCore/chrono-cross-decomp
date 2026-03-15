@@ -711,16 +711,13 @@ void Sound_Cmd_81_80050B94( FSoundCommandParams* in_Params )
     Sound_MarkScheduledSfxChannelsVolumeDirty();
 }
 
-// TODO(jperos): What this is
-extern s32 D_80092AFC;
-
 //----------------------------------------------------------------------------------------------------------------------
 void Sound_Cmd_90_FlagAllChannelsUpdateVolume( FSoundCommandParams* in_Params )
 {
     u32 ChannelIndex;
     FSoundChannel* pChannel;
 
-    D_80092AFC = in_Params->Param1;
+    g_Sound_UnkFlags_80092AFC = in_Params->Param1;
 
     ChannelIndex = 0;
     pChannel = g_ActiveMusicChannels; 
@@ -733,12 +730,12 @@ void Sound_Cmd_90_FlagAllChannelsUpdateVolume( FSoundCommandParams* in_Params )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_92_80050C34);
+void Sound_Cmd_92_80050C34( FSoundCommandParams* in_Params )
+{
+    g_pActiveMusicConfig->JumpThresholdValue = in_Params->Param1;
+}
 
 //----------------------------------------------------------------------------------------------------------------------
-#ifndef NON_MATCHING
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_9B_ConsumeChannelModeFlagsAndSanitizeFreeVoices);
-#else
 void Sound_Cmd_9B_ConsumeChannelModeFlagsAndSanitizeFreeVoices( FSoundCommandParams* in_Params )
 {
     s32 Index;
@@ -771,12 +768,35 @@ void Sound_Cmd_9B_ConsumeChannelModeFlagsAndSanitizeFreeVoices( FSoundCommandPar
         g_pActiveMusicConfig->LastChannelModeFlags = g_pActiveMusicConfig->ActiveChannelMask;
         g_pActiveMusicConfig->ActiveChannelMask = 0;
     }
-    g_Sound_Cutscene_StreamState.ControlFlags |= 1 << 0;
+    D_80094FFC |= 1 << 0;
 }
-#endif
 
 //----------------------------------------------------------------------------------------------------------------------
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_9A_80050D38);
+void Sound_Cmd_9A_80050D38( FSoundCommandParams* in_Params )
+{
+    if( g_pActiveMusicConfig->LastChannelModeFlags != 0 )
+    {
+        FSoundChannel* c = g_ActiveMusicChannels;
+        int var_a2 = g_pActiveMusicConfig->LastChannelModeFlags;
+        int var_a1 = 1;
+        u_int temp_v1;
+        do {
+            if( var_a2 & var_a1 )
+            {
+                var_a2 &= ~var_a1;
+                c->VoiceParams.VoiceParamFlags |= 0x2B13;
+            }
+            var_a1 *= 2;
+            ++c;
+        } while( var_a2 != 0 );
+
+        temp_v1 = g_pActiveMusicConfig->LastChannelModeFlags;
+        g_pActiveMusicConfig->LastChannelModeFlags = 0;
+        g_pActiveMusicConfig->ActiveChannelMask = temp_v1;
+        g_Sound_GlobalFlags.UpdateFlags |= 0x100;
+    }
+    D_80094FFC &= ~1;
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_9D_80050DD4);
