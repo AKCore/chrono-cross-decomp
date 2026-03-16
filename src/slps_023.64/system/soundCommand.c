@@ -69,7 +69,41 @@ void Sound_Cmd_19_SetMusicLevelImmediate( FSoundCommandParams* in_Params )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_1A_StartMasterAndMusicVolumeFade);
+void Sound_Cmd_1A_StartMasterAndMusicVolumeFade( FSoundCommandParams* in_Params )
+{
+    if( ( g_PushedMusicConfig.MusicId != 0 )
+        && ( g_PushedMusicConfig.MusicId == in_Params->Param3 ) )
+    {
+        Sound_SetMusicSequence( (FAkaoSequence*)in_Params->Param1, 1 );
+        g_pSavedMousicConfig = &g_PushedMusicConfig;
+        g_pSecondaryMusicChannels = g_PushedMusicChannels;
+    }
+    else
+    {
+        if( ( g_pActiveMusicConfig->ActiveChannelMask != 0 )
+            && ( ( g_pSavedMousicConfig == NULL ) || ( g_pSavedMousicConfig->MusicId == MUSIC_ID_ANY ) ) )
+        {
+            g_pSavedMousicConfig = &g_PushedMusicConfig;
+            g_pSecondaryMusicChannels = g_PushedMusicChannels;
+            memcpy32( (s32*)g_pActiveMusicConfig, (s32*)&g_PushedMusicConfig, sizeof(FSoundChannelConfig) );
+            memcpy32( (s32*)g_ActiveMusicChannels, (s32*)g_pSecondaryMusicChannels, sizeof(FSoundChannel) * SOUND_CHANNEL_COUNT );
+        }
+        Sound_LoadAkaoSequence( (FAkaoSequence*)in_Params->Param1, -1 );
+        g_pActiveMusicConfig->MusicId = in_Params->Param3;
+    }
+    if( g_pSavedMousicConfig != NULL )
+    {
+        s32 Length = in_Params->ExtParam1;
+        g_Sound_MasterFadeTimer.Value = 0x7F8000;
+        g_Sound_MasterFadeTimer.TicksRemaining = Length;
+        g_Sound_MasterFadeTimer.Step = (s32)0xFF808000 / Length;
+        g_Sound_GlobalFlags.MixBehavior |= 1 << 8;
+    }
+    g_pActiveMusicConfig->A_Volume = 0;
+    g_pActiveMusicConfig->A_StepsRemaining = in_Params->ExtParam1;
+    g_pActiveMusicConfig->A_Step = ( ( (in_Params->ExtParam2 & 0x7F ) | 0x8000) << 0x10 ) / in_Params->ExtParam1;
+    Sound_ReconcileSavedMusicVoices();
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 void Sound_Cmd_12_8004f3c4( FSoundCommandParams* in_Params )
