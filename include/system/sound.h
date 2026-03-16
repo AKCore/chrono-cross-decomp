@@ -596,7 +596,7 @@ void Sound_Cmd_14_StartBattleMusic( FSoundCommandParams* in_Params );
 void Sound_Cmd_40_PushMusicState( FSoundCommandParams* in_Params );
 void Sound_Cmd_19_SetMusicLevelImmediate( FSoundCommandParams* in_Params );
 void Sound_Cmd_1A_StartMasterAndMusicVolumeFade( FSoundCommandParams* in_Params );
-void Sound_Cmd_12_8004f3c4( FSoundCommandParams* in_Params );
+void Sound_Cmd_12_PlayFieldMusicLooped( FSoundCommandParams* in_Params );
 void Sound_Cmd_34_8004F404( FSoundCommandParams* in_Params );
 void Sound_Cmd_30_8004F450( FSoundCommandParams* in_Params );
 void Sound_Cmd_20_8004F518( FSoundCommandParams* in_Params );

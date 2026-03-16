@@ -400,15 +400,16 @@ IsSpuTransferring = 0x8004ABFC;
 
 //----------------------------------------------------------------------------------------------------------------------
 // Sound Hardware
-InitSound                    = 0x80049F1C;
-TeardownSound                = 0x80049F3C;
-Sound_BindAkaoSfxBlob        = 0x80049F5C;
-Sound_StartFieldMusic        = 0x80049FBC;
-Sound_Unk_80050FE4           = 0x80049FE4;
-Sound_StartBattleMusic       = 0x8004A00C;
-Sound_PushMusicState         = 0x8004A03C;
-Sound_SetMusicLevelImmediate = 0x8004A07C;
-Sound_StartMasterAndMusicVolumeFade                = 0x8004A0B0;
+InitSound                           = 0x80049F1C;
+TeardownSound                       = 0x80049F3C;
+Sound_BindAkaoSfxBlob               = 0x80049F5C;
+Sound_StartFieldMusic               = 0x80049FBC;
+Sound_Unk_80050FE4                  = 0x80049FE4;
+Sound_StartBattleMusic              = 0x8004A00C;
+Sound_PushMusicState                = 0x8004A03C;
+Sound_SetMusicLevelImmediate        = 0x8004A07C;
+Sound_StartMasterAndMusicVolumeFade = 0x8004A0B0;
+Sound_StartFieldMusicLooped         = 0x8004A0E8;
 
 //----------------------------------------------------------------------------------------------------------------------
 // LibSpu
@@ -511,7 +512,7 @@ Sound_Cmd_14_StartBattleMusic                             = 0x8004F008;
 Sound_Cmd_40_PushMusicState                               = 0x8004F088;
 Sound_Cmd_19_SetMusicLevelImmediate                       = 0x8004F130;
 Sound_Cmd_1A_StartMasterAndMusicVolumeFade                = 0x8004F1F8;
-Sound_Cmd_12_8004f3c4                                     = 0x8004F3C4;
+Sound_Cmd_12_PlayFieldMusicLooped                                     = 0x8004F3C4;
 Sound_Cmd_34_8004F404	                                  = 0x8004F404;
 Sound_Cmd_30_8004F450	                                  = 0x8004F450;
 Sound_Cmd_20_8004F518                                     = 0x8004F518;

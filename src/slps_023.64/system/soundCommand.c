@@ -106,7 +106,7 @@ void Sound_Cmd_1A_StartMasterAndMusicVolumeFade( FSoundCommandParams* in_Params 
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Sound_Cmd_12_8004f3c4( FSoundCommandParams* in_Params )
+void Sound_Cmd_12_PlayFieldMusicLooped( FSoundCommandParams* in_Params )
 {
     u32 LoopCounter;
 

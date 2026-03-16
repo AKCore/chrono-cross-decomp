@@ -98,14 +98,24 @@ void Sound_StartMasterAndMusicVolumeFade( u32 arg0, u32 arg1, s32 arg2 )
     Sound_ExecuteSoundVm2Function( SOUND_CMD_1A_START_MASTER_AND_MUSIC_VOLUME_FADE );
 }
 
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004A0E8);
+//----------------------------------------------------------------------------------------------------------------------
+void Sound_StartFieldMusicLooped( u32 arg0, u32 arg1 )
+{
+    g_Sound_Vm2Params.Param1 = arg0;
+    g_Sound_Vm2Params.Param2 = arg1;
+    Sound_ExecuteSoundVm2Function( SOUND_CMD_12_START_FIELD_MUSIC_LOOPED );
+}
 
+//----------------------------------------------------------------------------------------------------------------------
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004A118);
 
+//----------------------------------------------------------------------------------------------------------------------
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004A168);
 
+//----------------------------------------------------------------------------------------------------------------------
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004A1F8);
 
+//----------------------------------------------------------------------------------------------------------------------
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004A234);
 
 //----------------------------------------------------------------------------------------------------------------------
