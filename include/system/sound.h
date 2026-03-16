@@ -521,6 +521,10 @@ typedef struct
 // Sound API - IDK I'm just picking names right now....
 s32 InitSound();
 bool Sound_BindAkaoSfxBlob( FAkaoFileBlob* in_Blob );
+void Sound_StartFieldMusic( u32 in_Unk );
+void func_80049FE4( u32 arg0 );
+void Sound_StartBattleMusic( u32 arg0, u32 arg1 );
+void Sound_PushMusicState();
 
 // SPU management
 void Sound_CopyAndRelocateInstruments( FSoundInstrumentInfo* in_A, FSoundInstrumentInfo* in_B, s32 in_AddrOffset, s32 in_Count);

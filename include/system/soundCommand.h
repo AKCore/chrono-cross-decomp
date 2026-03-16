@@ -3,9 +3,11 @@
 
 #include "common.h"
 
-#define SOUND_COMMAND_UNK_10 ( 0x10U )
+#define SOUND_CMD_10_START_FIELD_MUSIC ( 0x10U )
 #define SOUND_COMMAND_UNK_11 ( 0x11U )
+#define SOUND_CMD_14_START_BATTLE_MUSIC ( 0x14U )
 #define SOUND_COMMAND_UNK_30 ( 0x30U )
+#define SOUND_CMD_40_PUSH_MUSIC_STATE ( 0x40U )
 #define SOUND_COMMAND_UNK_F0 ( 0xF0U )
 #define SOUND_COMMAND_UNK_F1 ( 0xF1U )
 

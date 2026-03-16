@@ -43,24 +43,32 @@ bool Sound_BindAkaoSfxBlob( FAkaoFileBlob* in_Blob )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void func_80049FBC( u32 in_Unk )
+void Sound_StartFieldMusic( u32 in_Unk )
 {
     g_Sound_Vm2Params.Param1 = in_Unk;
-    Sound_ExecuteSoundVm2Function( SOUND_COMMAND_UNK_10 );
+    Sound_ExecuteSoundVm2Function( SOUND_CMD_10_START_FIELD_MUSIC );
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void func_80049FE4( u32 arg0 )
+void Sound_Unk_80050FE4( u32 arg0 )
 {
     g_Sound_Vm2Params.Param1 = arg0;
     Sound_ExecuteSoundVm2Function( SOUND_COMMAND_UNK_11 );
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004A00C);
+void Sound_StartBattleMusic( u32 arg0, u32 arg1 )
+{
+    g_Sound_Vm2Params.Param1 = arg0;
+    g_Sound_Vm2Params.Param2 = arg1;
+    Sound_ExecuteSoundVm2Function( SOUND_CMD_14_START_BATTLE_MUSIC );
+}
 
 //----------------------------------------------------------------------------------------------------------------------
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004A03C);
+void Sound_PushMusicState()
+{
+    Sound_ExecuteSoundVm2Function( SOUND_CMD_40_PUSH_MUSIC_STATE );
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 // TODO(jperos): This should be easy enough to name if I can remember what saved/pushed configs do
