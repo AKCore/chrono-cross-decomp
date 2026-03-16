@@ -647,7 +647,7 @@ void Sound_Cmd_AE_80051094( FSoundCommandParams* in_Params );
 void Sound_Cmd_AF_80051110( FSoundCommandParams* in_Params );
 void Sound_Cmd_XX_Null( FSoundCommandParams* in_Params );
 void Sound_SetReverbMode( s32 in_ReverbMode );
-u32 Sound_ExecuteSoundVm2Function( u32 in_FunctionIndex );
+void* Sound_ExecuteSoundVm2Function( u32 in_FunctionIndex );
 
 // Sound 3
 void UpdateCdVolume();

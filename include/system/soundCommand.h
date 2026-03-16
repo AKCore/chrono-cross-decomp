@@ -11,7 +11,7 @@
 #define SOUND_CMD_20_UNK                                ( 0x20U )
 #define SOUND_CMD_21_EVICT_SFX_VOICE                    ( 0x21U )
 #define SOUND_CMD_24_UNK                                ( 0x24U )
-#define SOUND_COMMAND_UNK_30                            ( 0x30U )
+#define SOUND_CMD_30_UNK                                ( 0x30U )
 #define SOUND_CMD_40_PUSH_MUSIC_STATE                   ( 0x40U )
 #define SOUND_CMD_1A_START_MASTER_AND_MUSIC_VOLUME_FADE ( 0x1AU )
 #define SOUND_COMMAND_UNK_F0                            ( 0xF0U )

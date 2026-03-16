@@ -144,7 +144,11 @@ void Sound_EvictSfx( u32 arg0, s32 arg1 )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004A234);
+void* func_8004A234( s32 in_VoiceIndex )
+{
+    g_Sound_Vm2Params.Param1 = in_VoiceIndex & 0x3FF;
+    return Sound_ExecuteSoundVm2Function( SOUND_CMD_30_UNK );
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 s32 func_8004A260()
@@ -179,6 +183,7 @@ s32 func_8004A260()
     return out_UnkFlags & 0xFFFFFF;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004A2C8);
 
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004A334);
