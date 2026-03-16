@@ -97,7 +97,7 @@ void Sound_Cmd_1A_StartMasterAndMusicVolumeFade( FSoundCommandParams* in_Params 
         g_Sound_MasterFadeTimer.Value = 0x7F8000;
         g_Sound_MasterFadeTimer.TicksRemaining = Length;
         g_Sound_MasterFadeTimer.Step = (s32)0xFF808000 / Length;
-        g_Sound_GlobalFlags.MixBehavior |= 1 << 8;
+        g_Sound_GlobalFlags.MixBehavior |= MIX_FLAG_MASTER_FADING;
     }
     g_pActiveMusicConfig->A_Volume = 0;
     g_pActiveMusicConfig->A_StepsRemaining = in_Params->ExtParam1;

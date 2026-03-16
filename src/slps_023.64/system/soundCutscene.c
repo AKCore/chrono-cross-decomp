@@ -58,7 +58,7 @@ void Sound_Cutscene_InitVoice( u32 in_Voice, s32 in_PanMode, u32 in_StartAddr, u
     s16 VolR;
     s16 VolL;
 
-    if( g_Sound_GlobalFlags.MixBehavior & 2 )
+    if( g_Sound_GlobalFlags.MixBehavior & MIX_MODE_MONO )
     {
         s16 Volume = ( g_Sound_Cutscene_StreamState.Volume * g_Sound_StereoPanGainTableQ15[PAN_CENTER_INDEX] ) >> 0x10;
         VolR = Volume;

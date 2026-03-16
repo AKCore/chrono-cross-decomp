@@ -724,7 +724,7 @@ void func_8004C5A4(FSoundChannel* in_pChannel)
         panIndex = tmp32 & 0xFF;
 
         /* if global mix behavior forces center/mono-ish path */
-        if( g_Sound_GlobalFlags.MixBehavior & 0x2 )
+        if( g_Sound_GlobalFlags.MixBehavior & MIX_MODE_MONO )
         {
             stmp16 = baseAmp * g_Sound_StereoPanGainTableQ15[0x80] >> 15;
 
@@ -923,7 +923,7 @@ void func_8004CA1C(FSoundChannel* in_pChannel )
             Index = 0x80;
         }
 
-        if( g_Sound_GlobalFlags.MixBehavior & 2 )
+        if( g_Sound_GlobalFlags.MixBehavior & MIX_MODE_MONO )
         {
             temp_v0_5 = (BaseVolume * g_Sound_StereoPanGainTableQ15[0x80]) >> 15;
             in_pChannel->VoiceParams.Volume.right = temp_v0_5;
@@ -1286,7 +1286,7 @@ block_3:
 block_4:
     if( g_pSavedMusicConfig )
     {
-        if( g_Sound_GlobalFlags.MixBehavior & 0x100 )
+        if( g_Sound_GlobalFlags.MixBehavior & MIX_FLAG_MASTER_FADING )
         {
             Sound_ApplyMasterFadeToChannelVolume( g_pSavedMusicConfig );
         }
@@ -1330,7 +1330,7 @@ block_4:
             func_8004CFC4( g_ActiveMusicChannels, var_s3, temp_s2_2, &KeyOnFlags );
             g_pActiveMusicConfig->PendingKeyOnMask = 0;
         }
-        if( g_Sound_GlobalFlags.MixBehavior & 0x100 )
+        if( g_Sound_GlobalFlags.MixBehavior & MIX_FLAG_MASTER_FADING )
         {
             Sound_RestoreChannelVolumeFromMasterFade( g_pSavedMusicConfig );
         }
