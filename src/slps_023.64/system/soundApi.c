@@ -252,7 +252,28 @@ s32 Sound_SetUnkVoiceSchedulerFlags( s32 in_Mode )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004A3B4);
+// TODO(jperos): Find an appropriate public header for this
+// this is the public API for the private command
+typedef enum ESpeakerMode
+{
+    SPEAKER_MODE_STEREO,
+    SPEAKER_MODE_MONO
+} ESpeakerMode;
+
+void Sound_SetSpeakerMode( s32 in_Mode )
+{
+    u32 OpCode = in_Mode;
+
+    if( OpCode == SPEAKER_MODE_MONO )
+    {
+        OpCode = SOUND_CMD_81_SET_MODE_MONO;
+    }
+    else
+    {
+        OpCode = SOUND_CMD_80_SET_MODE_STEREO;
+    }
+    Sound_ExecuteSoundVm2Function( OpCode );
+}
 
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004A3E8);
 

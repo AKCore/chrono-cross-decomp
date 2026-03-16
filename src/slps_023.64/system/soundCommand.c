@@ -765,9 +765,9 @@ void Sound_Cmd_F1_80050A58( FSoundCommandParams* in_Params )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Sound_Cmd_80_80050B34( FSoundCommandParams* in_Params )
+void Sound_Cmd_80_SetModeStereo( FSoundCommandParams* in_Params )
 {
-    g_Sound_GlobalFlags.MixBehavior = 1 << 0;
+    g_Sound_GlobalFlags.MixBehavior = MIX_MODE_STEREO;
     Sound_MarkActiveChannelsVolumeDirty( g_pActiveMusicConfig, g_ActiveMusicChannels );
     if( g_pSavedMusicConfig != NULL )
     {
@@ -777,9 +777,9 @@ void Sound_Cmd_80_80050B34( FSoundCommandParams* in_Params )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Sound_Cmd_81_80050B94( FSoundCommandParams* in_Params )
+void Sound_Cmd_81_SetModeMono( FSoundCommandParams* in_Params )
 {
-    g_Sound_GlobalFlags.MixBehavior = 1 << 1;
+    g_Sound_GlobalFlags.MixBehavior = MIX_MODE_MONO;
     Sound_MarkActiveChannelsVolumeDirty( g_pActiveMusicConfig, g_ActiveMusicChannels );
     if( g_pSavedMusicConfig != NULL )
     {

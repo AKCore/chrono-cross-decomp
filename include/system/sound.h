@@ -189,10 +189,20 @@ typedef struct FAkaoFileBlob
     /* 0x810 */ u8   ProgramData[1];           // Sfx bytecode
 } FAkaoFileBlob;
 
+// This is very strange because this seems to be an enum stored in FSoundGlobalFlags::MixBehavior
+// But it mixes an enum for the low 2 bits with a flag at bit 8.
+// Maybe they are both u8?
+typedef enum EMixMode
+{
+    MIX_MODE_STEREO = 1,
+    MIX_MODE_MONO   = 2
+} EMixMode;
+#define MIX_FLAG_MASTER_FADING  (1 << 8)
+
 typedef struct
 {
     u32 ControlLatches;   // one-shot / transactional engine state flags
-    u32 MixBehavior;      // global mixing & music-stack behavior flags
+    u32 MixBehavior;      // global mixing & music-stack behavior flags (see EMixMode's note)
     u32 UpdateFlags;      // deferred SPU / voice-mode update flags
 } FSoundGlobalFlags;
 
@@ -341,7 +351,7 @@ typedef struct
     /* 0x0B2 */ s16  VibratoDelay;
     /* 0x0B4 */ u16  VibratoDelayCurrent;
     /* 0x0B6 */ u16  VibratoRateSlideLength;
-    /* 0x0B8 */ u16  field72_0xb8;
+    /* 0x0B8 */ u16  VibratoRateCurrent;
     /* 0x0BA */ u16  VibratoType;
     /* 0x0BC */ u16  VibratoBase;
     /* 0x0BE */ u16  VibratoDepth;
@@ -350,7 +360,7 @@ typedef struct
     /* 0x0C4 */ s16  TremeloDelay;
     /* 0x0C6 */ u16  TremeloDelayCurrent;
     /* 0x0C8 */ u16  TremeloRateSlideLength;
-    /* 0x0CA */ s16  field81_0xca;
+    /* 0x0CA */ s16  TremeloRateCurrent;
     /* 0x0CC */ u16  TremeloType;
     /* 0x0CE */ u16  TremeloDepth;
     /* 0x0D0 */ u16  TremeloDepthSlideLength;
@@ -634,8 +644,8 @@ void Sound_Cmd_D6_8005092C( FSoundCommandParams* in_Params );
 void Sound_Cmd_F0_StopAllMusic( FSoundCommandParams* in_Params );
 void Sound_Cmd_11_800509F0( FSoundCommandParams* in_Params );
 void Sound_Cmd_F1_80050A58( FSoundCommandParams* in_Params );
-void Sound_Cmd_80_80050B34( FSoundCommandParams* in_Params );
-void Sound_Cmd_81_80050B94( FSoundCommandParams* in_Params );
+void Sound_Cmd_80_SetModeStereo( FSoundCommandParams* in_Params );
+void Sound_Cmd_81_SetModeMono( FSoundCommandParams* in_Params );
 void Sound_Cmd_90_FlagAllChannelsUpdateVolume( FSoundCommandParams* in_Params );
 void Sound_Cmd_92_80050C34( FSoundCommandParams* in_Params );
 void Sound_Cmd_9B_ConsumeChannelModeFlagsAndSanitizeFreeVoices( FSoundCommandParams* in_Params );

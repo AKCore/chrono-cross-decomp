@@ -511,7 +511,7 @@ void SoundVM_B4_Vibrato( FSoundChannel* in_pChannel, u32 in_VoiceFlags )
     in_pChannel->VibratoBase = VibratoBase >> 7;
     in_pChannel->VibratoWave = (s16*)g_Sound_LfoTable[ (u16)in_pChannel->VibratoType ];
     in_pChannel->VibratoDelayCurrent = in_pChannel->VibratoDelay;
-    in_pChannel->field72_0xb8 = 1;
+    in_pChannel->VibratoRateCurrent = 1;
     in_pChannel->VibratoRateSlideLength = 0;
 }
 
@@ -627,7 +627,7 @@ void SoundVM_B8_Tremelo( FSoundChannel* in_pChannel, u32 in_VoiceFlags )
     in_pChannel->TremeloType = *in_pChannel->ProgramCounter++;
     in_pChannel->TremeloWave = g_Sound_LfoTable[ in_pChannel->TremeloType ];
     in_pChannel->TremeloDelayCurrent = in_pChannel->TremeloDelay;
-    in_pChannel->field81_0xca = 1;
+    in_pChannel->TremeloRateCurrent = 1;
     in_pChannel->TremeloRateSlideLength = 0;
 }
 

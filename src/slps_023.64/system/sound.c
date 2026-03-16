@@ -451,7 +451,7 @@ void Sound_UpdateSlidesAndDelays( FSoundChannel* in_pChannel, u32 in_VoiceFlags,
 
         in_pChannel->VibratoBase = var_lo;
         
-        if( (in_pChannel->VibratoDelayCurrent == 0) && (in_pChannel->field72_0xb8 != 1) )
+        if( (in_pChannel->VibratoDelayCurrent == 0) && (in_pChannel->VibratoRateCurrent != 1) )
         {
             Wave = in_pChannel->VibratoWave;
             if( Wave[0] == 0 && Wave[1] == 0 )
@@ -477,7 +477,7 @@ void Sound_UpdateSlidesAndDelays( FSoundChannel* in_pChannel, u32 in_VoiceFlags,
 
         in_pChannel->TremeloDepthSlideLength--;
         in_pChannel->TremeloDepth += (u16) in_pChannel->TremeloDepthSlideStep;
-        if( ((u16) in_pChannel->TremeloDelayCurrent == 0) && ((u16) in_pChannel->field81_0xca != 1) )
+        if( ((u16) in_pChannel->TremeloDelayCurrent == 0) && ((u16) in_pChannel->TremeloRateCurrent != 1) )
         {
             int FinalVolume;
             int TremeloDepthHi8;
@@ -576,15 +576,15 @@ void func_8004C5A4(FSoundChannel* in_pChannel)
         /* if VibratoDelayCurrent != 0, skip stepping */
         if (ch->VibratoDelayCurrent == 0)
         {
-            /* field72_0xb8 is a tick countdown */
-            utmp16 = ch->field72_0xb8;
+            /* VibratoRateCurrent is a tick countdown */
+            utmp16 = ch->VibratoRateCurrent;
             utmp16 = (u16)(utmp16 - 1);
-            ch->field72_0xb8 = utmp16;
+            ch->VibratoRateCurrent = utmp16;
 
             if (utmp16 == 0)
             {
                 /* reload countdown from VibratoRatePhase >> 10 */
-                ch->field72_0xb8 = (u16)(ch->VibratoRatePhase >> 10);
+                ch->VibratoRateCurrent = (u16)(ch->VibratoRatePhase >> 10);
 
                 wave = ch->VibratoWave;
                 if (wave[0] == 0 && wave[1] == 0)
@@ -618,13 +618,13 @@ void func_8004C5A4(FSoundChannel* in_pChannel)
     {
         if (ch->TremeloDelayCurrent == 0)
         {
-            utmp16 = (u16)ch->field81_0xca;
+            utmp16 = (u16)ch->TremeloRateCurrent;
             utmp16 = (u16)(utmp16 - 1);
-            ch->field81_0xca = (s16)utmp16;
+            ch->TremeloRateCurrent = (s16)utmp16;
 
             if (utmp16 == 0)
             {
-                ch->field81_0xca = (s16)(ch->TremeloRatePhase >> 10);
+                ch->TremeloRateCurrent = (s16)(ch->TremeloRatePhase >> 10);
 
                 wave = ch->TremeloWave;
                 if (wave[0] == 0 && wave[1] == 0)
@@ -832,11 +832,11 @@ void func_8004CA1C(FSoundChannel* in_pChannel )
     var_a3 = ((in_pChannel->Volume >> 16) * ((u16)in_pChannel->VolumeBalance >> 8)) >> 7;
     if (UpdateFlags & 1)
     {
-        temp_v0 = in_pChannel->field72_0xb8 - 1;
-        in_pChannel->field72_0xb8 = temp_v0;
+        temp_v0 = in_pChannel->VibratoRateCurrent - 1;
+        in_pChannel->VibratoRateCurrent = temp_v0;
         if (!(temp_v0 & 0xFFFF))
         {
-            in_pChannel->field72_0xb8 = ((u32)in_pChannel->VibratoRatePhase >> 10);
+            in_pChannel->VibratoRateCurrent = ((u32)in_pChannel->VibratoRatePhase >> 10);
             if( (in_pChannel->VibratoWave[0] == 0) && (in_pChannel->VibratoWave[1] == 0) )
             {
                 in_pChannel->VibratoWave += in_pChannel->VibratoWave[2];
@@ -858,11 +858,11 @@ void func_8004CA1C(FSoundChannel* in_pChannel )
     
     if( UpdateFlags & 2 )
     {
-        temp_v0_3 = in_pChannel->field81_0xca - 1;
-        in_pChannel->field81_0xca = temp_v0_3;
+        temp_v0_3 = in_pChannel->TremeloRateCurrent - 1;
+        in_pChannel->TremeloRateCurrent = temp_v0_3;
         if (!(temp_v0_3 & 0xFFFF))
         {
-            in_pChannel->field81_0xca = ((u32)in_pChannel->TremeloRatePhase >> 10);
+            in_pChannel->TremeloRateCurrent = ((u32)in_pChannel->TremeloRatePhase >> 10);
             if( (in_pChannel->TremeloWave[0] == 0) && (in_pChannel->TremeloWave[1] == 0) )
             {
                 in_pChannel->TremeloWave += in_pChannel->TremeloWave[2];

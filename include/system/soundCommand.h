@@ -14,6 +14,8 @@
 #define SOUND_CMD_30_UNK                                ( 0x30U )
 #define SOUND_CMD_40_PUSH_MUSIC_STATE                   ( 0x40U )
 #define SOUND_CMD_1A_START_MASTER_AND_MUSIC_VOLUME_FADE ( 0x1AU )
+#define SOUND_CMD_80_SET_MODE_STEREO                                ( 0x80U )
+#define SOUND_CMD_81_SET_MODE_MONO                                ( 0x81U )
 #define SOUND_COMMAND_UNK_F0                            ( 0xF0U )
 #define SOUND_COMMAND_UNK_F1                            ( 0xF1U )
 
