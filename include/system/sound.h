@@ -759,7 +759,7 @@ void SoundVM_E2_ResetRandomPitchDepth( FSoundChannel* in_pChannel, u32 in_VoiceF
 void SoundVM_FE13_PreventVoicesFromRekeyingOnResume( FSoundChannel* in_pChannel, u32 in_VoiceFlags );
 void SoundVM_XX_Unimplemented( FSoundChannel* in_pChannel, u32 in_VoiceFlags );
 
-void* func_8004A234( s32 in_VoiceIndex );
+void* func_8004A234( s32 in_VoiceIndex ); // TODO(jperos): Returns some sort of Akao file
 
 
 

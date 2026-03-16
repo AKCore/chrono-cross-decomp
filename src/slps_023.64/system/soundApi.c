@@ -117,7 +117,22 @@ void func_8004A118( s32 arg0, s32 arg1, s32 arg2, s32 arg3 )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004A168);
+void* func_8004A168( void* arg0, s32 arg1, s32 arg2, s32 arg3 )
+{
+    if( Sound_IsNotAkaoFile( arg0 ) )
+    {
+        return func_8004A234( 0x18 );
+    }
+    else
+    {
+        g_Sound_Vm2Params.Param1 = (u32)arg0;
+        g_Sound_Vm2Params.Param2 = arg1 & 0xFFFFFF;
+        g_Sound_Vm2Params.Param3 = arg2 & 0xFF;
+        g_Sound_Vm2Params.Param4 = arg3 & 0x7F;
+        Sound_ExecuteSoundVm2Function( SOUND_CMD_24_UNK );
+        return arg0;
+    }
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004A1F8);
