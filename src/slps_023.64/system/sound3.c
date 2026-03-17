@@ -62,7 +62,6 @@ extern s16 D_800919C0;
 extern s16 D_800919C2;
 extern s32 g_Sound_LfoPhase;
 extern s32 g_Sound_TempoMultiplier;
-extern FSoundCutsceneStreamState g_Sound_Cutscene_StreamState;
 
 void func_80051F7C(void) {
     s32 nextValue;
@@ -110,8 +109,6 @@ void func_80051F7C(void) {
         g_Sound_MasterPitchScaleQ16_16 = nextValue;
     }
     
-    g_pActiveMusicContext = g_pActiveMusicContext;
-    
     if (g_pActiveMusicContext->ActiveChannelMask != 0) {
         if (g_pActiveMusicContext->MasterVolumeStepsRemaining != 0) {
             --g_pActiveMusicContext->MasterVolumeStepsRemaining;
@@ -131,8 +128,6 @@ void func_80051F7C(void) {
         }
     }
     
-    g_pSuspendedMusicContext = g_pSuspendedMusicContext;
-    
     if ((g_pSuspendedMusicContext != NULL) && (g_pSuspendedMusicContext->ActiveChannelMask != 0)) {
         if (g_pSuspendedMusicContext->MasterVolumeStepsRemaining != 0) {
             --g_pSuspendedMusicContext->MasterVolumeStepsRemaining;
@@ -151,7 +146,6 @@ void func_80051F7C(void) {
             g_pSuspendedMusicContext->MasterPanOffset = nextValue;
         }
     }
-    
     
     if (g_Sound_SfxState.ActiveVoiceMask != 0) {
         u32 voiceMask = g_Sound_SfxState.ActiveVoiceMask;
