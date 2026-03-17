@@ -116,7 +116,7 @@ void Sound_Setup()
     g_PrimaryMusicConfig.MusicId = 0;
     g_Sound_VoiceSchedulerState.unk_Flags_0x10 = 0;
     g_PrimaryMusicConfig.LastChannelModeFlags = 0;
-    g_Sound_VoiceSchedulerState.unk_Flags_0x2C = 0;
+    g_Sound_VoiceSchedulerState.TempoMultiplier = 0;
     g_PushedMusicConfig.MusicId = 0;
     g_PushedMusicConfig.ActiveChannelMask = 0;
     g_PrimaryMusicConfig.A_Volume = 0x7F0000;
@@ -195,8 +195,8 @@ void Sound_Setup()
     g_pActiveMusicConfig->PendingKeyOffMask = 0;
     g_pActiveMusicConfig->ActiveNoteMask = 0;
     g_pActiveMusicConfig->PendingKeyOnMask = 0;
-    g_Sound_VoiceSchedulerState.TempoAccumumulator = 1;
-    g_Sound_VoiceSchedulerState.field5_0x14 = 0x66A80000;
+    g_Sound_VoiceSchedulerState.TempoAccumulator = 1;
+    g_Sound_VoiceSchedulerState.TempoBase = 0x66A80000;
     g_Sound_VoiceSchedulerState.KeyOffFlags = 0;
     g_Sound_VoiceSchedulerState.KeyedFlags = 0;
     g_Sound_VoiceSchedulerState.KeyOnFlags = 0;

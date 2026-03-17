@@ -264,21 +264,21 @@ typedef struct
 
 typedef struct
 {
-    u32 ActiveChannelMask;
-    u32 KeyOnFlags;
-    u32 KeyedFlags;
-    u32 KeyOffFlags;
-    undefined4 unk_Flags_0x10;
-    undefined4 field5_0x14;
-    undefined4 TempoAccumumulator;
-    undefined4 NoiseVoiceFlags;
-    undefined4 ReverbVoiceFlags;
-    undefined4 FmVoiceFlags;
-    u16 NoiseClock;
-    undefined field11_0x2a;
-    undefined field12_0x2b;
-    undefined4 unk_Flags_0x2C;
-} FSoundVoiceSchedulerState;
+    /* 0x00 */ u32 ActiveChannelMask;
+    /* 0x04 */ u32 KeyOnFlags;
+    /* 0x08 */ u32 KeyedFlags;
+    /* 0x0C */ u32 KeyOffFlags;
+    /* 0x10 */ undefined4 unk_Flags_0x10;
+    /* 0x14 */ undefined4 TempoBase;
+    /* 0x18 */ undefined4 TempoAccumulator;
+    /* 0x1C */ undefined4 NoiseVoiceFlags;
+    /* 0x20 */ undefined4 ReverbVoiceFlags;
+    /* 0x24 */ undefined4 FmVoiceFlags;
+    /* 0x28 */ u16 NoiseClock;
+    /* 0x2A */ undefined field11_0x2a;
+    /* 0x2B */ undefined field12_0x2b;
+    /* 0x2C */ undefined4 TempoMultiplier;
+} FSoundVoiceSchedulerState; /* size 0x30 */
 
 typedef struct
 {

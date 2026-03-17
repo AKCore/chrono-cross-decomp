@@ -226,22 +226,22 @@ s32 Sound_SetUnkVoiceSchedulerFlags( s32 in_Mode )
 {
     u32 flags;
 
-    flags = g_Sound_VoiceSchedulerState.unk_Flags_0x2C & ~( (1 << 0) | (1 << 1) | (1 << 2) | (1 << 3) );
-    g_Sound_VoiceSchedulerState.unk_Flags_0x2C = flags;
+    flags = g_Sound_VoiceSchedulerState.TempoMultiplier & ~( (1 << 0) | (1 << 1) | (1 << 2) | (1 << 3) );
+    g_Sound_VoiceSchedulerState.TempoMultiplier = flags;
 
     switch ( in_Mode )
     {
         case -2:
-            g_Sound_VoiceSchedulerState.unk_Flags_0x2C = flags | (1 << 0);
+            g_Sound_VoiceSchedulerState.TempoMultiplier = flags | (1 << 0);
             break;
         case -1:
-            g_Sound_VoiceSchedulerState.unk_Flags_0x2C = flags | (1 << 1);
+            g_Sound_VoiceSchedulerState.TempoMultiplier = flags | (1 << 1);
             break;
         case 1:
-            g_Sound_VoiceSchedulerState.unk_Flags_0x2C = flags | (1 << 2);
+            g_Sound_VoiceSchedulerState.TempoMultiplier = flags | (1 << 2);
             break;
         case 2:
-            g_Sound_VoiceSchedulerState.unk_Flags_0x2C = flags | (1 << 3);
+            g_Sound_VoiceSchedulerState.TempoMultiplier = flags | (1 << 3);
             break;
         default:
             in_Mode = 0;
