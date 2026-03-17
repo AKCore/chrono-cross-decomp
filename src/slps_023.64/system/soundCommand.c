@@ -287,7 +287,7 @@ void Sound_Cmd_A0_8004FCE4( FSoundCommandParams* in_Params )
 {
     FSoundChannel* pChannel = g_SfxSoundChannels;
     s32 CurrentChannelMask = ( 1 << SOUND_SFX_CHANNEL_START_INDEX);
-    u32 ActiveChannelMask = g_Sound_SfxState.ActiveChannelMask;
+    u32 ActiveChannelMask = g_Sound_SfxState.ActiveVoiceMask;
     u32 ChannelIndex;
 
     if( in_Params->Param2 != 0 )
@@ -329,7 +329,7 @@ void Sound_Cmd_A1_8004FDCC( FSoundCommandParams* in_Params )
 {
     FSoundChannel* pChannel = g_SfxSoundChannels;
     s32 CurrentChannelMask = 1 << SOUND_SFX_CHANNEL_START_INDEX;
-    s32 ActiveChannelMask = g_Sound_SfxState.ActiveChannelMask;
+    s32 ActiveChannelMask = g_Sound_SfxState.ActiveVoiceMask;
     u32 ChannelIndex;
 
     if( in_Params->Param2 != 0 )
@@ -363,7 +363,7 @@ void Sound_Cmd_A8_8004FF4C( FSoundCommandParams* in_Params )
 {
     FSoundChannel* pChannel = g_SfxSoundChannels;
     s32 CurrentChannelMask = 1 << SOUND_SFX_CHANNEL_START_INDEX;
-    s32 ActiveChannelMask = g_Sound_SfxState.ActiveChannelMask;
+    s32 ActiveChannelMask = g_Sound_SfxState.ActiveVoiceMask;
     u32 ChannelIndex;
 
     ChannelIndex = 0; 
@@ -386,7 +386,7 @@ void Sound_Cmd_A9_8004FFC8( FSoundCommandParams* in_Params )
 {
     FSoundChannel* pChannel = g_SfxSoundChannels;
     s32 CurrentChannelMask = 1 << SOUND_SFX_CHANNEL_START_INDEX;
-    u32 ActiveChannelMask = g_Sound_SfxState.ActiveChannelMask;
+    u32 ActiveChannelMask = g_Sound_SfxState.ActiveVoiceMask;
     u32 ChannelIndex = 0;
 
 
@@ -413,7 +413,7 @@ void Sound_Cmd_A2_80050090( FSoundCommandParams* in_Params )
 {
     FSoundChannel* pChannel = g_SfxSoundChannels;
     s32 CurrentChannelMask = 1 << SOUND_SFX_CHANNEL_START_INDEX;
-    u32 ActiveChannelMask = g_Sound_SfxState.ActiveChannelMask;
+    u32 ActiveChannelMask = g_Sound_SfxState.ActiveVoiceMask;
     u32 ChannelIndex;
 
     if( in_Params->Param2 != 0 )
@@ -455,7 +455,7 @@ void Sound_Cmd_A3_80050170( FSoundCommandParams* in_Param )
 {
     u32 ChannelIndex;
     FSoundChannel* pChannel = g_SfxSoundChannels;
-    s32 ActiveChannelMask = g_Sound_SfxState.ActiveChannelMask;
+    s32 ActiveChannelMask = g_Sound_SfxState.ActiveVoiceMask;
     s32 CurrentChannelMask = 1 << SOUND_SFX_CHANNEL_START_INDEX;
 
     if( in_Param->Param2 != 0 )
@@ -499,7 +499,7 @@ void Sound_Cmd_AA_800502E8( FSoundCommandParams* in_Params )
 {
     FSoundChannel* pChannel = g_SfxSoundChannels;
     s32 CurrentChannelMask = 1 << SOUND_SFX_CHANNEL_START_INDEX;
-    u32 ActiveChannelMask = g_Sound_SfxState.ActiveChannelMask;
+    u32 ActiveChannelMask = g_Sound_SfxState.ActiveVoiceMask;
     u32 ChannelIndex = 0;
 
     while( ChannelIndex < SOUND_SFX_CHANNEL_COUNT )
@@ -521,7 +521,7 @@ void Sound_Cmd_AB_80050360( FSoundCommandParams* in_Params )
 {
     FSoundChannel* pChannel = g_SfxSoundChannels;
     s32 CurrentChannelMask = 1 << SOUND_SFX_CHANNEL_START_INDEX;
-    u32 ActiveChannelMask = g_Sound_SfxState.ActiveChannelMask;
+    u32 ActiveChannelMask = g_Sound_SfxState.ActiveVoiceMask;
     u32 ChannelIndex = 0;
 
     while( ChannelIndex < SOUND_SFX_CHANNEL_COUNT )
@@ -547,7 +547,7 @@ void Sound_Cmd_A4_80050424( FSoundCommandParams* in_Params )
 {
     FSoundChannel* pChannel = g_SfxSoundChannels;
     s32 CurrentChannelMask = 1 << SOUND_SFX_CHANNEL_START_INDEX;
-    u32 ActiveChannelMask = g_Sound_SfxState.ActiveChannelMask;
+    u32 ActiveChannelMask = g_Sound_SfxState.ActiveVoiceMask;
     u32 ChannelIndex;
 
     if( in_Params->Param2 != 0 )
@@ -589,7 +589,7 @@ void Sound_Cmd_A5_80050504( FSoundCommandParams* in_Params )
 {
     FSoundChannel* pChannel = g_SfxSoundChannels;
     s32 CurrentChannelMask = 1 << SOUND_SFX_CHANNEL_START_INDEX;
-    s32 ActiveChannelMask = g_Sound_SfxState.ActiveChannelMask;
+    s32 ActiveChannelMask = g_Sound_SfxState.ActiveVoiceMask;
     u32 ChannelIndex;
 
     if( in_Params->Param2 != 0 )
@@ -653,7 +653,7 @@ void Sound_Cmd_AC_8005068C( FSoundCommandParams* in_Params )
 void Sound_Cmd_AD_800506E4( FSoundCommandParams* in_Params )
 {
     s32 CurrentChannelMask  = 1 << SOUND_SFX_CHANNEL_START_INDEX;
-    s32 ActiveChannelMask = g_Sound_SfxState.ActiveChannelMask;
+    s32 ActiveChannelMask = g_Sound_SfxState.ActiveVoiceMask;
     FSoundChannel* pChannel = g_SfxSoundChannels; 
     u32 ChannelIndex;
 
@@ -750,7 +750,7 @@ void Sound_Cmd_F1_80050A58( FSoundCommandParams* in_Params )
 
     while( ChannelIndex < SOUND_SFX_CHANNEL_COUNT )
     {
-        if( ( g_Sound_SfxState.ActiveChannelMask & CurrentChannelMask ) && !( pChannel->unk_Flags & SOUND_CHANNEL_UNK_FLAGS_25 ) )
+        if( ( g_Sound_SfxState.ActiveVoiceMask & CurrentChannelMask ) && !( pChannel->unk_Flags & SOUND_CHANNEL_UNK_FLAGS_25 ) )
         {
             g_Sound_SfxState.KeyOffFlags |= CurrentChannelMask;
             Sound_ClearVoiceFromSchedulerState( pChannel, CurrentChannelMask );
@@ -814,48 +814,48 @@ void Sound_Cmd_92_SetMusicJumpThreshold( FSoundCommandParams* in_Params )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Sound_Cmd_9B_ConsumeChannelModeFlagsAndSanitizeFreeVoices( FSoundCommandParams* in_Params )
+void Sound_Cmd_9B_SuspendMusic( FSoundCommandParams* in_Params )
 {
-    s32 Index;
+    s32 VoiceIndex;
     s32 AllVoiceMask;
     s32 CurrentVoiceMask;
 
     if( g_pActiveMusicContext->ActiveChannelMask != 0 )
     {
-        s32 v0 = ~( g_Sound_SfxState.ActiveChannelMask | g_Sound_Cutscene_StreamState.VoicesInUseFlags );
+        s32 FreeVoiceMask = ~( g_Sound_SfxState.ActiveVoiceMask | g_Sound_Cutscene_StreamState.VoicesInUseFlags );
         CurrentVoiceMask = 1;
-        AllVoiceMask = v0 & 0xFFFFFF;
+        AllVoiceMask = FreeVoiceMask & VOICE_MASK_ALL;
 
         if( AllVoiceMask != 0 )
         {
-            Index = 0;
+            VoiceIndex = 0;
             while( AllVoiceMask != 0 )
             {
                 if( AllVoiceMask & CurrentVoiceMask )
                 {
-                    SetVoiceVolume( Index, 0, 0, 0 );
-                    SetVoiceSampleRate( Index, 0 );
-                    SetVoiceAdsrAttackRateAndMode( Index, 0x7F, 1 );
-                    SetVoiceAdsrSustainRateAndDirection( Index, 0x7F, 3 );
+                    SetVoiceVolume( VoiceIndex, 0, 0, 0 );
+                    SetVoiceSampleRate( VoiceIndex, 0 );
+                    SetVoiceAdsrAttackRateAndMode( VoiceIndex, 0x7F, 1 );
+                    SetVoiceAdsrSustainRateAndDirection( VoiceIndex, 0x7F, 3 );
                     AllVoiceMask &= ~CurrentVoiceMask;
                 }
                 CurrentVoiceMask <<= 1;
-                Index++;
+                VoiceIndex++;
             }
         }
-        g_pActiveMusicContext->LastChannelModeFlags = g_pActiveMusicContext->ActiveChannelMask;
+        g_pActiveMusicContext->SuspendedChannelMask = g_pActiveMusicContext->ActiveChannelMask;
         g_pActiveMusicContext->ActiveChannelMask = 0;
     }
     D_80094FFC |= (1 << 0);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Sound_Cmd_9A_80050D38( FSoundCommandParams* in_Params )
+void Sound_Cmd_9A_RestoreMusic( FSoundCommandParams* in_Params )
 {
-    if( g_pActiveMusicContext->LastChannelModeFlags != 0 )
+    if( g_pActiveMusicContext->SuspendedChannelMask != 0 )
     {
         FSoundChannel* c = g_ActiveMusicChannels;
-        int var_a2 = g_pActiveMusicContext->LastChannelModeFlags;
+        int var_a2 = g_pActiveMusicContext->SuspendedChannelMask;
         int var_a1 = 1;
         u_int temp_v1;
         do {
@@ -868,8 +868,8 @@ void Sound_Cmd_9A_80050D38( FSoundCommandParams* in_Params )
             ++c;
         } while( var_a2 != 0 );
 
-        temp_v1 = g_pActiveMusicContext->LastChannelModeFlags;
-        g_pActiveMusicContext->LastChannelModeFlags = 0;
+        temp_v1 = g_pActiveMusicContext->SuspendedChannelMask;
+        g_pActiveMusicContext->SuspendedChannelMask = 0;
         g_pActiveMusicContext->ActiveChannelMask = temp_v1;
         g_Sound_GlobalFlags.UpdateFlags |= 0x100;
     }
@@ -877,7 +877,7 @@ void Sound_Cmd_9A_80050D38( FSoundCommandParams* in_Params )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Sound_Cmd_9D_80050DD4( FSoundCommandParams* in_Params )
+void Sound_Cmd_9D_SuspendSfx( FSoundCommandParams* in_Params )
 {
     FSoundChannel* pChannel;
     s32 CurrentChannelMask;
@@ -885,9 +885,9 @@ void Sound_Cmd_9D_80050DD4( FSoundCommandParams* in_Params )
     s32 ActiveChannelMask;
     u32 ChannelIndex;
 
-    if( g_Sound_SfxState.ActiveChannelMask != 0 )
+    if( g_Sound_SfxState.ActiveVoiceMask != 0 )
     {
-        ActiveChannelMask = g_Sound_SfxState.ActiveChannelMask;
+        ActiveChannelMask = g_Sound_SfxState.ActiveVoiceMask;
         pChannel = g_SfxSoundChannels;
         CurrentChannelMask = 1 << SOUND_SFX_CHANNEL_START_INDEX;
 
@@ -905,8 +905,8 @@ void Sound_Cmd_9D_80050DD4( FSoundCommandParams* in_Params )
 
         CurrentChannelMask = 1 << SOUND_SFX_CHANNEL_START_INDEX;
         VoiceIndex = SOUND_SFX_CHANNEL_START_INDEX;
-        g_Sound_SfxState.unk_Flags_0x10 = ActiveChannelMask;
-        g_Sound_SfxState.ActiveChannelMask &= ~ActiveChannelMask;
+        g_Sound_SfxState.SuspendedVoiceMask = ActiveChannelMask;
+        g_Sound_SfxState.ActiveVoiceMask &= ~ActiveChannelMask;
 
         while( ActiveChannelMask != 0 )
         {
@@ -926,12 +926,12 @@ void Sound_Cmd_9D_80050DD4( FSoundCommandParams* in_Params )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Sound_Cmd_9C_80050EF0( FSoundCommandParams* in_Params )
+void Sound_Cmd_9C_RestoreSfx( FSoundCommandParams* in_Params )
 {
-    if( g_Sound_SfxState.unk_Flags_0x10 != 0 )
+    if( g_Sound_SfxState.SuspendedVoiceMask != 0 )
     {
         FSoundChannel* pChannel = g_SfxSoundChannels;
-        s32 Flags = g_Sound_SfxState.unk_Flags_0x10;
+        s32 Flags = g_Sound_SfxState.SuspendedVoiceMask;
         s32 CurrentChannelMask = 1 << SOUND_SFX_CHANNEL_START_INDEX;
 
         while( Flags != 0 )
@@ -945,16 +945,16 @@ void Sound_Cmd_9C_80050EF0( FSoundCommandParams* in_Params )
             ++pChannel;
         };
 
-        Flags = g_Sound_SfxState.unk_Flags_0x10;
-        g_Sound_SfxState.unk_Flags_0x10 = 0;
-        g_Sound_SfxState.ActiveChannelMask |= Flags;
+        Flags = g_Sound_SfxState.SuspendedVoiceMask;
+        g_Sound_SfxState.SuspendedVoiceMask = 0;
+        g_Sound_SfxState.ActiveVoiceMask |= Flags;
         g_Sound_GlobalFlags.UpdateFlags |= 0x100;
     }
     D_80094FFC &= ~( 1 << 1 );
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Sound_Cmd_9F_ResetGlobalVoice( FSoundCommandParams* in_Params )
+void Sound_Cmd_9F_SuspendCutsceneAudio( FSoundCommandParams* in_Params )
 {
     if( g_Sound_Cutscene_StreamState.VoicesInUseFlags != 0 )
     {
@@ -967,9 +967,9 @@ void Sound_Cmd_9F_ResetGlobalVoice( FSoundCommandParams* in_Params )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Sound_Cmd_9E_80051000( FSoundCommandParams* in_Params )
+void Sound_Cmd_9E_RestoreCutsceneAudio( FSoundCommandParams* in_Params )
 {
-    s32 unpackedVolume;
+    s32 Volume;
 
     if( g_Sound_Cutscene_StreamState.VoicesInUseFlags != 0 )
     {
@@ -978,9 +978,9 @@ void Sound_Cmd_9E_80051000( FSoundCommandParams* in_Params )
         SetVoiceSampleRate( g_Sound_Cutscene_StreamState.VoiceIndex + 1, g_Sound_Cutscene_StreamState.VoiceSampleRate );
 
         // Unpack in sign extended way
-        unpackedVolume = (s32) (g_Sound_Cutscene_StreamState.Volume << 0xF) >> 0x10;
-        SetVoiceVolume( g_Sound_Cutscene_StreamState.VoiceIndex, unpackedVolume, 0, 0 );
-        SetVoiceVolume( g_Sound_Cutscene_StreamState.VoiceIndex + 1, 0, unpackedVolume, 0 );
+        Volume = (s32) (g_Sound_Cutscene_StreamState.Volume << 0xF) >> 0x10;
+        SetVoiceVolume( g_Sound_Cutscene_StreamState.VoiceIndex, Volume, 0, 0 );
+        SetVoiceVolume( g_Sound_Cutscene_StreamState.VoiceIndex + 1, 0, Volume, 0 );
     }
 }
 
@@ -1008,7 +1008,7 @@ void Sound_Cmd_AE_80051094( FSoundCommandParams* in_Params )
     in_Params->Param2 = 0;
     Sound_Cmd_A9_8004FFC8( in_Params );
 
-    if( g_Sound_SfxState.ActiveChannelMask != 0 )
+    if( g_Sound_SfxState.ActiveVoiceMask != 0 )
     {
         g_Sound_GlobalFlags.ControlLatches |= 0x10000;
     }
@@ -1028,14 +1028,14 @@ void Sound_Cmd_AF_80051110( FSoundCommandParams* in_Params )
     Latches = g_Sound_GlobalFlags.ControlLatches & ~(1 << 16);
     g_Sound_GlobalFlags.ControlLatches = Latches;
 
-    if( g_Sound_SfxState.unk_Flags_0x10 != 0 )
+    if( g_Sound_SfxState.SuspendedVoiceMask != 0 )
     {
         g_Sound_GlobalFlags.ControlLatches = Latches & ~(1 << 16);
-        Sound_Cmd_9C_80050EF0( in_Params );
+        Sound_Cmd_9C_RestoreSfx( in_Params );
 
         CurrentChannelMask = 1 << SOUND_SFX_CHANNEL_START_INDEX;
         pChannel = g_SfxSoundChannels;
-        ActiveChannelMask = g_Sound_SfxState.ActiveChannelMask;
+        ActiveChannelMask = g_Sound_SfxState.ActiveVoiceMask;
         Length = 1;
         if( in_Params->Param1 != 0 )
         {

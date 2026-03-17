@@ -110,12 +110,12 @@ void Sound_Setup()
     g_Sound_LfoPhase = 0;
     g_Sound_GlobalFlags.ControlLatches = 0;
     g_Sound_GlobalFlags.MixBehavior = 1;
-    g_Sound_SfxState.ActiveChannelMask = 0;
+    g_Sound_SfxState.ActiveVoiceMask = 0;
     g_PrimaryMusicContext.ActiveChannelMask = 0;
     g_PrimaryMusicContext.KeyedMask = 0;
     g_PrimaryMusicContext.MusicId = 0;
-    g_Sound_SfxState.unk_Flags_0x10 = 0;
-    g_PrimaryMusicContext.LastChannelModeFlags = 0;
+    g_Sound_SfxState.SuspendedVoiceMask = 0;
+    g_PrimaryMusicContext.SuspendedChannelMask = 0;
     g_Sound_SfxState.TempoMultiplier = 0;
     g_SuspendedMusicContext.MusicId = 0;
     g_SuspendedMusicContext.ActiveChannelMask = 0;

@@ -158,7 +158,7 @@ s32 func_8004A260()
     FSoundChannel *pChannel;
     s32 Mask;
   
-    out_UnkFlags = g_Sound_SfxState.ActiveChannelMask == 0;
+    out_UnkFlags = g_Sound_SfxState.ActiveVoiceMask == 0;
     if( out_UnkFlags )
     {
         return 0;
@@ -171,7 +171,7 @@ s32 func_8004A260()
 
     while( Mask & AllVoiceMask )
     {
-        if( g_Sound_SfxState.ActiveChannelMask & Mask )
+        if( g_Sound_SfxState.ActiveVoiceMask & Mask )
         {
             out_UnkFlags |= pChannel->unk_Flags;
         }
@@ -195,7 +195,7 @@ s32 func_8004A2C8( s32 in_Flags )
         return 0;
     }
 
-    ActiveChannelMask = g_Sound_SfxState.ActiveChannelMask;
+    ActiveChannelMask = g_Sound_SfxState.ActiveVoiceMask;
 
     if( ActiveChannelMask == 0 )
     {
@@ -290,7 +290,26 @@ void Sound_SetMusicJumpThreshold( u32 arg0 )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004A438);
+typedef enum ESoundChannelType
+{
+    ESoundChannelType_Music    = 1,
+    ESoundChannelType_Sfx      = 2,
+    ESoundChannelType_Cutscene = 3,
+} ESoundChannelType;
+void Sound_SuspendChannelsByType( u32 in_ChannelType )
+{
+    s32 OpCode;
+
+    switch( in_ChannelType )
+    {
+        case ESoundChannelType_Music:     OpCode = SOUND_CMD_9B_SUSPEND_MUSIC;          break;
+        case ESoundChannelType_Sfx:       OpCode = SOUND_CMD_9D_SUSPEND_SFX;            break;
+        case ESoundChannelType_Cutscene:  OpCode = SOUND_CMD_9F_SUSPEND_CUTSCENE_AUDIO; break;
+        default: OpCode = SOUND_CMD_99_NULL; break;
+    }
+
+    Sound_ExecuteSoundVm2Function( OpCode );
+}
 
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004A4A4);
 

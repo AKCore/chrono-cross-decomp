@@ -416,6 +416,7 @@ Sound_SetUnkVoiceSchedulerFlags     = 0x8004A334;
 Sound_SetSpeakerMode                = 0x8004A3B4;
 Sound_SetMutedMusicChannelMask      = 0x8004A3E8;
 Sound_SetMusicJumpThreshold         = 0x8004A410;
+Sound_SuspendChannelsByType         = 0x8004A438;
 
 //----------------------------------------------------------------------------------------------------------------------
 // LibSpu
@@ -557,12 +558,12 @@ Sound_Cmd_80_SetModeStereo                                     = 0x80050B34;
 Sound_Cmd_81_SetModeMono                                     = 0x80050B94;
 Sound_Cmd_90_SetMutedMusicChannelMask                  = 0x80050BF4;
 Sound_Cmd_92_SetMusicJumpThreshold                                     = 0x80050C34;
-Sound_Cmd_9B_ConsumeChannelModeFlagsAndSanitizeFreeVoices = 0x80050C48;
-Sound_Cmd_9A_80050D38                                     = 0x80050D38;
-Sound_Cmd_9D_80050DD4                                     = 0x80050DD4;
-Sound_Cmd_9C_80050EF0                                     = 0x80050EF0;
-Sound_Cmd_9F_ResetGlobalVoice                             = 0x80050F84;
-Sound_Cmd_9E_80051000                                     = 0x80051000;
+Sound_Cmd_9B_SuspendMusic = 0x80050C48;
+Sound_Cmd_9A_RestoreMusic                                     = 0x80050D38;
+Sound_Cmd_9D_SuspendSfx                                     = 0x80050DD4;
+Sound_Cmd_9C_RestoreSfx                                     = 0x80050EF0;
+Sound_Cmd_9F_SuspendCutsceneAudio                             = 0x80050F84;
+Sound_Cmd_9E_RestoreCutsceneAudio                                     = 0x80051000;
 Sound_Cmd_AE_80051094                                     = 0x80051094;
 Sound_Cmd_AF_80051110                                     = 0x80051110;
 Sound_Cmd_XX_Null                                         = 0x80051234;

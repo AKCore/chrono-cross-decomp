@@ -265,11 +265,11 @@ typedef struct
 // NOTE(jperos): I am beginning to think that this might be the SFX analogue to FSoundMusicContext
 typedef struct FSoundSfxState
 {
-    /* 0x00 */ u32 ActiveChannelMask;
+    /* 0x00 */ u32 ActiveVoiceMask;
     /* 0x04 */ u32 KeyOnFlags;
     /* 0x08 */ u32 KeyedFlags;
     /* 0x0C */ u32 KeyOffFlags;
-    /* 0x10 */ undefined4 unk_Flags_0x10;
+    /* 0x10 */ undefined4 SuspendedVoiceMask;
     /* 0x14 */ undefined4 TempoBase;
     /* 0x18 */ undefined4 TempoAccumulator;
     /* 0x1C */ undefined4 NoiseVoiceFlags;
@@ -442,7 +442,7 @@ typedef struct
     /* 0x14 */ s32 ActiveNoteMask; /* Currently playing notes (not rests) */
     /* 0x18 */ u32 PreventRekeyOnMusicResumeMask; /* With the way music pushes and pops, if something like a one-shot was started and "paused" then it won't rekey/resume that note when the music resumes*/
     /* 0x1C */ s32 PendingKeyOffMask;
-    /* 0x20 */ u32 LastChannelModeFlags;
+    /* 0x20 */ u32 SuspendedChannelMask;
     /* 0x24 */ s32 Tempo;
     /* 0x28 */ s32 TempoSlideStep;
     /* 0x2C */ s32 TempoUpdate;
@@ -544,6 +544,7 @@ s32 Sound_SetUnkVoiceSchedulerFlags( s32 in_Mode );
 // void Sound_SetSpeakerMode( s32 in_Mode ); // When you copy this, copy ESpeakerMode from the source
 void Sound_SetMutedMusicChannelMask( u32 in_ChannelMask );
 void Sound_SetMusicJumpThreshold( u32 arg0 );
+void Sound_SuspendChannelsByType( u32 in_ChannelType );
 
 // SPU management
 void Sound_CopyAndRelocateInstruments( FSoundInstrumentInfo* in_A, FSoundInstrumentInfo* in_B, s32 in_AddrOffset, s32 in_Count);
@@ -652,12 +653,12 @@ void Sound_Cmd_80_SetModeStereo( FSoundCommandParams* in_Params );
 void Sound_Cmd_81_SetModeMono( FSoundCommandParams* in_Params );
 void Sound_Cmd_90_SetMutedMusicChannelMask( FSoundCommandParams* in_Params );
 void Sound_Cmd_92_SetMusicJumpThreshold( FSoundCommandParams* in_Params );
-void Sound_Cmd_9B_ConsumeChannelModeFlagsAndSanitizeFreeVoices( FSoundCommandParams* in_Params );
-void Sound_Cmd_9A_80050D38( FSoundCommandParams* in_Params );
-void Sound_Cmd_9D_80050DD4( FSoundCommandParams* in_Params );
-void Sound_Cmd_9C_80050EF0( FSoundCommandParams* in_Params );
-void Sound_Cmd_9F_ResetGlobalVoice( FSoundCommandParams* in_Params );
-void Sound_Cmd_9E_80051000( FSoundCommandParams* in_Params );
+void Sound_Cmd_9B_SuspendMusic( FSoundCommandParams* in_Params );
+void Sound_Cmd_9A_RestoreMusic( FSoundCommandParams* in_Params );
+void Sound_Cmd_9D_SuspendSfx( FSoundCommandParams* in_Params );
+void Sound_Cmd_9C_RestoreSfx( FSoundCommandParams* in_Params );
+void Sound_Cmd_9F_SuspendCutsceneAudio( FSoundCommandParams* in_Params );
+void Sound_Cmd_9E_RestoreCutsceneAudio( FSoundCommandParams* in_Params );
 void Sound_Cmd_AE_80051094( FSoundCommandParams* in_Params );
 void Sound_Cmd_AF_80051110( FSoundCommandParams* in_Params );
 void Sound_Cmd_XX_Null( FSoundCommandParams* in_Params );

@@ -1268,7 +1268,7 @@ void func_8004D3D4(void) {
 
     KeyOnFlags = 0;
     // TODO(jperos): Clarify these flags... some of them say channel and others say voice
-    Flags = g_Sound_SfxState.ActiveChannelMask | g_Sound_SfxState.unk_Flags_0x10 | g_Sound_Cutscene_StreamState.VoicesInUseFlags;
+    Flags = g_Sound_SfxState.ActiveVoiceMask | g_Sound_SfxState.SuspendedVoiceMask | g_Sound_Cutscene_StreamState.VoicesInUseFlags;
     if (!(g_pActiveMusicContext->ActiveChannelMask & g_pActiveMusicContext->PendingKeyOnMask))
     {
         if (g_pSuspendedMusicContext != NULL)
@@ -1357,7 +1357,7 @@ block_18:
         }
     }
 
-    var_s3_3 = g_Sound_SfxState.ActiveChannelMask & g_Sound_SfxState.KeyedFlags;
+    var_s3_3 = g_Sound_SfxState.ActiveVoiceMask & g_Sound_SfxState.KeyedFlags;
     if(var_s3_3 != 0 )
     {
         Mask = 0x1000;
@@ -1391,7 +1391,7 @@ block_18:
 
     if( temp_s3 & 0x10 )
     {
-        if( g_Sound_SfxState.ActiveChannelMask != 0 )
+        if( g_Sound_SfxState.ActiveVoiceMask != 0 )
         {
             var_a0 = g_Sound_SfxState.NoiseClock;
         }
@@ -1454,8 +1454,8 @@ void Sound_ProcessKeyOffRequests()
     s32 SavedOffMask;
 
     Filter = ~(
-        g_Sound_SfxState.ActiveChannelMask 
-        | g_Sound_SfxState.unk_Flags_0x10
+        g_Sound_SfxState.ActiveVoiceMask 
+        | g_Sound_SfxState.SuspendedVoiceMask
         | g_Sound_Cutscene_StreamState.VoicesInUseFlags
     );
     VoiceMask = 0;
@@ -1518,8 +1518,8 @@ void Sound_BuildVoiceModeMask( s32* out_VoiceModeMask, s32 in_SavedChannelModeMa
     ChannelFlags = 0;
     VoiceMask = 0;
     Filter = ~(
-        g_Sound_SfxState.ActiveChannelMask
-        | g_Sound_SfxState.unk_Flags_0x10
+        g_Sound_SfxState.ActiveVoiceMask
+        | g_Sound_SfxState.SuspendedVoiceMask
         | g_Sound_Cutscene_StreamState.VoicesInUseFlags
     );
 

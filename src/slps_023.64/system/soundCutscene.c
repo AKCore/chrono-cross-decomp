@@ -31,7 +31,7 @@ s32 Sound_Cutscene_FindFreeVoicePair()
     {
         Bit = 0x00C00000;
         VoiceIndex = 0xb;
-        BusyMask = g_Sound_SfxState.ActiveChannelMask | g_Sound_SfxState.unk_Flags_0x10;
+        BusyMask = g_Sound_SfxState.ActiveVoiceMask | g_Sound_SfxState.SuspendedVoiceMask;
 
         while( VoiceIndex != 0 )
         {
@@ -47,7 +47,7 @@ s32 Sound_Cutscene_FindFreeVoicePair()
 
         Sound_EvictSfxVoice( 0, 0x40000000 );
 
-    } while( BusyMask != ( g_Sound_SfxState.ActiveChannelMask | g_Sound_SfxState.unk_Flags_0x10 ) );
+    } while( BusyMask != ( g_Sound_SfxState.ActiveVoiceMask | g_Sound_SfxState.SuspendedVoiceMask ) );
 
     return -1;
 }
