@@ -417,6 +417,7 @@ Sound_SetSpeakerMode                = 0x8004A3B4;
 Sound_SetMutedMusicChannelMask      = 0x8004A3E8;
 Sound_SetMusicJumpThreshold         = 0x8004A410;
 Sound_SuspendChannelsByType         = 0x8004A438;
+Sound_RestoreChannelsByType         = 0x8004A4A4;
 
 //----------------------------------------------------------------------------------------------------------------------
 // LibSpu

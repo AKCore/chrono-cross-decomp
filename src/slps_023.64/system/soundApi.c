@@ -311,8 +311,23 @@ void Sound_SuspendChannelsByType( u32 in_ChannelType )
     Sound_ExecuteSoundVm2Function( OpCode );
 }
 
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004A4A4);
+//----------------------------------------------------------------------------------------------------------------------
+void Sound_RestoreChannelsByType( u32 in_ChannelType )
+{
+    s32 OpCode;
 
+    switch( in_ChannelType )
+    {
+        case ESoundChannelType_Music:     OpCode = SOUND_CMD_9A_RESTORE_MUSIC;          break;
+        case ESoundChannelType_Sfx:       OpCode = SOUND_CMD_9C_RESTORE_SFX;            break;
+        case ESoundChannelType_Cutscene:  OpCode = SOUND_CMD_9E_RESTORE_CUTSCENE_AUDIO; break;
+        default: OpCode = SOUND_CMD_98_NULL; break;
+    }
+
+    Sound_ExecuteSoundVm2Function( OpCode );
+}
+
+//----------------------------------------------------------------------------------------------------------------------
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004A510);
 
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004A53C);

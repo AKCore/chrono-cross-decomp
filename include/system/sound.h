@@ -545,6 +545,7 @@ s32 Sound_SetUnkVoiceSchedulerFlags( s32 in_Mode );
 void Sound_SetMutedMusicChannelMask( u32 in_ChannelMask );
 void Sound_SetMusicJumpThreshold( u32 arg0 );
 void Sound_SuspendChannelsByType( u32 in_ChannelType );
+void Sound_RestoreChannelsByType( u32 in_ChannelType );
 
 // SPU management
 void Sound_CopyAndRelocateInstruments( FSoundInstrumentInfo* in_A, FSoundInstrumentInfo* in_B, s32 in_AddrOffset, s32 in_Count);

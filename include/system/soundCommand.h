@@ -18,6 +18,7 @@
 #define SOUND_CMD_81_SET_MODE_MONO                      ( 0x81U )
 #define SOUND_CMD_90_SET_MUTED_MUSIC_CHANNELS           ( 0x90U )
 #define SOUND_CMD_92_SET_MUSIC_BRANCH_THRESHHOLD        ( 0x92U )
+#define SOUND_CMD_98_NULL                               ( 0x98U )
 #define SOUND_CMD_99_NULL                               ( 0x99U )
 #define SOUND_CMD_9A_RESTORE_MUSIC                      ( 0x9AU )
 #define SOUND_CMD_9B_SUSPEND_MUSIC                      ( 0x9BU )
