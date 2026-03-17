@@ -357,7 +357,7 @@ void Sound_LoadAkaoSequence( FAkaoSequence* in_Sequence, s32 in_Mask )
     g_pActiveMusicContext->NoiseChannelFlags = 0;
     g_pActiveMusicContext->ReverbChannelFlags = 0;
     g_pActiveMusicContext->FmChannelFlags = 0;
-    g_pActiveMusicContext->JumpThresholdValue = 0;
+    g_pActiveMusicContext->BranchThreshold = 0;
     g_pActiveMusicContext->ActiveNoteMask = 0;
     g_pActiveMusicContext->PendingKeyOnMask = 0;
     g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_08;

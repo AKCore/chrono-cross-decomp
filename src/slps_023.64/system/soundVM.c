@@ -117,7 +117,7 @@ void SoundVM_FE07_JumpRelativeWithThreshold( FSoundChannel* in_pChannel, u32 in_
 
     Threshold = *in_pChannel->ProgramCounter++;
 
-    if( g_pActiveMusicContext->JumpThresholdValue >= Threshold )
+    if( g_pActiveMusicContext->BranchThreshold >= Threshold )
     {
         // Read signed 16-bit LE offset at current pc, jump relative to pc
         Offset = READ_16LE_PC(in_pChannel->ProgramCounter);

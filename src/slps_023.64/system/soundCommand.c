@@ -808,9 +808,9 @@ void Sound_Cmd_90_SetMutedMusicChannelMask( FSoundCommandParams* in_Params )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Sound_Cmd_92_80050C34( FSoundCommandParams* in_Params )
+void Sound_Cmd_92_SetMusicBranchThreshold( FSoundCommandParams* in_Params )
 {
-    g_pActiveMusicContext->JumpThresholdValue = in_Params->Param1;
+    g_pActiveMusicContext->BranchThreshold = in_Params->Param1;
 }
 
 //----------------------------------------------------------------------------------------------------------------------

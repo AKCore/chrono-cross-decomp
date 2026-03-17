@@ -466,7 +466,7 @@ typedef struct
     /* 0x6A */ s16 ReverbDepthSlideLength;
     /* 0x6C */ u16 TempoSlideLength;
     /* 0x6E */ u16 MusicId;
-    /* 0x70 */ u16 JumpThresholdValue;
+    /* 0x70 */ u16 BranchThreshold;
     /* 0x72 */ u16 NoiseClock;
     /* 0x74 */ s16 TimerUpper;
     /* 0x76 */ s16 TimerUpperCurrent;
@@ -650,7 +650,7 @@ void Sound_Cmd_F1_80050A58( FSoundCommandParams* in_Params );
 void Sound_Cmd_80_SetModeStereo( FSoundCommandParams* in_Params );
 void Sound_Cmd_81_SetModeMono( FSoundCommandParams* in_Params );
 void Sound_Cmd_90_SetMutedMusicChannelMask( FSoundCommandParams* in_Params );
-void Sound_Cmd_92_80050C34( FSoundCommandParams* in_Params );
+void Sound_Cmd_92_SetMusicBranchThreshold( FSoundCommandParams* in_Params );
 void Sound_Cmd_9B_ConsumeChannelModeFlagsAndSanitizeFreeVoices( FSoundCommandParams* in_Params );
 void Sound_Cmd_9A_80050D38( FSoundCommandParams* in_Params );
 void Sound_Cmd_9D_80050DD4( FSoundCommandParams* in_Params );
