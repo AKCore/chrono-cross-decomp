@@ -368,7 +368,7 @@ void Sound_LoadAkaoSequence( FAkaoSequence* in_Sequence, s32 in_Mask )
 void Sound_KillMusicContext( FSoundMusicContext* in_Context, FSoundChannel* in_pChannel, u32 in_MusicId )
 {
     FSoundChannel* pChannel;
-    FSoundMusicContext** ppThisChannelConfig;
+    FSoundMusicContext** ppCurrentChannelContext;
     u32 Count;
 
     pChannel = in_pChannel;
@@ -383,19 +383,19 @@ void Sound_KillMusicContext( FSoundMusicContext* in_Context, FSoundChannel* in_p
             pChannel++;
         };
 
-        ppThisChannelConfig = g_Sound_VoiceOwnerContexts;
+        ppCurrentChannelContext = g_Sound_VoiceOwnerContexts;
         in_Context->MusicId = 0;
         in_Context->ActiveNoteMask = 0;
         in_Context->PendingKeyOnMask = 0;
 
         for( Count = 0; Count < VOICE_COUNT; Count++ )
         {
-            if( *ppThisChannelConfig == in_Context )
+            if( *ppCurrentChannelContext == in_Context )
             {
-                *ppThisChannelConfig = NULL;
+                *ppCurrentChannelContext = NULL;
                 SetVoiceAdsrReleaseRateAndMode( Count, 5, 3U );
             }
-            ppThisChannelConfig++;
+            ppCurrentChannelContext++;
         };
     }
 }

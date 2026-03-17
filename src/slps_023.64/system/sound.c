@@ -1447,7 +1447,7 @@ void ChannelMaskToVoiceMaskFiltered( FSoundChannel* in_Channel, s32* io_VoiceMas
 void Sound_ProcessKeyOffRequests()
 {
     s32 VoiceMask;
-    s32 SavedConfigKeyedMask;
+    s32 SavedMusicContextKeyedMask;
     s32 ActiveKeyedMask;
     s32 Filter;
     s32 ActiveOffMask;
@@ -1464,11 +1464,11 @@ void Sound_ProcessKeyOffRequests()
     if( g_pSuspendedMusicContext )
     {
         SavedOffMask = g_pSuspendedMusicContext->PendingKeyOffMask;
-        SavedConfigKeyedMask  = SavedOffMask & g_pSuspendedMusicContext->KeyedMask;
+        SavedMusicContextKeyedMask  = SavedOffMask & g_pSuspendedMusicContext->KeyedMask;
 
-        if( SavedConfigKeyedMask != 0 )
+        if( SavedMusicContextKeyedMask != 0 )
         {
-            ChannelMaskToVoiceMaskFiltered( g_pSecondaryMusicChannels, &VoiceMask, SavedConfigKeyedMask, Filter );
+            ChannelMaskToVoiceMaskFiltered( g_pSecondaryMusicChannels, &VoiceMask, SavedMusicContextKeyedMask, Filter );
             g_pSuspendedMusicContext->PendingKeyOffMask &= ~g_pSuspendedMusicContext->KeyedMask;
             SavedOffMask &= ~g_pSuspendedMusicContext->KeyedMask;
         }

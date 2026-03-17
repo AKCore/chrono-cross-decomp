@@ -59,7 +59,7 @@ INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/sound3", func_80051F7C);
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/sound3", func_80052458);
 
 //----------------------------------------------------------------------------------------------------------------------
-void func_800526FC( FSoundMusicContext* in_pConfig, FSoundChannel* in_pChannel )
+void func_800526FC( FSoundMusicContext* in_pContext, FSoundChannel* in_pChannel )
 {
     s32 NewValue;
     s32 Ticks;
@@ -76,19 +76,19 @@ void func_800526FC( FSoundMusicContext* in_pConfig, FSoundChannel* in_pChannel )
 
     if( Ticks == 0 )
     {
-        ActiveChannelMask = in_pConfig->ActiveChannelMask;
-        in_pConfig->MusicId = 0;
-        in_pConfig->ActiveChannelMask = 0;
-        in_pConfig->PendingKeyOnMask = 0;
-        in_pConfig->ActiveNoteMask = 0;
-        in_pConfig->PendingKeyOffMask = ActiveChannelMask;
+        ActiveChannelMask = in_pContext->ActiveChannelMask;
+        in_pContext->MusicId = 0;
+        in_pContext->ActiveChannelMask = 0;
+        in_pContext->PendingKeyOnMask = 0;
+        in_pContext->ActiveNoteMask = 0;
+        in_pContext->PendingKeyOffMask = ActiveChannelMask;
         return;
     }
 
     NewValue = g_Sound_MasterFadeTimer.Value + g_Sound_MasterFadeTimer.Step;
     if( ( NewValue & 0xFFFF0000 ) != ( g_Sound_MasterFadeTimer.Value & 0xFFFF0000 ) )
     {
-        Sound_MarkActiveChannelsVolumeDirty( in_pConfig, in_pChannel );
+        Sound_MarkActiveChannelsVolumeDirty( in_pContext, in_pChannel );
     }
     g_Sound_MasterFadeTimer.Value = NewValue;
 }
