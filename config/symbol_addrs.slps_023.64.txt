@@ -413,6 +413,8 @@ Sound_StartFieldMusicLooped         = 0x8004A0E8;
 Sound_EvictSfx                      = 0x8004A1F8;
 func_8004A234                       = 0x8004A234;
 Sound_SetUnkVoiceSchedulerFlags     = 0x8004A334;
+Sound_SetSpeakerMode                = 0x8004A3B4;
+Sound_SetMutedMusicChannelMask      = 0x8004A3E8;
 
 //----------------------------------------------------------------------------------------------------------------------
 // LibSpu
@@ -552,7 +554,7 @@ Sound_Cmd_11_800509F0                                     = 0x800509F0;
 Sound_Cmd_F1_80050A58                                     = 0x80050A58;
 Sound_Cmd_80_SetModeStereo                                     = 0x80050B34;
 Sound_Cmd_81_SetModeMono                                     = 0x80050B94;
-Sound_Cmd_90_FlagAllChannelsUpdateVolume                  = 0x80050BF4;
+Sound_Cmd_90_SetMutedMusicChannelMask                  = 0x80050BF4;
 Sound_Cmd_92_80050C34                                     = 0x80050C34;
 Sound_Cmd_9B_ConsumeChannelModeFlagsAndSanitizeFreeVoices = 0x80050C48;
 Sound_Cmd_9A_80050D38                                     = 0x80050D38;
@@ -758,7 +760,7 @@ g_Sound_CdVolumeFadeLength     = 0x80092A64;
 g_Sound_VoiceSchedulerState    = 0x80092AA8; // type:FSoundVoiceSchedulerState size:0x30
 g_Sound_Vm2Params              = 0x80092AD8; // type:FSoundCommandParams size:0x18
 g_CdVolume                     = 0x80092AF8;
-g_Sound_UnkFlags_80092AFC      = 0x80092AFC;
+g_Sound_MutedMusicChannelMask      = 0x80092AFC;
 g_PushedMusicChannels          = 0x80092B00; // type:FSoundChannel[] size:0x2480
 g_Sound_Sfx_MetadataTableB     = 0x80094F80;
 g_Sound_LfoPhase               = 0x80094F84;

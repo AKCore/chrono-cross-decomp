@@ -540,6 +540,8 @@ void Sound_StartMasterAndMusicVolumeFade( u32 arg0, u32 arg1, s32 arg2 );
 void Sound_StartFieldMusicLooped( u32 arg0, u32 arg1 );
 void func_8004A118( s32 arg0, s32 arg1, s32 arg2, s32 arg3 );
 s32 Sound_SetUnkVoiceSchedulerFlags( s32 in_Mode );
+// void Sound_SetSpeakerMode( s32 in_Mode ); // When you copy this, copy ESpeakerMode from the source
+void Sound_SetMutedMusicChannelMask( u32 in_ChannelMask );
 
 // SPU management
 void Sound_CopyAndRelocateInstruments( FSoundInstrumentInfo* in_A, FSoundInstrumentInfo* in_B, s32 in_AddrOffset, s32 in_Count);
@@ -646,7 +648,7 @@ void Sound_Cmd_11_800509F0( FSoundCommandParams* in_Params );
 void Sound_Cmd_F1_80050A58( FSoundCommandParams* in_Params );
 void Sound_Cmd_80_SetModeStereo( FSoundCommandParams* in_Params );
 void Sound_Cmd_81_SetModeMono( FSoundCommandParams* in_Params );
-void Sound_Cmd_90_FlagAllChannelsUpdateVolume( FSoundCommandParams* in_Params );
+void Sound_Cmd_90_SetMutedMusicChannelMask( FSoundCommandParams* in_Params );
 void Sound_Cmd_92_80050C34( FSoundCommandParams* in_Params );
 void Sound_Cmd_9B_ConsumeChannelModeFlagsAndSanitizeFreeVoices( FSoundCommandParams* in_Params );
 void Sound_Cmd_9A_80050D38( FSoundCommandParams* in_Params );

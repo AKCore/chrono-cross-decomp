@@ -275,8 +275,14 @@ void Sound_SetSpeakerMode( s32 in_Mode )
     Sound_ExecuteSoundVm2Function( OpCode );
 }
 
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004A3E8);
+//----------------------------------------------------------------------------------------------------------------------
+void Sound_SetMutedMusicChannelMask( u32 in_ChannelMask )
+{
+    g_Sound_Vm2Params.Param1 = in_ChannelMask;
+    Sound_ExecuteSoundVm2Function( SOUND_CMD_90_SET_MUTED_MUSIC_CHANNELS );
+}
 
+//----------------------------------------------------------------------------------------------------------------------
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004A410);
 
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004A438);

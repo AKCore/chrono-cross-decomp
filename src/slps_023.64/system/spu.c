@@ -89,7 +89,7 @@ extern s16 D_800919C0;
 extern s16 D_800919C2;
 extern s32 g_Sound_LfoPhase;
 extern s32 g_Sound_TempoMultiplier;
-extern s32 g_Sound_UnkFlags_80092AFC;
+extern s32 g_Sound_MutedMusicChannelMask;
 extern FSoundChannel* g_Sound_pMusicSoudChannels;
 
 void Sound_Setup()
@@ -147,7 +147,7 @@ void Sound_Setup()
     Count = *SPU_CTRL_REG_CPUCNT;
 
     g_Music_LoopCounter = 0;
-    g_Sound_UnkFlags_80092AFC = 0;
+    g_Sound_MutedMusicChannelMask = 0;
 
     D_80094FFC = 0;
     g_Sound_Cutscene_StreamState.VolFadeStepsRemaining = 0;

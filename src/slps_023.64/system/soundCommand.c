@@ -790,12 +790,12 @@ void Sound_Cmd_81_SetModeMono( FSoundCommandParams* in_Params )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Sound_Cmd_90_FlagAllChannelsUpdateVolume( FSoundCommandParams* in_Params )
+void Sound_Cmd_90_SetMutedMusicChannelMask( FSoundCommandParams* in_Params )
 {
     u32 ChannelIndex;
     FSoundChannel* pChannel;
 
-    g_Sound_UnkFlags_80092AFC = in_Params->Param1;
+    g_Sound_MutedMusicChannelMask = in_Params->Param1;
 
     ChannelIndex = 0;
     pChannel = g_ActiveMusicChannels; 
