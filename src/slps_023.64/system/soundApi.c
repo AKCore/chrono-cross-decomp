@@ -328,37 +328,37 @@ void Sound_RestoreChannelsByType( u32 in_ChannelType )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void func_8004A510( s32 arg0 )
+void Sound_SetAllSfxVolumeMod( s32 in_VolumeMod )
 {
-    g_Sound_Vm2Params.Param1 = arg0 & 0x7F;
-    Sound_ExecuteSoundVm2Function( SOUND_CMD_A8_UNK );
+    g_Sound_Vm2Params.Param1 = in_VolumeMod & 0x7F;
+    Sound_ExecuteSoundVm2Function( SOUND_CMD_A8_SET_ALL_SFX_VOLUME_MOD );
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void func_8004A53C( u32 arg0, s32 arg1 )
+void Sound_FadeAllSfxVolumeMod( u32 arg0, s32 in_VolumeMod )
 {
     g_Sound_Vm2Params.Param1 = arg0;
-    g_Sound_Vm2Params.Param2 = arg1 & 0x7F;
-    Sound_ExecuteSoundVm2Function( SOUND_CMD_A9_UNK );
+    g_Sound_Vm2Params.Param2 = in_VolumeMod & 0x7F;
+    Sound_ExecuteSoundVm2Function( SOUND_CMD_A9_FADE_ALL_SFX_VOLUME_MOD );
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void func_8004A570( u32 arg0, s32 arg1, s32 arg2 )
+void Sound_SetSfxVolumeMod( u32 arg0, s32 in_VoiceMask, s32 in_VolumeMod )
 {
     g_Sound_Vm2Params.Param1 = arg0;
-    g_Sound_Vm2Params.Param2 = arg1 & 0xFFFFFF;
-    g_Sound_Vm2Params.Param3 = arg2 & 0x7F;
-    Sound_ExecuteSoundVm2Function( SOUND_CMD_A0_UNK );
+    g_Sound_Vm2Params.Param2 = in_VoiceMask & VOICE_MASK_ALL;
+    g_Sound_Vm2Params.Param3 = in_VolumeMod & 0x7F;
+    Sound_ExecuteSoundVm2Function( SOUND_CMD_A0_SET_SFX_VOLUME_MOD );
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void func_8004A5B4( u32 arg0, s32 arg1, u32 arg2, s32 arg3 )
+void Sound_FadeSfxVolumeMod( u32 arg0, s32 in_VoiceMask, u32 arg2, s32 in_VolumeMod )
 {
     g_Sound_Vm2Params.Param1 = arg0;
-    g_Sound_Vm2Params.Param2 = arg1 & 0xFFFFFF;
+    g_Sound_Vm2Params.Param2 = in_VoiceMask & VOICE_MASK_ALL;
     g_Sound_Vm2Params.Param3 = arg2;
-    g_Sound_Vm2Params.Param4 = arg3 & 0x7F;
-    Sound_ExecuteSoundVm2Function( SOUND_CMD_A1_UNK );
+    g_Sound_Vm2Params.Param4 = in_VolumeMod & 0x7F;
+    Sound_ExecuteSoundVm2Function( SOUND_CMD_A1_FADE_SFX_VOLUME_MOD );
 }
 
 //----------------------------------------------------------------------------------------------------------------------

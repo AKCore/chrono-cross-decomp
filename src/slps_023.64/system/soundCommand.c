@@ -283,7 +283,7 @@ void Sound_Cmd_72_FadeCdVolumeFrom( FSoundCommandParams* in_Params )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Sound_Cmd_A0_8004FCE4( FSoundCommandParams* in_Params )
+void Sound_Cmd_A0_SetSfxVolumeMod( FSoundCommandParams* in_Params )
 {
     FSoundChannel* pChannel = g_SfxSoundChannels;
     s32 CurrentChannelMask = ( 1 << SOUND_SFX_CHANNEL_START_INDEX);
@@ -325,7 +325,7 @@ void Sound_Cmd_A0_8004FCE4( FSoundCommandParams* in_Params )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Sound_Cmd_A1_8004FDCC( FSoundCommandParams* in_Params )
+void Sound_Cmd_A1_FadeSfxVolumeMod( FSoundCommandParams* in_Params )
 {
     FSoundChannel* pChannel = g_SfxSoundChannels;
     s32 CurrentChannelMask = 1 << SOUND_SFX_CHANNEL_START_INDEX;
@@ -359,7 +359,7 @@ void Sound_Cmd_A1_8004FDCC( FSoundCommandParams* in_Params )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Sound_Cmd_A8_8004FF4C( FSoundCommandParams* in_Params )
+void Sound_Cmd_A8_SetAllSfxVolumeMod( FSoundCommandParams* in_Params )
 {
     FSoundChannel* pChannel = g_SfxSoundChannels;
     s32 CurrentChannelMask = 1 << SOUND_SFX_CHANNEL_START_INDEX;
@@ -382,7 +382,7 @@ void Sound_Cmd_A8_8004FF4C( FSoundCommandParams* in_Params )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Sound_Cmd_A9_8004FFC8( FSoundCommandParams* in_Params )
+void Sound_Cmd_A9_FadeAllSfxVolumeMod( FSoundCommandParams* in_Params )
 {
     FSoundChannel* pChannel = g_SfxSoundChannels;
     s32 CurrentChannelMask = 1 << SOUND_SFX_CHANNEL_START_INDEX;
@@ -409,7 +409,7 @@ void Sound_Cmd_A9_8004FFC8( FSoundCommandParams* in_Params )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Sound_Cmd_A2_80050090( FSoundCommandParams* in_Params )
+void Sound_Cmd_A2_SetSfxPanMod( FSoundCommandParams* in_Params )
 {
     FSoundChannel* pChannel = g_SfxSoundChannels;
     s32 CurrentChannelMask = 1 << SOUND_SFX_CHANNEL_START_INDEX;
@@ -451,7 +451,7 @@ void Sound_Cmd_A2_80050090( FSoundCommandParams* in_Params )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Sound_Cmd_A3_80050170( FSoundCommandParams* in_Param )
+void Sound_Cmd_A3_FadeSfxPanMod( FSoundCommandParams* in_Param )
 {
     u32 ChannelIndex;
     FSoundChannel* pChannel = g_SfxSoundChannels;
@@ -495,7 +495,7 @@ void Sound_Cmd_A3_80050170( FSoundCommandParams* in_Param )
 //----------------------------------------------------------------------------------------------------------------------
 // Sets volume on all active SFX voices IF flag 1 << 25 isn't set - currently unknown
 // Hints that D is a timer for SFX Volume
-void Sound_Cmd_AA_800502E8( FSoundCommandParams* in_Params )
+void Sound_Cmd_AA_SetAllSfxPanMod( FSoundCommandParams* in_Params )
 {
     FSoundChannel* pChannel = g_SfxSoundChannels;
     s32 CurrentChannelMask = 1 << SOUND_SFX_CHANNEL_START_INDEX;
@@ -517,7 +517,7 @@ void Sound_Cmd_AA_800502E8( FSoundCommandParams* in_Params )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Sound_Cmd_AB_80050360( FSoundCommandParams* in_Params )
+void Sound_Cmd_AB_FadeAllSfxPanMod( FSoundCommandParams* in_Params )
 {
     FSoundChannel* pChannel = g_SfxSoundChannels;
     s32 CurrentChannelMask = 1 << SOUND_SFX_CHANNEL_START_INDEX;
@@ -543,7 +543,7 @@ void Sound_Cmd_AB_80050360( FSoundCommandParams* in_Params )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Sound_Cmd_A4_80050424( FSoundCommandParams* in_Params )
+void Sound_Cmd_A4_SetSfxPitchMod( FSoundCommandParams* in_Params )
 {
     FSoundChannel* pChannel = g_SfxSoundChannels;
     s32 CurrentChannelMask = 1 << SOUND_SFX_CHANNEL_START_INDEX;
@@ -585,7 +585,7 @@ void Sound_Cmd_A4_80050424( FSoundCommandParams* in_Params )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Sound_Cmd_A5_80050504( FSoundCommandParams* in_Params )
+void Sound_Cmd_A5_FadeSfxPitchMod( FSoundCommandParams* in_Params )
 {
     FSoundChannel* pChannel = g_SfxSoundChannels;
     s32 CurrentChannelMask = 1 << SOUND_SFX_CHANNEL_START_INDEX;
@@ -627,9 +627,7 @@ void Sound_Cmd_A5_80050504( FSoundCommandParams* in_Params )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-// Sets sample rate on all active SFX voices IF flag 1 << 25 isn't set - currently unknown
-// Hints that E is a timer for SFX sample rate
-void Sound_Cmd_AC_8005068C( FSoundCommandParams* in_Params )
+void Sound_Cmd_AC_SetAllSfxPitchMod( FSoundCommandParams* in_Params )
 {
     s32 ChannelIndex;
     FSoundChannel* pChannel;
@@ -650,7 +648,7 @@ void Sound_Cmd_AC_8005068C( FSoundCommandParams* in_Params )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Sound_Cmd_AD_800506E4( FSoundCommandParams* in_Params )
+void Sound_Cmd_AD_FadeAllSfxPitchMod( FSoundCommandParams* in_Params )
 {
     s32 CurrentChannelMask  = 1 << SOUND_SFX_CHANNEL_START_INDEX;
     s32 ActiveChannelMask = g_Sound_SfxState.ActiveVoiceMask;
@@ -1006,7 +1004,7 @@ void Sound_Cmd_AE_80051094( FSoundCommandParams* in_Params )
     };
 
     in_Params->Param2 = 0;
-    Sound_Cmd_A9_8004FFC8( in_Params );
+    Sound_Cmd_A9_FadeAllSfxVolumeMod( in_Params );
 
     if( g_Sound_SfxState.ActiveVoiceMask != 0 )
     {
