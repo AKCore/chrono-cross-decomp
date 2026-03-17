@@ -466,7 +466,7 @@ typedef struct
     /* 0x6A */ s16 ReverbDepthSlideLength;
     /* 0x6C */ u16 TempoSlideLength;
     /* 0x6E */ u16 MusicId;
-    /* 0x70 */ u16 BranchThreshold;
+    /* 0x70 */ u16 JumpThreshold;
     /* 0x72 */ u16 NoiseClock;
     /* 0x74 */ s16 TimerUpper;
     /* 0x76 */ s16 TimerUpperCurrent;
@@ -543,6 +543,7 @@ void func_8004A118( s32 arg0, s32 arg1, s32 arg2, s32 arg3 );
 s32 Sound_SetUnkVoiceSchedulerFlags( s32 in_Mode );
 // void Sound_SetSpeakerMode( s32 in_Mode ); // When you copy this, copy ESpeakerMode from the source
 void Sound_SetMutedMusicChannelMask( u32 in_ChannelMask );
+void Sound_SetMusicJumpThreshold( u32 arg0 );
 
 // SPU management
 void Sound_CopyAndRelocateInstruments( FSoundInstrumentInfo* in_A, FSoundInstrumentInfo* in_B, s32 in_AddrOffset, s32 in_Count);
@@ -650,7 +651,7 @@ void Sound_Cmd_F1_80050A58( FSoundCommandParams* in_Params );
 void Sound_Cmd_80_SetModeStereo( FSoundCommandParams* in_Params );
 void Sound_Cmd_81_SetModeMono( FSoundCommandParams* in_Params );
 void Sound_Cmd_90_SetMutedMusicChannelMask( FSoundCommandParams* in_Params );
-void Sound_Cmd_92_SetMusicBranchThreshold( FSoundCommandParams* in_Params );
+void Sound_Cmd_92_SetMusicJumpThreshold( FSoundCommandParams* in_Params );
 void Sound_Cmd_9B_ConsumeChannelModeFlagsAndSanitizeFreeVoices( FSoundCommandParams* in_Params );
 void Sound_Cmd_9A_80050D38( FSoundCommandParams* in_Params );
 void Sound_Cmd_9D_80050DD4( FSoundCommandParams* in_Params );

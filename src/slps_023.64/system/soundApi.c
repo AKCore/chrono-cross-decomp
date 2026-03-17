@@ -283,12 +283,13 @@ void Sound_SetMutedMusicChannelMask( u32 in_ChannelMask )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Sound_SetMusicBranchThreshold( u32 arg0 )
+void Sound_SetMusicJumpThreshold( u32 arg0 )
 {
     g_Sound_Vm2Params.Param1 = arg0;
     Sound_ExecuteSoundVm2Function( SOUND_CMD_92_SET_MUSIC_BRANCH_THRESHHOLD );
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004A438);
 
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004A4A4);

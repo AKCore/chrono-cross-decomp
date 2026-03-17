@@ -415,7 +415,7 @@ func_8004A234                       = 0x8004A234;
 Sound_SetUnkVoiceSchedulerFlags     = 0x8004A334;
 Sound_SetSpeakerMode                = 0x8004A3B4;
 Sound_SetMutedMusicChannelMask      = 0x8004A3E8;
-Sound_SetMusicBranchThreshold       = 0x8004A410;
+Sound_SetMusicJumpThreshold         = 0x8004A410;
 
 //----------------------------------------------------------------------------------------------------------------------
 // LibSpu
@@ -556,7 +556,7 @@ Sound_Cmd_F1_80050A58                                     = 0x80050A58;
 Sound_Cmd_80_SetModeStereo                                     = 0x80050B34;
 Sound_Cmd_81_SetModeMono                                     = 0x80050B94;
 Sound_Cmd_90_SetMutedMusicChannelMask                  = 0x80050BF4;
-Sound_Cmd_92_SetMusicBranchThreshold                                     = 0x80050C34;
+Sound_Cmd_92_SetMusicJumpThreshold                                     = 0x80050C34;
 Sound_Cmd_9B_ConsumeChannelModeFlagsAndSanitizeFreeVoices = 0x80050C48;
 Sound_Cmd_9A_80050D38                                     = 0x80050D38;
 Sound_Cmd_9D_80050DD4                                     = 0x80050DD4;
