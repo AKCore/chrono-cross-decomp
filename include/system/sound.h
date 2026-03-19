@@ -639,7 +639,7 @@ void Sound_Cmd_24_8004F5C8( FSoundCommandParams* in_Params );
 void Sound_Cmd_21_EvictSfxVoice( FSoundCommandParams* in_Params );
 void Sound_Cmd_C0_8004F714( FSoundCommandParams* in_Params );
 void Sound_Cmd_C1_8004F7C8( FSoundCommandParams* in_Params );
-void Sound_Cmd_C2_8004F904( FSoundCommandParams* in_Params );
+void Sound_Cmd_C2_FadeMasterVolumeByMusicId( FSoundCommandParams* in_Params );
 void Sound_Cmd_C4_SetPanByMusicId( FSoundCommandParams* in_Params );
 void Sound_Cmd_C5_8004FAB8( FSoundCommandParams* in_Params );
 void Sound_Cmd_70_SetCdVolume( FSoundCommandParams* in_Params );

@@ -230,7 +230,50 @@ void Sound_Cmd_C0_8004F714( FSoundCommandParams* in_pCmd )
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_C1_8004F7C8);
 
 //----------------------------------------------------------------------------------------------------------------------
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_C2_8004F904);
+void Sound_Cmd_C2_FadeMasterVolumeByMusicId( FSoundCommandParams* in_Params )
+{
+    FSoundMusicContext* pMusicContext;
+    FSoundChannel* pChannels;
+    s32 Length;
+    s32 StartingVolume;
+    s32 TargetVolume;
+    u32 MusicId;
+
+    Length = 1;
+    if( in_Params->Param2 != 0 )
+    {
+        Length = in_Params->Param2;
+    }
+
+    MusicId = in_Params->Param1;
+
+    if( MusicId == 0 || MusicId == g_pActiveMusicContext->MusicId )
+    {
+        pMusicContext = g_pActiveMusicContext;
+        pChannels = g_ActiveMusicChannels;
+    }
+    else
+    {
+        pMusicContext = g_pSuspendedMusicContext;
+
+        if( pMusicContext == NULL || MusicId == 0 || MusicId != pMusicContext->MusicId )
+        {
+            return;
+        }
+        pChannels = g_pSecondaryMusicChannels;
+    }
+
+    StartingVolume = ( in_Params->Param3 & 0x7F ) << 0x10;
+    StartingVolume |= 0x8000;
+    pMusicContext->MasterVolume = StartingVolume;
+
+    TargetVolume = ( in_Params->Param4 & 0x7F ) << 0x10;
+    TargetVolume |= 0x8000;
+    pMusicContext->MasterVolumeStep = ( TargetVolume - StartingVolume ) / Length;
+    pMusicContext->MasterVolumeStepsRemaining = Length;
+
+    Sound_MarkActiveChannelsVolumeDirty( pMusicContext, pChannels );
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 void Sound_Cmd_C4_SetPanByMusicId( FSoundCommandParams* in_pCmd )
@@ -252,7 +295,9 @@ void Sound_Cmd_C4_SetPanByMusicId( FSoundCommandParams* in_pCmd )
     pMusicContext = g_pSuspendedMusicContext;
 
     if ( pMusicContext == NULL || MusicId == 0 || MusicId != (u32)pMusicContext->MusicId )
+    {
         return;
+    }
 
     pMusicContext->MasterPanOffset = ( in_pCmd->Param2 & 0x7F ) << 0x10;
     pMusicContext->MasterPanStepsRemaining = 0;
