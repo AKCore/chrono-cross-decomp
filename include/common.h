@@ -17,7 +17,7 @@
 #define SA_JOIN2(a, b) a##b
 #define SA_JOIN(a, b) SA_JOIN2(a, b)
 #define static_assert(cond) \
-    __extension__ typedef char SA_JOIN(static_assert_line_,__LINE__)[(cond) ? 1 : -1]
+    typedef char SA_JOIN(static_assert_line_,__LINE__)[(cond) ? 1 : -1]
 
 #define offsetof(type, member) \
     ((unsigned long)&(((type*)0)->member))
