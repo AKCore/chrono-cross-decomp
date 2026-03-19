@@ -704,7 +704,11 @@ void Sound_Cmd_D1_800507CC( FSoundCommandParams* in_Params )
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_D2_80050834);
 
 //----------------------------------------------------------------------------------------------------------------------
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_D4_800508A8);
+void Sound_Cmd_D4_SetMasterPitchScale( FSoundCommandParams* in_Params )
+{
+    g_Sound_MasterPitchStepsRemaining = 0;
+    g_Sound_MasterPitchScaleQ16_16 = in_Params->Param1 << 0x10;
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_D5_800508C4);

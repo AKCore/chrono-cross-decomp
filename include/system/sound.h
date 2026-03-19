@@ -660,7 +660,7 @@ void Sound_Cmd_AD_FadeAllSfxPitchMod( FSoundCommandParams* in_Params );
 void Sound_Cmd_D0_800507B0( FSoundCommandParams* in_Params );
 void Sound_Cmd_D1_800507CC( FSoundCommandParams* in_Params );
 void Sound_Cmd_D2_80050834( FSoundCommandParams* in_Params );
-void Sound_Cmd_D4_800508A8( FSoundCommandParams* in_Params );
+void Sound_Cmd_D4_SetMasterPitchScale( FSoundCommandParams* in_Params );
 void Sound_Cmd_D5_800508C4( FSoundCommandParams* in_Params );
 void Sound_Cmd_D6_8005092C( FSoundCommandParams* in_Params );
 void Sound_Cmd_F0_StopAllMusic( FSoundCommandParams* in_Params );
@@ -817,7 +817,11 @@ extern FSoundChannel* g_pSecondaryMusicChannels;
 extern FSoundMusicContext* g_pSuspendedMusicContext; // If non-null, points to a suspended music
 extern FSpuVoiceInfo g_SpuVoiceInfo[VOICE_COUNT];
 extern FSoundMusicContext g_PrimaryMusicContext;
+extern s32 g_Sound_MasterPitchStep;
+extern s32 g_Sound_TempoStep;
 extern FSoundMusicContext g_SuspendedMusicContext;
+extern s16 g_Sound_MasterPitchStepsRemaining;
+extern s16 g_Sound_TempoStepsRemaining;
 extern FSoundInstrumentInfo g_InstrumentInfo[256];
 extern u32 g_Music_LoopCounter;
 extern u16* g_Sound_Sfx_ProgramOffsets;
@@ -836,6 +840,7 @@ extern FSoundChannel g_PushedMusicChannels[SOUND_CHANNEL_COUNT];
 extern u16* g_Sound_Sfx_MetadataTableB;
 extern s32 g_Sound_MasterPitchScaleQ16_16;
 extern FSoundGlobalFlags g_Sound_GlobalFlags;
+
 
 
 extern FSoundMusicContext* g_Sound_VoiceOwnerContexts[VOICE_COUNT];
