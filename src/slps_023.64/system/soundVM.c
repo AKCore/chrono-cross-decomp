@@ -27,7 +27,7 @@ void SoundVM_A0_FinishChannel( FSoundChannel* in_pChannel, u32 in_VoiceFlags )
     }
     else
     {
-        Sound_ClearVoiceFromSchedulerState( in_pChannel, in_VoiceFlags );
+        Sound_ClearVoiceFromSfxState( in_pChannel, in_VoiceFlags );
     }
     in_pChannel->UpdateFlags = 0;
     g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_04 | SOUND_GLOBAL_UPDATE_08;

@@ -533,7 +533,7 @@ Sound_Cmd_21_EvictSfxVoice                                     = 0x8004F6E8;
 Sound_Cmd_C0_8004F714                                     = 0x8004F714;
 Sound_Cmd_C1_8004F7C8                                     = 0x8004F7C8;
 Sound_Cmd_C2_8004F904                                     = 0x8004F904;
-Sound_Cmd_C4_8004FA04                                     = 0x8004FA04;
+Sound_Cmd_C4_SetPanByMusicId                                     = 0x8004FA04;
 Sound_Cmd_C5_8004FAB8                                     = 0x8004FAB8;
 Sound_Cmd_70_SetCdVolume                                  = 0x8004FBD8;
 Sound_Cmd_71_FadeCdVolume                                 = 0x8004FC0C;
@@ -598,7 +598,7 @@ Sound_MainLoop                      = 0x80052790;
 Sound_ComputeSlideStep              = 0x80053D1C;
 Sound_CopyInstrumentInfoToChannel   = 0x80053D90;
 Sound_SetInstrumentToChannel        = 0x80053DC4;
-Sound_ClearVoiceFromSchedulerState  = 0x80053DFC;
+Sound_ClearVoiceFromSfxState  = 0x80053DFC;
 
 //----------------------------------------------------------------------------------------------------------------------
 // SoundVM

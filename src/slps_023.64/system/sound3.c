@@ -353,7 +353,7 @@ void Sound_SetInstrumentToChannel( FSoundChannel* in_Channel, u32 in_Index )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Sound_ClearVoiceFromSchedulerState( FSoundChannel* in_pChannel, u32 in_VoiceFlags )
+void Sound_ClearVoiceFromSfxState( FSoundChannel* in_pChannel, u32 in_VoiceFlags )
 {
     g_Sound_SfxState.ActiveVoiceMask &= ~in_VoiceFlags;
     g_Sound_SfxState.SuspendedVoiceMask &= ~in_VoiceFlags;

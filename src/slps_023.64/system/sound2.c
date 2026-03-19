@@ -452,7 +452,7 @@ void Sound_EvictSfxVoice( u32 in_ChannelIndex, u32 in_VoiceMask )
                     {
                         /* Voice not busy - release immediately */
                         g_Sound_SfxState.KeyOffFlags |= VoiceBit;
-                        Sound_ClearVoiceFromSchedulerState(pChannel, VoiceBit);
+                        Sound_ClearVoiceFromSfxState(pChannel, VoiceBit);
                         pChannel->UpdateFlags = 0;
                     }
                 }
@@ -544,7 +544,7 @@ void Sound_EvictSfxVoice( u32 in_ChannelIndex, u32 in_VoiceMask )
                     else
                     {
                         g_Sound_SfxState.KeyOffFlags |= VoiceBit;
-                        Sound_ClearVoiceFromSchedulerState(pChannel, VoiceBit);
+                        Sound_ClearVoiceFromSfxState(pChannel, VoiceBit);
                         pChannel->UpdateFlags = 0;
                     }
                 }
@@ -580,7 +580,7 @@ void Sound_EvictSfxVoice( u32 in_ChannelIndex, u32 in_VoiceMask )
                         else
                         {
                             g_Sound_SfxState.KeyOffFlags |= VoiceBit;
-                            Sound_ClearVoiceFromSchedulerState(pChannel, VoiceBit);
+                            Sound_ClearVoiceFromSfxState(pChannel, VoiceBit);
                             pChannel->UpdateFlags = 0;
                         }
                     }
@@ -599,7 +599,7 @@ void Sound_EvictSfxVoice( u32 in_ChannelIndex, u32 in_VoiceMask )
                         else
                         {
                             g_Sound_SfxState.KeyOffFlags |= VoiceBit;
-                            Sound_ClearVoiceFromSchedulerState(pChannel, VoiceBit);
+                            Sound_ClearVoiceFromSfxState(pChannel, VoiceBit);
                             pChannel->UpdateFlags = 0;
                         }
                     }

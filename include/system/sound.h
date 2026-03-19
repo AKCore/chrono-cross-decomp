@@ -640,7 +640,7 @@ void Sound_Cmd_21_EvictSfxVoice( FSoundCommandParams* in_Params );
 void Sound_Cmd_C0_8004F714( FSoundCommandParams* in_Params );
 void Sound_Cmd_C1_8004F7C8( FSoundCommandParams* in_Params );
 void Sound_Cmd_C2_8004F904( FSoundCommandParams* in_Params );
-void Sound_Cmd_C4_8004FA04( FSoundCommandParams* in_Params );
+void Sound_Cmd_C4_SetPanByMusicId( FSoundCommandParams* in_Params );
 void Sound_Cmd_C5_8004FAB8( FSoundCommandParams* in_Params );
 void Sound_Cmd_70_SetCdVolume( FSoundCommandParams* in_Params );
 void Sound_Cmd_71_FadeCdVolume( FSoundCommandParams* in_Params );
@@ -690,7 +690,7 @@ long Sound_MainLoop();
 s32 Sound_ComputeSlideStep( u32*, u8, s16, u32 );
 void Sound_CopyInstrumentInfoToChannel( FSoundChannel* in_pChannel, FSoundInstrumentInfo* in_pInstrumentInfo, u32 in_StartAddress );
 void Sound_SetInstrumentToChannel( FSoundChannel *in_Channel, u32 in_Index );
-void Sound_ClearVoiceFromSchedulerState( FSoundChannel* in_pChannel, u32 in_VoiceFlags );
+void Sound_ClearVoiceFromSfxState( FSoundChannel* in_pChannel, u32 in_VoiceFlags );
 
 // SoundVM
 void SoundVM_A0_FinishChannel( FSoundChannel* in_pChannel, u32 in_VoiceFlags );

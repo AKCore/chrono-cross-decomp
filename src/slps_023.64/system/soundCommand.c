@@ -233,7 +233,32 @@ INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_C1_800
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_C2_8004F904);
 
 //----------------------------------------------------------------------------------------------------------------------
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_C4_8004FA04);
+void Sound_Cmd_C4_SetPanByMusicId( FSoundCommandParams* in_pCmd )
+{
+    FSoundMusicContext* pMusicContext;
+    u32 MusicId;
+
+    MusicId = in_pCmd->Param1;
+
+    if ( MusicId == 0 || MusicId == (u32)g_pActiveMusicContext->MusicId )
+    {
+        pMusicContext = g_pActiveMusicContext;
+        pMusicContext->MasterPanOffset = ( in_pCmd->Param2 & 0x7F ) << 0x10;
+        pMusicContext->MasterPanStepsRemaining = 0;
+        Sound_MarkActiveChannelsVolumeDirty( pMusicContext, g_ActiveMusicChannels );
+        return;
+    }
+
+    pMusicContext = g_pSuspendedMusicContext;
+
+    if ( pMusicContext == NULL || MusicId == 0 || MusicId != (u32)pMusicContext->MusicId )
+        return;
+
+    pMusicContext->MasterPanOffset = ( in_pCmd->Param2 & 0x7F ) << 0x10;
+    pMusicContext->MasterPanStepsRemaining = 0;
+    Sound_MarkActiveChannelsVolumeDirty( pMusicContext, g_pSecondaryMusicChannels );
+    return;
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_C5_8004FAB8);
@@ -794,7 +819,7 @@ void Sound_Cmd_F1_80050A58( FSoundCommandParams* in_Params )
         if( ( g_Sound_SfxState.ActiveVoiceMask & CurrentChannelMask ) && !( pChannel->unk_Flags & SOUND_CHANNEL_UNK_FLAGS_25 ) )
         {
             g_Sound_SfxState.KeyOffFlags |= CurrentChannelMask;
-            Sound_ClearVoiceFromSchedulerState( pChannel, CurrentChannelMask );
+            Sound_ClearVoiceFromSfxState( pChannel, CurrentChannelMask );
             pChannel->UpdateFlags = 0;
         }
         ChannelIndex++;
