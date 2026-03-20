@@ -411,7 +411,13 @@ void Sound_FadeAllSfxPitchMod( u32 in_Length, s32 in_Target )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004A748);
+void func_8004A748( u32 arg0, s32 in_VoiceMask, s32 in_Target )
+{
+    g_Sound_Vm2Params.Param1 = arg0;
+    g_Sound_Vm2Params.Param2 = in_VoiceMask & 0xFFFFFF;
+    g_Sound_Vm2Params.Param3 = in_Target & 0xFF;
+    Sound_ExecuteSoundVm2Function( SOUND_CMD_A4_SET_SFX_PITCH_MOD );
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004A78C);
