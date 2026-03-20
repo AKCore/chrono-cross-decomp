@@ -426,6 +426,7 @@ Sound_SetAllSfxPanMod               = 0x8004A5FC;
 Sound_FadeAllSfxPanMod              = 0x8004A628;
 Sound_SetSfxPanMod                  = 0x8004A65C;
 Sound_FadeSfxPanMod                 = 0x8004A6A0;
+Sound_SetAllSfxPitchMod             = 0x8004A6E8;
 
 //----------------------------------------------------------------------------------------------------------------------
 // LibSpu
