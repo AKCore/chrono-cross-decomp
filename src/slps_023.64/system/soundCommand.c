@@ -227,6 +227,9 @@ void Sound_Cmd_C0_SetMasterVolumeByMusicId( FSoundCommandParams* in_pCmd )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
+#ifndef NON_MATCHING
+INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_C1_FadeMasterVolumeByMusicId);
+#else
 void Sound_Cmd_C1_FadeMasterVolumeByMusicId(FSoundCommandParams* in_Params) 
 {
     FSoundMusicContext* pMusicContext;
@@ -270,6 +273,7 @@ void Sound_Cmd_C1_FadeMasterVolumeByMusicId(FSoundCommandParams* in_Params)
         Sound_MarkActiveChannelsVolumeDirty( pMusicContext, g_pSecondaryMusicChannels );
     }
 }
+#endif
 
 //----------------------------------------------------------------------------------------------------------------------
 void Sound_Cmd_C2_FadeMasterVolumeFromByMusicId( FSoundCommandParams* in_Params )
@@ -348,6 +352,9 @@ void Sound_Cmd_C4_SetPanByMusicId( FSoundCommandParams* in_pCmd )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
+#ifndef NON_MATCHING
+INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_C5_FadePanByMusicId);
+#else
 void Sound_Cmd_C5_FadePanByMusicId( FSoundCommandParams* in_Params )
 {
     FSoundMusicContext* pMusicContext;
@@ -385,6 +392,7 @@ void Sound_Cmd_C5_FadePanByMusicId( FSoundCommandParams* in_Params )
     pMusicContext->MasterPanStepsRemaining = Length;
     Sound_MarkActiveChannelsVolumeDirty( pMusicContext, g_pSecondaryMusicChannels );
 }
+#endif
 
 //----------------------------------------------------------------------------------------------------------------------
 void Sound_Cmd_70_SetCdVolume( FSoundCommandParams* in_pParams )
