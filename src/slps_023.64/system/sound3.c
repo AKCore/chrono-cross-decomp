@@ -424,5 +424,5 @@ void Sound_ClearVoiceFromSfxState( FSoundChannel* in_pChannel, u32 in_VoiceFlags
     g_Sound_SfxState.KeyOnFlags &= ~in_VoiceFlags;
     g_Sound_SfxState.KeyedFlags &= ~in_VoiceFlags;
     in_pChannel->unk_Flags = 0;
-    in_pChannel->field23_0x50 = 0;
+    in_pChannel->AkaoProgramIndex = 0;
 }

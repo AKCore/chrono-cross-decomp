@@ -144,7 +144,7 @@ void Sound_Cmd_30_8004F450( FSoundCommandParams* in_Params )
     s32 SfxIndex;
 
     MetadataB = g_Sound_Sfx_AdditionalProgramCounts[in_Params->Param1];
-    in_Params->Param2 = 0x02000000;
+    in_Params->Param2 = SOUND_CHANNEL_UNK_FLAGS_25;
     in_Params->Param3 = 0x80;
     in_Params->Param4 = 0x7F;
     in_Params->ExtParam1 = 0;
@@ -467,7 +467,7 @@ void Sound_Cmd_A0_SetSfxVolumeMod( FSoundCommandParams* in_Params )
         ChannelIndex = 0; 
         while( ChannelIndex < SOUND_SFX_CHANNEL_COUNT )
         {
-            if( ( ActiveChannelMask & CurrentChannelMask ) && ( pChannel->field23_0x50 == in_Params->Param1 ) )
+            if( ( ActiveChannelMask & CurrentChannelMask ) && ( pChannel->AkaoProgramIndex == in_Params->Param1 ) )
             {
                 pChannel->VolumeMod = ( in_Params->Param3 & 0x7F ) << 8;
                 pChannel->VolumeModStepsRemaining = 0;
@@ -504,7 +504,7 @@ void Sound_Cmd_A1_FadeSfxVolumeMod( FSoundCommandParams* in_Params )
     {
         for( ChannelIndex = 0; ChannelIndex < SOUND_SFX_CHANNEL_COUNT; ++ChannelIndex, ++pChannel, CurrentChannelMask *= 2 )
         {
-            if( ( ActiveChannelMask & CurrentChannelMask ) && ( pChannel->field23_0x50 == in_Params->Param1 ) )
+            if( ( ActiveChannelMask & CurrentChannelMask ) && ( pChannel->AkaoProgramIndex == in_Params->Param1 ) )
             {
                 s16 Param3 = in_Params->Param3 != 0 ? in_Params->Param3 : 1;
                 pChannel->VolumeModStep = (s16)( ( ( in_Params->Param4 & 0x7F ) << 8 ) - pChannel->VolumeMod ) / Param3;
@@ -593,7 +593,7 @@ void Sound_Cmd_A2_SetSfxPanMod( FSoundCommandParams* in_Params )
         ChannelIndex = 0; 
         while( ChannelIndex < SOUND_SFX_CHANNEL_COUNT )
         {
-            if( ( ActiveChannelMask & CurrentChannelMask ) && ( pChannel->field23_0x50 == in_Params->Param1 ) )
+            if( ( ActiveChannelMask & CurrentChannelMask ) && ( pChannel->AkaoProgramIndex == in_Params->Param1 ) )
             {
                 pChannel->PanMod = ( (u8)in_Params->Param3 ) << 8;
                 pChannel->PanModStepsRemaining = 0;
@@ -635,7 +635,7 @@ void Sound_Cmd_A3_FadeSfxPanMod( FSoundCommandParams* in_Param )
         ChannelIndex = 0; 
         while( ChannelIndex < SOUND_SFX_CHANNEL_COUNT )
         {
-            if( ( ActiveChannelMask & CurrentChannelMask ) && ( pChannel->field23_0x50 == in_Param->Param1 ) )
+            if( ( ActiveChannelMask & CurrentChannelMask ) && ( pChannel->AkaoProgramIndex == in_Param->Param1 ) )
             {
                 s16 Length = in_Param->Param3 != 0 ? in_Param->Param3 : 1;
                 pChannel->PanModStep = (short)( ( ( (u8)in_Param->Param4 ) << 8 ) - pChannel->PanMod ) / Length;
@@ -727,7 +727,7 @@ void Sound_Cmd_A4_SetSfxPitchMod( FSoundCommandParams* in_Params )
         ChannelIndex = 0; 
         while( ChannelIndex < SOUND_SFX_CHANNEL_COUNT )
         {
-            if( ( ActiveChannelMask & CurrentChannelMask ) && ( pChannel->field23_0x50 == in_Params->Param1 ) )
+            if( ( ActiveChannelMask & CurrentChannelMask ) && ( pChannel->AkaoProgramIndex == in_Params->Param1 ) )
             {
                 pChannel->PitchMod = ( (char)in_Params->Param3 ) << 8;
                 pChannel->PitchModStepsRemaining = 0;
@@ -769,7 +769,7 @@ void Sound_Cmd_A5_FadeSfxPitchMod( FSoundCommandParams* in_Params )
         ChannelIndex = 0; 
         while( ChannelIndex < SOUND_SFX_CHANNEL_COUNT )
         {
-            if( ( ActiveChannelMask & CurrentChannelMask ) && ( pChannel->field23_0x50 == in_Params->Param1 ) )
+            if( ( ActiveChannelMask & CurrentChannelMask ) && ( pChannel->AkaoProgramIndex == in_Params->Param1 ) )
             {
                 s16 Length = in_Params->Param3 != 0 ? in_Params->Param3 : 1;
                 pChannel->PitchModStep = (s16)( (s16)( ( ( (u8)in_Params->Param4 ) << 8 ) - pChannel->PitchMod ) / Length );
@@ -1190,7 +1190,7 @@ void Sound_Cmd_AE_80051094( FSoundCommandParams* in_Params )
     u32 ChannelIndex;
 
     ChannelIndex = 0;
-    VolumeMods = D_80090A00;
+    VolumeMods = g_Sound_SavedSfxVolumeMods;
     pChannel = g_SfxSoundChannels;
 
     while( ChannelIndex < SOUND_SFX_CHANNEL_COUNT )
@@ -1243,7 +1243,7 @@ void Sound_Cmd_AF_80051110( FSoundCommandParams* in_Params )
 
         while( ChannelIndex < SOUND_SFX_CHANNEL_COUNT )
         {
-            VolumeMod = &D_80090A00[ ChannelIndex ];
+            VolumeMod = &g_Sound_SavedSfxVolumeMods[ ChannelIndex ];
             if( ( ActiveChannelMask & CurrentChannelMask ) && !( pChannel->unk_Flags & 0x02000000 ) )
             {
                 pChannel->VolumeModStep = (s16)( ( *VolumeMod << 8 ) + 0x80 ) / Length; // Q8 fixed point, +0x80 for rounding

@@ -2,6 +2,7 @@
 #define _SOUND_COMMAND_H
 
 #include "common.h"
+#include "sound.h"
 
 typedef enum ESoundCommand
 {
@@ -62,8 +63,7 @@ typedef enum ESoundCommand
 
 } ESoundCommand;
 
-// TODO(jperos): What this is
-extern s32 D_80090A00[0x20]; // num == SOUND_CHANNEL_COUNT
+extern s32 g_Sound_SavedSfxVolumeMods[ SOUND_SFX_CHANNEL_COUNT ]; // num == SOUND_CHANNEL_COUNT or SOUND_SFX_CHANNEL_COUNT???
 extern s32 g_Sound_MutedMusicChannelMask ;
 extern s32 D_80094FFC;
 

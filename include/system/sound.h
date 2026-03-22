@@ -1,3 +1,6 @@
+#ifndef _SOUND_H
+#define _SOUND_H
+
 #include "common.h"
 #include "psyq/libspu.h"
 
@@ -324,7 +327,7 @@ typedef struct
     /* 0x044 */ s32  TremeloRateSlideStep;
     /* 0x048 */ u32  AutoPanRatePhase;
     /* 0x04C */ s32  AutoPanRateSlideStep;
-    /* 0x050 */ s32  field23_0x50;
+    /* 0x050 */ s32  AkaoProgramIndex;
     /* 0x054 */ u32  PitchMod;
     /* 0x058 */ s32  PitchModStep;
     /* 0x05C */ s32  Volume;
@@ -849,3 +852,5 @@ extern FSoundVoiceModeFlags g_Sound_VoiceModeFlags;
 
 #define SPU_MALLOC_NUM_BLOCKS (4)
 char g_SpuMallocRecTable[ SPU_MALLOC_RECSIZ * (SPU_MALLOC_NUM_BLOCKS + 1) ];
+
+#endif // _SOUND_COMMAND_H

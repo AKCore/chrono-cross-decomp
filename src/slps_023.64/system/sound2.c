@@ -471,7 +471,7 @@ void Sound_EvictSfxVoice( u32 in_ChannelIndex, u32 in_VoiceMask )
         /* Release left voice */
         if (ActiveVoices & VoiceBit)
         {
-            Sound_EvictSfxVoice(pChannel->field23_0x50, 0);
+            Sound_EvictSfxVoice(pChannel->AkaoProgramIndex, 0);
         }
 
         VoiceBit <<= 1;
@@ -480,7 +480,7 @@ void Sound_EvictSfxVoice( u32 in_ChannelIndex, u32 in_VoiceMask )
         /* Release right voice */
         if (ActiveVoices & VoiceBit)
         {
-            Sound_EvictSfxVoice(pChannel->field23_0x50, 0);
+            Sound_EvictSfxVoice(pChannel->AkaoProgramIndex, 0);
         }
 
         return;
@@ -564,7 +564,7 @@ void Sound_EvictSfxVoice( u32 in_ChannelIndex, u32 in_VoiceMask )
         {
             if (ActiveVoices & VoiceBit)
             {
-                ChannelIdentifier = pChannel->field23_0x50;
+                ChannelIdentifier = pChannel->AkaoProgramIndex;
 
                 if (in_ChannelIndex == -1)
                 {
@@ -625,7 +625,7 @@ void func_8004E7D8( FSoundChannel* in_pChannel, FSoundCommandParams* in_pCommand
     s32 Mask;
     s32 Flag;
 
-    in_pChannel->field23_0x50 = in_pCommandParams->Param1;
+    in_pChannel->AkaoProgramIndex = in_pCommandParams->Param1;
     in_pChannel->unk_Flags = in_pCommandParams->Param2;
     in_pChannel->ChannelPan = 0x8000;
     in_pChannel->PanModStepsRemaining = 0;

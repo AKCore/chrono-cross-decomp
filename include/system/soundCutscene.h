@@ -63,7 +63,7 @@ typedef struct FSoundCutsceneStreamState
     /* 0x4D */ u8 PanPosition;
     /* 0x4E */ u8 field21_0x4e;
     /* 0x4F */ u8 field22_0x4f;
-    /* 0x50 */ s32 field23_0x50;
+    /* 0x50 */ s32 Unused_0x50;
     /* 0x54 */ s32 field24_0x54;
     /* 0x58 */ s32 VoiceSampleRate;
 } FSoundCutsceneStreamState; /* size 0x5C */
