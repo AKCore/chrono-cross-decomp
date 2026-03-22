@@ -498,7 +498,11 @@ void Sound_FadeCdVolumeFrom( u32 arg0, u32 arg1, u32 arg2 )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004A978);
+void func_8004A978( s32 arg0 )
+{
+    g_Sound_Vm2Params.Param1 = arg0 & 0xFF;
+    Sound_ExecuteSoundVm2Function( 0xD0U );
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004A9A4);
