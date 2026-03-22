@@ -353,9 +353,9 @@ void Sound_Cmd_C4_SetPanByMusicId( FSoundCommandParams* in_pCmd )
 
 //----------------------------------------------------------------------------------------------------------------------
 #ifndef NON_MATCHING
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_C5_8004FAB8);
+INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_C5_FadePanByMusicId);
 #else
-void Sound_Cmd_C5_8004FAB8( FSoundCommandParams* in_Params )
+void Sound_Cmd_C5_FadePanByMusicId( FSoundCommandParams* in_Params )
 {
     FSoundMusicContext* pMusicContext;
     FSoundChannel* pChannels;
