@@ -513,7 +513,7 @@ s32 func_80053370(FSoundChannel* in_pChannel, s32 arg1, s32 arg2) {
     }
     
     in_pChannel->VoiceParams.AdsrUpper |= instrumentInfo->AdsrUpper & 0x20;
-    ret = func_800531E0(instrumentInfo, keymap->Note, in_pChannel->FineTune, &in_pChannel->FinePitchDelta);
+    ret = Sound_CalculatePitch(instrumentInfo, keymap->Note, in_pChannel->FineTune, &in_pChannel->FinePitchDelta);
     in_pChannel->VoiceParams.VolumeScale = keymap->VolumeScale;
     in_pChannel->ChannelPan = ((keymap->PanAndReverb & 0x7F) + 0x40) << 8;
     
