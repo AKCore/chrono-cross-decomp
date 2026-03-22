@@ -428,7 +428,7 @@ typedef struct
     /* 0x0A8 */ u16  Octave;
     /* 0x0AA */ s16  PitchBendSlideLength;
     /* 0x0AC */ u16  KeyStored;
-    /* 0x0AE */ s16  PortamentoSteps;
+    /* 0x0AE */ u16  PortamentoSteps;
     /* 0x0B0 */ u16  SfxMask;
     /* 0x0B2 */ s16  VibratoDelay;
     /* 0x0B4 */ u16  VibratoDelayCurrent;
@@ -458,7 +458,7 @@ typedef struct
     /* 0x0E4 */ u16  LoopStackTop;
     /* 0x0E6 */ u16  RandomPitchDepth;
     /* 0x0E8 */ s16  LengthStored;
-    /* 0x0EA */ u16  LengthFixed;
+    /* 0x0EA */ s16  LengthFixed;
     /* 0x0EC */ s16  VolumeBalanceSlideStep;
     /* 0x0EE */ s16  PanModStep;
     /* 0x0F0 */ s16  VolumeMod;
@@ -763,7 +763,7 @@ void Sound_UpdateCdVolume();
 void memcpy32( s32* in_Src, s32* in_Dst, uint in_Size );
 void memswap32( s32* in_A, s32* in_B, uint in_Size );
 long Sound_MainLoop();
-s32 Sound_ComputeSlideStep( u32*, u8, s16, u32 );
+s32 Sound_ComputeSlideStep( u32*, s32, s32, s32 );
 void Sound_CopyInstrumentInfoToChannel( FSoundChannel* in_pChannel, FSoundInstrumentInfo* in_pInstrumentInfo, u32 in_StartAddress );
 void Sound_SetInstrumentToChannel( FSoundChannel *in_Channel, u32 in_Index );
 void Sound_ClearVoiceFromSfxState( FSoundChannel* in_pChannel, u32 in_VoiceFlags );
