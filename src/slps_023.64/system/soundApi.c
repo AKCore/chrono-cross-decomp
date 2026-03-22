@@ -474,7 +474,11 @@ void Sound_FadePanByMusicId( u32 arg0, u32 arg1, s32 arg2 )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004A8EC);
+void Sound_SetCdVolume( u32 arg0 )
+{
+    g_Sound_Vm2Params.Param1 = arg0;
+    Sound_ExecuteSoundVm2Function( SOUND_CMD_70_SET_CD_VOLUME );
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004A914);

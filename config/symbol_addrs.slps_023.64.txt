@@ -435,6 +435,7 @@ Sound_FadeMasterVolumeByMusicId     = 0x8004A808;
 Sound_FadeMasterVolumeFromByMusicId = 0x8004A840;
 Sound_SetPanByMusicId               = 0x8004A880;
 Sound_FadePanByMusicId              = 0x8004A8B4;
+Sound_SetCdVolume                   = 0x8004A8EC;
 
 //----------------------------------------------------------------------------------------------------------------------
 // LibSpu
