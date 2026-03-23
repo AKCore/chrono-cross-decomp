@@ -519,9 +519,16 @@ typedef struct
 } FAkaoSequence; // size 0x40 (header), data blob variable
 static_assert( sizeof(FAkaoSequence) - align(sizeof(member_type(FAkaoSequence,Payload))) == 0x40 );
 
+
+typedef enum ESoundChannelStatusFlags
+{
+    VOICE_ALLOC_FLAG_EXHAUSTED  = (1 << 0U), // No voice available even after stealing
+    VOICE_ALLOC_FLAG_STOLE      = (1 << 1U)  // Voice stealing occurred
+} ESoundChannelStatusFlags;
+
 typedef struct 
 {
-    /* 0x00 */ u32 StatusFlags; /*   0x01 - Voice exhaustion (couldn't allocate even with stealing) 0x02 - Voice stealing occurred */
+    /* 0x00 */ u32 StatusFlags;
     /* 0x04 */ u32 ActiveChannelMask;
     /* 0x08 */ u32 KeyedMask; /* SPU voices currently keyed-on */
     /* 0x0C */ u32 AllocatedVoiceMask; /* Channels with SPU voices allocated */
@@ -671,11 +678,11 @@ void SetVoiceAdsrReleaseRateAndMode( u32 in_VoiceIndex, s32 in_ReleaseRate, u32 
 void SetVoiceParams( u32 in_VoiceIndex, FSoundVoiceParams* in_VoiceParams, s32 in_VolumeScale );
 void SetVoiceParamsByFlags( u32 in_VoiceIndex, FSoundVoiceParams* in_VoiceParams, s32 in_UpdateFlags );
 void Sound_UpdateSlidesAndDelays( FSoundChannel* in_pChannel, u32 in_VoiceFlags, s32 );
-void func_8004C5A4( FSoundChannel* in_pChannel, int arg1 );
+void Sound_UpdateModulation( FSoundChannel* in_pChannel, int arg1 );
 void func_8004CA1C( FSoundChannel* in_pChannel );
 s32 Sound_StealQuietestVoice( s32 in_bForceFullScan );
 s32 Sound_FindFreeVoice( s32 in_bForceFullScan );
-void func_8004CFC4( FSoundChannel* in_pChannel, u32 in_Flags1, u32 in_Flags2, u32* out_KeyOnFlags );
+void Sound_AssignAndUpdateMusicVoice( FSoundChannel* in_pChannel, u32 in_Flags1, u32 in_Flags2, u32* out_KeyOnFlags );
 void Sound_UpdateVoiceEnvelopeStates( u32 in_ProtextedVoiceMask );
 void Sound_ApplyMasterFadeToChannelVolume( FSoundMusicContext* in_Context );
 void Sound_RestoreChannelVolumeFromMasterFade ( FSoundMusicContext* in_Context );
@@ -912,6 +919,7 @@ extern s16 g_Sound_CdVolumeFadeLength;
 extern FSoundSfxState g_Sound_SfxState;
 extern FSoundCommandParams g_Sound_Vm2Params;
 extern s32 g_CdVolume;
+extern s32 g_Sound_MutedMusicChannelMask;
 extern FSoundChannel g_PushedMusicChannels[SOUND_CHANNEL_COUNT];
 extern u16* g_Sound_Sfx_AdditionalProgramCounts;
 extern s32 g_Sound_TempoScale;
