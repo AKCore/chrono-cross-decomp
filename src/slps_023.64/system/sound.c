@@ -268,7 +268,7 @@ void SetVoiceParams( u32 in_VoiceIndex, FSoundVoiceParams* in_VoiceParams, s32 i
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void SetVoiceParamsByFlags( u32 in_VoiceIndex, FSoundVoiceParams* in_VoiceParams, int arg2 )
+void SetVoiceParamsByFlags( u32 in_VoiceIndex, FSoundVoiceParams* in_VoiceParams, s32 in_UpdateFlags )
 {
     s32 flags;
 
@@ -1340,7 +1340,7 @@ block_18:
                 var_v0 = ~Mask;
                 if( pChannel->VoiceParams.VoiceParamFlags != 0 )
                 {
-                    SetVoiceParamsByFlags( pChannel->VoiceParams.AssignedVoiceNumber, &pChannel->VoiceParams );
+                    SetVoiceParamsByFlags( pChannel->VoiceParams.AssignedVoiceNumber, &pChannel->VoiceParams, pChannel->UpdateFlags );
                     var_v0 = ~Mask;
                 }
                 var_s3_3 &= var_v0;
