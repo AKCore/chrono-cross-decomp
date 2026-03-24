@@ -1,6 +1,7 @@
 #include "common.h"
 #include "hw.h"
 #include "system/sound.h"
+#include "system/soundVM.h"
 
 //----------------------------------------------------------------------------------------------------------------------
 void Sound_UpdateCdVolume()
@@ -181,7 +182,7 @@ void func_80051F7C(void) {
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void func_800535E4(FSoundChannel*, u32);
+void Sound_ProcessAkaoVM(FSoundChannel*, u32);
 extern s32 D_80094FFC;
 
 u32 Music_UpdateChannels( FSoundChannel* in_pChannel, EMusicContextType in_ContextType )
@@ -223,14 +224,14 @@ u32 Music_UpdateChannels( FSoundChannel* in_pChannel, EMusicContextType in_Conte
                 do {
                     if( ActiveChannelMask & ChannelBit )
                     {
-                        pChannel->Length1--;
-                        pChannel->Length2--;
+                        pChannel->NoteLength--;
+                        pChannel->KeyLength--;
 
-                        if( pChannel->Length1 == 0 )
+                        if( pChannel->NoteLength == 0 )
                         {
-                            func_800535E4( pChannel, ChannelBit );
+                            Sound_ProcessAkaoVM( pChannel, ChannelBit );
                         }
-                        else if( pChannel->Length2 == 0 )
+                        else if( pChannel->KeyLength == 0 )
                         {
                             g_pActiveMusicContext->PendingKeyOffMask |= ChannelBit;
                         }
@@ -332,7 +333,7 @@ void func_800526FC( FSoundMusicContext* in_pContext, FSoundChannel* in_pChannel 
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/sound3", Sound_MainLoop);
 
 //----------------------------------------------------------------------------------------------------------------------
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/sound3", func_80052DA4);
+INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/sound3", Sound_PeekNextOpcode);
 
 //----------------------------------------------------------------------------------------------------------------------
 // There's something fucked up about the struct access here.
@@ -601,172 +602,219 @@ s32 Sound_PlayKeymapNote( FSoundChannel* in_pChannel, s32 in_ChannelMask, s32 in
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-u8 func_80052DA4(FSoundChannel*);        
-void func_80052FB8(FSoundChannel*, u32);
-extern u16 D_80072310[];
-extern u8 D_8007235C[];
-extern void (*D_80073970[])(FSoundChannel*, int);
-extern void (*D_80073AF0[])(FSoundChannel*, int);
-extern s32 g_Sound_LfoPhase;
+void func_80052FB8( FSoundChannel*, u32 );
 
-void func_800535E4(FSoundChannel* in_pChannel, u32 arg1) {
-    u32 sp10;
-    u32 temp_a2_2;
-    u32 temp_s1;
-    s32 updateFlags;
-    s32 var_v1;
-    u32 temp_v1;
-    u32 temp_v1_7;
-    u_int opcode;
-    u8* pc;
+void Sound_ProcessAkaoVM( FSoundChannel* in_pChannel, u32 in_VoiceFlags )
+{
+    u32 FinePitchOffset;
+    u32 var1;
+    u32 var2;
+    s32 UpdateFlags;
+    s32 KeyLengthTemp;
+    u32 LengthPrefixIndex;
+    u32 VibratoMagnitude;
+    u32 OpCode;
+#define OpCodeExt          (var1)  /* computed pitch value */
+#define Pitch              (var1)  /* computed pitch value */
+#define NextOp             (var1)  /* peeked next opcode */
+#define Note               (var2)  /* computed semitone, reused as UpdateFlags later */
+#define ChannelUpdateFlags (var2)  /* computed semitone, reused as UpdateFlags later */
 
     do {
-        pc = in_pChannel->ProgramCounter;
-        opcode = *pc;
-        in_pChannel->ProgramCounter = ++pc;
-        
-        if (opcode >= 0xA0) {
-            temp_v1 = opcode - 0xF0;
-            if (opcode == 0xFE) {
-                temp_a2_2 = *pc;
-                in_pChannel->ProgramCounter = pc + 1;
-                D_80073AF0[temp_a2_2](in_pChannel, arg1);
-            } else {
-                if (temp_v1 < 0xE) {
-                    opcode = temp_v1 * 0xB;
-                    in_pChannel->Length1 = *pc;
-                    in_pChannel->ProgramCounter = pc + 1;
-                } else {
-                    if (opcode == 0xFF) {
-                        opcode = 0xA0;
-                    } else if ((opcode == 0xCA) && (in_pChannel->UpdateFlags & 0x200000)) {
-                        opcode = 0xA0;
-                        g_Sound_SfxState.KeyOffFlags |= arg1;
+        OpCode = *in_pChannel->ProgramCounter++;
+
+        if( OpCode >= AKAO_OPCODE_COMMAND_MIN )
+        {
+            LengthPrefixIndex = OpCode - AKAO_LENGTH_PREFIX_MIN;
+            if( OpCode == AKAO_OP_FE_EXTENDED_PREFIX )
+            {
+                OpCodeExt = *in_pChannel->ProgramCounter++;
+                g_Sound_AkaoOpcodeHandlersExt[OpCodeExt]( in_pChannel, in_VoiceFlags );
+            }
+            else
+            {
+                if( LengthPrefixIndex < AKAO_LENGTH_PREFIX_COUNT )
+                {
+                    OpCode = LengthPrefixIndex * AKAO_NOTE_LENGTH_COUNT;
+                    in_pChannel->NoteLength = *in_pChannel->ProgramCounter++;
+                }
+                else
+                {
+                    if( OpCode == AKAO_OP_FF_END_SEQUENCE )
+                    {
+                        OpCode = AKAO_OP_A0_FINISH_CHANNEL;
                     }
-                    D_80073970[opcode - 0xA0](in_pChannel, arg1);
+                    else if( ( OpCode == AKAO_OP_CA_LOOP_INF ) && ( in_pChannel->UpdateFlags & SOUND_CHANNEL_UPDATE_PENDING_RELEASE ) )
+                    {
+                        OpCode = AKAO_OP_A0_FINISH_CHANNEL;
+                        g_Sound_SfxState.KeyOffFlags |= in_VoiceFlags;
+                    }
+                    g_Sound_AkaoOpcodeHandlers[OpCode - AKAO_OP_A0_FINISH_CHANNEL]( in_pChannel, in_VoiceFlags );
                 }
             }
         }
-        ++in_pChannel->OpcodeStepCounter;
-    } while (opcode > 0xA0);
-                
-    if (opcode == 0xA0) {
-        if (in_pChannel->Type == 0) {
-            g_pActiveMusicContext->PendingKeyOffMask |= arg1;
+        in_pChannel->OpcodeStepCounter++;
+    } while( OpCode > AKAO_OP_A0_FINISH_CHANNEL );
+
+    if( OpCode == AKAO_OP_A0_FINISH_CHANNEL )
+    {
+        if( in_pChannel->Type == SOUND_CHANNEL_TYPE_MUSIC )
+        {
+            g_pActiveMusicContext->PendingKeyOffMask |= in_VoiceFlags;
         }
-    } else {
-        temp_a2_2 = func_80052DA4(in_pChannel);
-        if (in_pChannel->LengthFixed != 0) {
-            in_pChannel->Length1 = in_pChannel->Length2 = in_pChannel->LengthFixed;
+    }
+    else
+    {
+        NextOp = Sound_PeekNextOpcode( in_pChannel );
+        if( in_pChannel->FixedNoteLength != 0 )
+        {
+            in_pChannel->NoteLength = in_pChannel->KeyLength = in_pChannel->FixedNoteLength;
         }
-        if (in_pChannel->Length1 != 0) {
-            if ((temp_a2_2 >= 0x8F) || ((temp_a2_2 < 0x84U) && !(in_pChannel->SfxMask & 5))) {
-                in_pChannel->Length2 -= 2;
+        if( in_pChannel->NoteLength != 0 )
+        {
+            if( ( NextOp >= AKAO_OPCODE_REST_MIN ) || ( ( NextOp < AKAO_OPCODE_TIED_NOTE_MIN ) && !( in_pChannel->Articulation & (SOUND_ARTICULATION_LEGATO | SOUND_ARTICULATION_TENUTO) ) ) )
+            {
+                in_pChannel->KeyLength -= 2;
             }
-        } else {
-            s32 temp_v1_2;
-            temp_v1_2 = D_80072310[opcode % 11];
-            in_pChannel->Length1 = temp_v1_2;
-            var_v1 = temp_v1_2;
-            if (((temp_a2_2 - 0x84) >= 0xB) && !(in_pChannel->SfxMask & 5)) {
-                var_v1 -= 2;
+        }
+        else
+        {
+            s32 NoteLengthTemp;
+            NoteLengthTemp = g_Sound_NoteLengthTable[OpCode % AKAO_NOTE_LENGTH_COUNT];
+            in_pChannel->NoteLength = NoteLengthTemp;
+            KeyLengthTemp = NoteLengthTemp;
+            if( ( ( NextOp - AKAO_OPCODE_TIED_NOTE_MIN ) >= AKAO_NOTE_LENGTH_COUNT ) && !( in_pChannel->Articulation & (SOUND_ARTICULATION_LEGATO | SOUND_ARTICULATION_TENUTO) ) )
+            {
+                KeyLengthTemp -= 2;
             }
-            in_pChannel->Length2 = var_v1;
+            in_pChannel->KeyLength = KeyLengthTemp;
         }
-        if ((in_pChannel->Type == 0) && (in_pChannel->UpdateFlags & 0x40)) {
-            in_pChannel->Length2 = in_pChannel->Length1;
+        if( ( in_pChannel->Type == SOUND_CHANNEL_TYPE_MUSIC ) && ( in_pChannel->UpdateFlags & SOUND_CHANNEL_UPDATE_TENUTO ) )
+        {
+            in_pChannel->KeyLength = in_pChannel->NoteLength;
         }
-        
-        in_pChannel->LengthStored = in_pChannel->Length1;
-        in_pChannel->VoiceParams.VoiceParamFlags |= 0x4000;
-        
-        if (opcode >= 0x8F) {
-            if (in_pChannel->Type == 0) {
-                g_pActiveMusicContext->ActiveNoteMask &= ~arg1;
-                if (in_pChannel->VoiceParams.AssignedVoiceNumber < 0x18) {
-                    g_pActiveMusicContext->PendingKeyOffMask |= arg1;
+
+        in_pChannel->LengthStored = in_pChannel->NoteLength;
+        in_pChannel->VoiceParams.VoiceParamFlags |= VOICE_PARAM_ADSR_RR;
+
+        if( OpCode >= AKAO_OPCODE_REST_MIN )
+        {
+            if( in_pChannel->Type == SOUND_CHANNEL_TYPE_MUSIC )
+            {
+                g_pActiveMusicContext->ActiveNoteMask &= ~in_VoiceFlags;
+                if( in_pChannel->VoiceParams.AssignedVoiceNumber < VOICE_COUNT )
+                {
+                    g_pActiveMusicContext->PendingKeyOffMask |= in_VoiceFlags;
                 }
             }
             in_pChannel->PortamentoSteps = 0;
             in_pChannel->VibratoPitch = 0;
             in_pChannel->TremeloVolume = 0;
-            in_pChannel->SfxMask &= 0xFFFD;
+            in_pChannel->Articulation &= ~SOUND_ARTICULATION_TIED;
             return;
         }
-        if (opcode < 0x84) {
-            int v0;
-            updateFlags = in_pChannel->UpdateFlags;
-            v0 = in_pChannel->Octave * 0xC;
-            temp_s1 = opcode / 11;
-            temp_s1 += v0;
-            if (updateFlags & 8) {
-                temp_a2_2 = Sound_PlayKeymapNote(in_pChannel, arg1, temp_s1);
-            } else {
-                if (!(in_pChannel->SfxMask & 2)) {
-                    if (in_pChannel->Type == 0) {
-                        if (updateFlags & 0x1000) {
-                            func_80052FB8(in_pChannel, temp_s1);
+        if( OpCode < AKAO_OPCODE_TIED_NOTE_MIN )
+        {
+            s32 OctaveBase;
+            UpdateFlags = in_pChannel->UpdateFlags;
+            OctaveBase = in_pChannel->Octave * SEMITONES_IN_OCTAVE;
+            Note = OpCode / AKAO_NOTE_LENGTH_COUNT;
+            Note += OctaveBase;
+            if( UpdateFlags & SOUND_CHANNEL_UPDATE_DRUM_MODE )
+            {
+                Pitch = Sound_PlayKeymapNote( in_pChannel, in_VoiceFlags, Note );
+            }
+            else
+            {
+                if( !( in_pChannel->Articulation & SOUND_ARTICULATION_TIED ) )
+                {
+                    if( in_pChannel->Type == SOUND_CHANNEL_TYPE_MUSIC )
+                    {
+                        if( UpdateFlags & SOUND_CHANNEL_UPDATE_UNKNOWN_12 )
+                        {
+                            func_80052FB8( in_pChannel, Note );
                         }
-                        g_pActiveMusicContext->PendingKeyOnMask |= arg1;
-                        if ((g_pActiveMusicContext->ActiveNoteMask & arg1) && (in_pChannel->VoiceParams.AssignedVoiceNumber < 0x18)) {
-                            g_pActiveMusicContext->PendingKeyOffMask |= arg1;
+                        g_pActiveMusicContext->PendingKeyOnMask |= in_VoiceFlags;
+                        if( ( g_pActiveMusicContext->ActiveNoteMask & in_VoiceFlags ) && ( in_pChannel->VoiceParams.AssignedVoiceNumber < VOICE_COUNT ) )
+                        {
+                            g_pActiveMusicContext->PendingKeyOffMask |= in_VoiceFlags;
                         }
-                        
-                        if (in_pChannel->KeyOnVolumeSlideLength != 0) {
+
+                        if( in_pChannel->KeyOnVolumeSlideLength != 0 )
+                        {
                             in_pChannel->ChannelVolumeSlideLength = in_pChannel->KeyOnVolumeSlideLength;
                             in_pChannel->Volume = in_pChannel->KeyOnVolume;
                             in_pChannel->VolumeSlideStep = in_pChannel->KeyOnVolumeSlideStep;
                         }
-                    } else {
-                        g_Sound_SfxState.KeyOnFlags |= arg1;
+                    }
+                    else
+                    {
+                        g_Sound_SfxState.KeyOnFlags |= in_VoiceFlags;
                     }
                     in_pChannel->PitchSlideStepsCurrent = 0;
                 }
-                
-                if ((in_pChannel->PortamentoSteps != 0) && (in_pChannel->KeyStored != 0)) {
+
+                if( ( in_pChannel->PortamentoSteps != 0 ) && ( in_pChannel->KeyStored != 0 ) )
+                {
                     in_pChannel->PitchBendSlideLength = in_pChannel->PortamentoSteps;
-                    in_pChannel->PitchBendSlideTranspose = ((in_pChannel->Transpose + temp_s1) - in_pChannel->KeyStored) - in_pChannel->TransposeStored;
-                    in_pChannel->Key = in_pChannel->KeyStored - (in_pChannel->Transpose - in_pChannel->TransposeStored);
-                    temp_s1 = in_pChannel->KeyStored + in_pChannel->TransposeStored;
-                } else {
-                    in_pChannel->Key = temp_s1;
-                    temp_s1 = temp_s1 + in_pChannel->Transpose;
+                    in_pChannel->PitchBendSlideTranspose = ( ( in_pChannel->Transpose + Note ) - in_pChannel->KeyStored ) - in_pChannel->TransposeStored;
+                    in_pChannel->Key = in_pChannel->KeyStored - ( in_pChannel->Transpose - in_pChannel->TransposeStored );
+                    Note = in_pChannel->KeyStored + in_pChannel->TransposeStored;
                 }
-                
-                temp_a2_2 = Sound_CalculatePitch(&g_InstrumentInfo[in_pChannel->InstrumentIndex], temp_s1, in_pChannel->FineTune, &in_pChannel->FinePitchDelta);
-                
-                if (in_pChannel->RandomPitchDepth != 0) {
-                    sp10 = (temp_a2_2 * in_pChannel->RandomPitchDepth) >> 8;
-                    sp10 *= D_8007235C[g_Sound_LfoPhase];
-                    if (D_8007235C[g_Sound_LfoPhase] & 0x80) {
-                        sp10 >>= 9;
-                        temp_a2_2 -= sp10;
-                    } else {
-                        sp10 >>= 7;
-                        temp_a2_2 += sp10;
+                else
+                {
+                    in_pChannel->Key = Note;
+                    Note = Note + in_pChannel->Transpose;
+                }
+
+                Pitch = Sound_CalculatePitch( &g_InstrumentInfo[in_pChannel->InstrumentIndex], Note, in_pChannel->FineTune, &in_pChannel->FinePitchDelta );
+
+                if( in_pChannel->RandomPitchDepth != 0 )
+                {
+                    FinePitchOffset = ( Pitch * in_pChannel->RandomPitchDepth ) >> 8;
+                    FinePitchOffset *= g_Sound_LfoWave[g_Sound_LfoPhase];
+                    if( g_Sound_LfoWave[g_Sound_LfoPhase] & 0x80 )
+                    {
+                        FinePitchOffset >>= 9;
+                        Pitch -= FinePitchOffset;
+                    }
+                    else
+                    {
+                        FinePitchOffset >>= 7;
+                        Pitch += FinePitchOffset;
                     }
                 }
             }
-            in_pChannel->PitchBase = temp_a2_2;
-            if (in_pChannel->Type == 0) {
-                g_pActiveMusicContext->ActiveNoteMask |= arg1;
-            } else {
-                g_Sound_SfxState.KeyedFlags |= arg1;
+            in_pChannel->PitchBase = Pitch;
+            if( in_pChannel->Type == SOUND_CHANNEL_TYPE_MUSIC )
+            {
+                g_pActiveMusicContext->ActiveNoteMask |= in_VoiceFlags;
             }
-            
-            temp_s1 = in_pChannel->UpdateFlags;
-            in_pChannel->VoiceParams.VoiceParamFlags |= 0x13;
-            
-            if (temp_s1 & 1) {
-                temp_v1_7 = (in_pChannel->VibratoDepth & 0x7F00) >> 8;
-                in_pChannel->VibratoBase = (!(in_pChannel->VibratoDepth & 0x8000) ? (temp_v1_7 * ((temp_a2_2 * 0xF) >> 8)) : (temp_v1_7 * temp_a2_2)) >> 7;
-                if (!(in_pChannel->SfxMask & 2)) {
+            else
+            {
+                g_Sound_SfxState.KeyedFlags |= in_VoiceFlags;
+            }
+
+            ChannelUpdateFlags = in_pChannel->UpdateFlags;
+            in_pChannel->VoiceParams.VoiceParamFlags |= VOICE_PARAM_VOLUME | VOICE_PARAM_SAMPLE_RATE;
+
+            if( ChannelUpdateFlags & SOUND_CHANNEL_UPDATE_VIBRATO )
+            {
+                VibratoMagnitude = ( in_pChannel->VibratoDepth & 0x7F00 ) >> 8;
+
+                in_pChannel->VibratoBase = ( !( in_pChannel->VibratoDepth & VIBRATO_FLAG_ABSOLUTE ) 
+                    ? ( VibratoMagnitude * ( ( Pitch * 0xF ) >> 8 ) ) 
+                    : ( VibratoMagnitude * Pitch ) ) >> 7;
+
+                if( !( in_pChannel->Articulation & SOUND_ARTICULATION_TIED ) )
+                {
                     in_pChannel->VibratoWave = g_Sound_LfoTable[in_pChannel->VibratoType];
                     in_pChannel->VibratoDelayCurrent = in_pChannel->VibratoDelay;
                     in_pChannel->VibratoRateCurrent = 1;
                 }
             }
-            if ((temp_s1 & 2) && !(in_pChannel->SfxMask & 2)) {
+            if( ( ChannelUpdateFlags & SOUND_CHANNEL_UPDATE_TREMOLO ) && !( in_pChannel->Articulation & SOUND_ARTICULATION_TIED ) )
+            {
                 in_pChannel->TremeloWave = g_Sound_LfoTable[in_pChannel->TremeloType];
                 in_pChannel->TremeloDelayCurrent = in_pChannel->TremeloDelay;
                 in_pChannel->TremeloRateCurrent = 1;
@@ -775,22 +823,27 @@ void func_800535E4(FSoundChannel* in_pChannel, u32 arg1) {
             in_pChannel->TremeloVolume = 0;
             in_pChannel->PitchSlide = 0;
         }
-        
-        in_pChannel->SfxMask = (in_pChannel->SfxMask & 0xFFFD) | ((in_pChannel->SfxMask & 1) * 2);
-        
-        if (in_pChannel->PitchBendSlideTranspose != 0) {
+
+        in_pChannel->Articulation = ( in_pChannel->Articulation & ~SOUND_ARTICULATION_TIED ) | ( ( in_pChannel->Articulation & SOUND_ARTICULATION_LEGATO ) * 2 );
+
+        if( in_pChannel->PitchBendSlideTranspose != 0 )
+        {
             in_pChannel->Key = in_pChannel->Key + in_pChannel->PitchBendSlideTranspose;
-            temp_a2_2 = Sound_CalculatePitch(&g_InstrumentInfo[in_pChannel->InstrumentIndex], in_pChannel->Key + in_pChannel->Transpose, in_pChannel->FineTune, &sp10);
-            temp_a2_2 <<= 0x10;
+            Pitch = Sound_CalculatePitch( &g_InstrumentInfo[in_pChannel->InstrumentIndex], in_pChannel->Key + in_pChannel->Transpose, in_pChannel->FineTune, &FinePitchOffset );
+            Pitch <<= 0x10;
             in_pChannel->PitchSlideStepsCurrent = in_pChannel->PitchBendSlideLength;
             in_pChannel->PitchBendSlideTranspose = 0;
-            in_pChannel->PitchSlideStep = (s32) (temp_a2_2 - ((in_pChannel->PitchBase << 0x10) + in_pChannel->PitchSlide)) / in_pChannel->PitchSlideStepsCurrent;
+            in_pChannel->PitchSlideStep = (s32)( Pitch - ( ( in_pChannel->PitchBase << 0x10 ) + in_pChannel->PitchSlide ) ) / in_pChannel->PitchSlideStepsCurrent;
         }
         in_pChannel->KeyStored = in_pChannel->Key;
         in_pChannel->TransposeStored = in_pChannel->Transpose;
     }
+#undef OpCodeExt
+#undef Pitch
+#undef NextOp
+#undef Note
+#undef ChannelUpdateFlags
 }
-
 
 //----------------------------------------------------------------------------------------------------------------------
 s32 Sound_ComputeSlideStep(u32* arg0, s32 arg1, s32 arg2, s32 arg3) {

@@ -233,13 +233,13 @@ void SoundVM_FE19_KeyOnVolumeSlide( FSoundChannel* in_pChannel, u32 in_VoiceFlag
 //----------------------------------------------------------------------------------------------------------------------
 void SoundVM_FE1A_800543d8( FSoundChannel* in_pChannel, u32 in_VoiceFlags )
 {
-    in_pChannel->UpdateFlags |= SOUND_CHANNEL_UPDATE_UNKNOWN_06;
+    in_pChannel->UpdateFlags |= SOUND_CHANNEL_UPDATE_TENUTO;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 void SoundVM_FE1B_800543ec( FSoundChannel* in_pChannel, u32 in_VoiceFlags )
 {
-    in_pChannel->UpdateFlags &= ~SOUND_CHANNEL_UPDATE_UNKNOWN_06;
+    in_pChannel->UpdateFlags &= ~SOUND_CHANNEL_UPDATE_TENUTO;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -411,7 +411,7 @@ void SoundVM_DA_EnablePortamento(FSoundChannel* in_pChannel, u32 in_VoiceFlags) 
     }
     in_pChannel->TransposeStored = 0;
     in_pChannel->KeyStored = 0;
-    in_pChannel->SfxMask = 1;
+    in_pChannel->Articulation = SOUND_ARTICULATION_LEGATO;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -840,7 +840,7 @@ void SoundVM_C3_DisableReverbVoices( FSoundChannel* in_pChannel, u32 in_VoiceFla
 //----------------------------------------------------------------------------------------------------------------------
 void SoundVM_CC_EnableLegato( FSoundChannel* in_pChannel, u32 in_VoiceFlags )
 {
-    in_pChannel->SfxMask = SOUND_SFX_LEGATO;
+    in_pChannel->Articulation = SOUND_ARTICULATION_LEGATO;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -851,7 +851,7 @@ void SoundVM_D0_EnableSustainedNote( FSoundChannel* in_pChannel, u32 in_VoiceFla
 {
     if( in_pChannel->Type != SOUND_CHANNEL_TYPE_MUSIC )
     {
-        in_pChannel->SfxMask = SOUND_SFX_FULL_LENGTH;
+        in_pChannel->Articulation = SOUND_ARTICULATION_TENUTO;
     }
 }
 
@@ -1111,9 +1111,9 @@ void SoundVM_A2_OverwriteNextNoteLength( FSoundChannel* in_pChannel, u32 in_Voic
     u16 Length;
 
     Length = *in_pChannel->ProgramCounter++;
-    in_pChannel->LengthFixed = 0;
-    in_pChannel->Length2 = Length;
-    in_pChannel->Length1 = Length;
+    in_pChannel->FixedNoteLength = 0;
+    in_pChannel->KeyLength = Length;
+    in_pChannel->NoteLength = Length;
     in_pChannel->LengthStored = Length;
 }
 
@@ -1136,7 +1136,7 @@ void SoundVM_DC_FixNoteLength( FSoundChannel* in_pChannel, u32 in_VoiceFlags )
             NoteLength = 255;
         }
     }
-    in_pChannel->LengthFixed = NoteLength;
+    in_pChannel->FixedNoteLength = NoteLength;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -1258,7 +1258,7 @@ void SoundVM_CB_DisableVoiceModes( FSoundChannel* in_pChannel, u32 in_VoiceFlags
     SoundVM_C5_DisableNoiseVoices(in_pChannel, in_VoiceFlags);
     SoundVM_C7_DisableFmVoices(in_pChannel, in_VoiceFlags);
     SoundVM_C3_DisableReverbVoices(in_pChannel, in_VoiceFlags);
-    in_pChannel->SfxMask &= ~( SOUND_SFX_LEGATO | SOUND_SFX_FULL_LENGTH );
+    in_pChannel->Articulation &= ~( SOUND_ARTICULATION_LEGATO | SOUND_ARTICULATION_TENUTO );
 }
 
 //----------------------------------------------------------------------------------------------------------------------

@@ -58,8 +58,12 @@ typedef enum ESoundChannelConfigs
     SOUND_CHANNEL_CONFIG_STEREO_CHANNELS = 1U << 2
 } ESoundChannelConfigs;
 
-#define SOUND_SFX_LEGATO      0x1
-#define SOUND_SFX_FULL_LENGTH 0x4
+typedef enum ESoundArticulationFlags
+{
+    SOUND_ARTICULATION_LEGATO = 1 << 0, // Slur the next note
+    SOUND_ARTICULATION_TIED   = 1 << 1, // This note was slurred from the last
+    SOUND_ARTICULATION_TENUTO = 1 << 2  // This note plays its full length without the breath length in it
+} ESoundArticulationFlags;
 
 typedef enum ESoundUpdateFlags
 {
@@ -69,7 +73,7 @@ typedef enum ESoundUpdateFlags
     SOUND_CHANNEL_UPDATE_DRUM_MODE         = 1U <<  3,
     SOUND_CHANNEL_UPDATE_SIDE_CHAIN_PITCH  = 1U <<  4,
     SOUND_CHANNEL_UPDATE_SIDE_CHAIN_VOL    = 1U <<  5,
-    SOUND_CHANNEL_UPDATE_UNKNOWN_06        = 1U <<  6,
+    SOUND_CHANNEL_UPDATE_TENUTO            = 1U <<  6,
     SOUND_CHANNEL_UPDATE_OVERLAY           = 1U <<  8,
     SOUND_CHANNEL_UPDATE_ALTERNATIVE       = 1U <<  9,
     SOUND_CHANNEL_UPDATE_UNKNOWN_12        = 1U << 12,
@@ -339,7 +343,7 @@ static_assert( sizeof(FSoundVoiceParams) == 0x1C );
 #define SOUND_LOOP_STACK_SIZE (4)
 #define SOUND_LOOP_STACK_MAX_INDEX (SOUND_LOOP_STACK_SIZE - 1)
 
-typedef struct
+typedef struct FSoundChannel
 {
     /* 0x000 */ u8*  ProgramCounter;
     /* 0x004 */ u8*  LoopStartPc[SOUND_LOOP_STACK_SIZE];
@@ -369,8 +373,8 @@ typedef struct
     /* 0x070 */ s32  KeyOnVolume;
     /* 0x074 */ s32  KeyOnVolumeSlideStep;
     /* 0x078 */ u16  Type; /* Music, SFX, Menu */
-    /* 0x07A */ u16  Length1;
-    /* 0x07C */ u16  Length2;
+    /* 0x07A */ u16  NoteLength;
+    /* 0x07C */ u16  KeyLength;
     /* 0x07E */ u16  InstrumentIndex;
     /* 0x080 */ u16  PanMod;
     /* 0x082 */ u16  PanModStepsRemaining;
@@ -390,7 +394,7 @@ typedef struct
     /* 0x0AA */ s16  PitchBendSlideLength;
     /* 0x0AC */ u16  KeyStored;
     /* 0x0AE */ u16  PortamentoSteps;
-    /* 0x0B0 */ u16  SfxMask;
+    /* 0x0B0 */ u16  Articulation;
     /* 0x0B2 */ s16  VibratoDelay;
     /* 0x0B4 */ u16  VibratoDelayCurrent;
     /* 0x0B6 */ u16  VibratoRateSlideLength;
@@ -419,7 +423,7 @@ typedef struct
     /* 0x0E4 */ u16  LoopStackTop;
     /* 0x0E6 */ u16  RandomPitchDepth;
     /* 0x0E8 */ s16  LengthStored;
-    /* 0x0EA */ s16  LengthFixed;
+    /* 0x0EA */ s16  FixedNoteLength;
     /* 0x0EC */ s16  VolumeBalanceSlideStep;
     /* 0x0EE */ s16  PanModStep;
     /* 0x0F0 */ s16  VolumeMod;
@@ -739,6 +743,10 @@ void memcpy32( s32* in_Src, s32* in_Dst, uint in_Size );
 void memswap32( s32* in_A, s32* in_B, uint in_Size );
 u32 Music_UpdateChannels( FSoundChannel* in_pChannel, EMusicContextType in_ContextType );
 long Sound_MainLoop();
+u8 Sound_PeekNextOpcode( FSoundChannel* in_pChannel );
+s32 Sound_CalculatePitch( FSoundInstrumentInfo* in_pInstrumentInfo, s32 in_Note, u32 in_FineTune, s32* out_pPitchDelta );
+s32 Sound_PlayKeymapNote( FSoundChannel* in_pChannel, s32 in_ChannelMask, s32 in_KeymapIndex );
+void Sound_ProcessAkaoVM( FSoundChannel* in_pChannel, u32 in_VoiceFlags );
 s32 Sound_ComputeSlideStep( u32*, s32, s32, s32 );
 void Sound_CopyInstrumentInfoToChannel( FSoundChannel* in_pChannel, FSoundInstrumentInfo* in_pInstrumentInfo, u32 in_StartAddress );
 void Sound_SetInstrumentToChannel( FSoundChannel *in_Channel, u32 in_Index );
@@ -851,15 +859,18 @@ void* Sound_PlaySfxProtected( s32 in_VoiceIndex ); // TODO(jperos): Returns some
 extern s32 g_Sound_EventDescriptor;
 #define SOUND_NULL_WAVEFORM_BUF_SIZE (64)
 extern s8 g_Sound_NullWaveformBuf[ SOUND_NULL_WAVEFORM_BUF_SIZE ];
+extern u16 g_Sound_NoteLengthTable[12]; // AKAO_NOTE_LENGTH_COUNT
 
 // RODATA it seems
 extern u32 g_Sound_ProgramCounter;
 extern const u32 g_SemitonePitchTable[SEMITONES_IN_OCTAVE];
-extern s16* g_Sound_LfoTable[SOUND_LFO_COUNT];
+extern u8 g_Sound_LfoWave[0x100];
 
 #define SPU_PAN_TABLE_SIZE   (0x100)
 #define PAN_CENTER_INDEX     (SPU_PAN_TABLE_SIZE / 2)
 extern s16 g_Sound_StereoPanGainTableQ15[SPU_PAN_TABLE_SIZE];
+
+extern s16* g_Sound_LfoTable[SOUND_LFO_COUNT];
 
 // DATA I think
 extern FSoundChannel g_ActiveMusicChannels[SOUND_CHANNEL_COUNT];
@@ -891,6 +902,7 @@ extern s32 g_CdVolume;
 extern s32 g_Sound_MutedMusicChannelMask;
 extern FSoundChannel g_PushedMusicChannels[SOUND_CHANNEL_COUNT];
 extern u16* g_Sound_Sfx_AdditionalProgramCounts;
+extern s32 g_Sound_LfoPhase;
 extern s32 g_Sound_TempoScale;
 extern s32 g_Sound_MasterPitchScaleQ16_16;
 extern FSoundGlobalFlags g_Sound_GlobalFlags;

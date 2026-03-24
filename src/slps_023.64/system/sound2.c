@@ -146,7 +146,7 @@ void Sound_ResetChannel( FSoundChannel* in_pChannel, u8* in_ProgramCounter )
     in_pChannel->PitchSlide = 0;
     in_pChannel->PitchBendSlideTranspose = 0;
     in_pChannel->PitchSlideStepsCurrent = 0;
-    in_pChannel->LengthFixed = 0;
+    in_pChannel->FixedNoteLength = 0;
     in_pChannel->LengthStored = 0;
     in_pChannel->ChannelVolumeSlideLength = 0;
     in_pChannel->FinePitchDelta = 0;
@@ -154,7 +154,7 @@ void Sound_ResetChannel( FSoundChannel* in_pChannel, u8* in_ProgramCounter )
     in_pChannel->LoopStackTop = 0;
     in_pChannel->UpdateFlags = 0;
     in_pChannel->AutoPanVolume = 0;
-    in_pChannel->SfxMask = 0;
+    in_pChannel->Articulation = 0;
     in_pChannel->OpcodeStepCounter = -1;
     in_pChannel->VoiceParams.VolumeScale = 0;
     in_pChannel->AutoPanDepth = 0;
@@ -281,18 +281,18 @@ void Sound_LoadAkaoSequence( FAkaoSequence* in_Sequence, s32 in_Mask )
             {
                 ChannelLength = 0x1E4;
             }
-            pChannel->Length2 = 2;
+            pChannel->KeyLength = 2;
             pChannel->VolumeBalance = 0x7F00;
             pChannel->Volume = 0x3FFF0000;
             pChannel->VolumeMod = 0x4000;
-            pChannel->Length1 = ChannelLength;
+            pChannel->NoteLength = ChannelLength;
             pChannel->FineTune = 0;
             pChannel->Transpose = 0;
             pChannel->PortamentoSteps = 0;
             pChannel->PitchSlide = 0;
             pChannel->PitchBendSlideTranspose = 0;
             pChannel->PitchSlideStepsCurrent = 0;
-            pChannel->LengthFixed = 0;
+            pChannel->FixedNoteLength = 0;
             pChannel->LengthStored = 0;
             pChannel->ChannelPan = 0x8000;
             pChannel->ChannelPanSlideLength = 0;
@@ -303,7 +303,7 @@ void Sound_LoadAkaoSequence( FAkaoSequence* in_Sequence, s32 in_Mask )
             pChannel->KeyOnVolumeSlideLength = 0;
             pChannel->RandomPitchDepth = 0;
             pChannel->UpdateFlags = ((g_pActiveMusicContext->AllocatedVoiceMask & VoiceMask) == 0) << 6;
-            pChannel->SfxMask = 0;
+            pChannel->Articulation = 0;
             pChannel->AutoPanVolume = 0;
             pChannel->LoopStackTop = 0;
             pChannel->AutoPanDepth = 0;
@@ -328,8 +328,8 @@ void Sound_LoadAkaoSequence( FAkaoSequence* in_Sequence, s32 in_Mask )
                     pData += 2;
                 }
             }
-            pChannel->Length1 = 3;
-            pChannel->Length2 = 1;
+            pChannel->NoteLength = 3;
+            pChannel->KeyLength = 1;
             pChannel->ProgramCounter = (u8* ) &g_Sound_ProgramCounter;
             pChannel->VoiceParams.VoiceParamFlags |= 0x4400;
             pChannel->VoiceParams.AdsrUpper = (pChannel->VoiceParams.AdsrUpper & 0xFFE0) | 5;
@@ -375,8 +375,8 @@ void Sound_KillMusicContext( FSoundMusicContext* in_Context, FSoundChannel* in_p
         in_Context->PendingKeyOffMask = -1;
         for( Count = SOUND_CHANNEL_COUNT; Count != 0; Count-- )
         {
-            pChannel->Length1 = 3;
-            pChannel->Length2 = 1;
+            pChannel->NoteLength = 3;
+            pChannel->KeyLength = 1;
             pChannel->ProgramCounter = (u8*)&g_Sound_ProgramCounter;
             pChannel++;
         };
@@ -624,8 +624,8 @@ void func_8004E7D8( FSoundChannel* in_pChannel, FSoundCommandParams* in_pCommand
     in_pChannel->PanModStepsRemaining = 0;
     in_pChannel->ChannelPanSlideLength = 0;
     in_pChannel->PanMod = in_pCommandParams->Param3 << 8;
-    in_pChannel->Length1 = 2;
-    in_pChannel->Length2 = 1;
+    in_pChannel->NoteLength = 2;
+    in_pChannel->KeyLength = 1;
     in_pChannel->Type = SOUND_CHANNEL_TYPE_SFX;
     in_pChannel->VolumeModStepsRemaining = 0;
     in_pChannel->Priority = -2;
@@ -903,18 +903,18 @@ void Sound_SetMusicSequence( FAkaoSequence* in_Sequence, s32 in_SwapWithSavedSta
             pChannel->LoopStartPc[1] += Delta;
             pChannel->LoopStartPc[2] += Delta;
             pChannel->LoopStartPc[3] += Delta;
-            pChannel->Length1 += 2;
-            pChannel->Length2 += 2;
+            pChannel->NoteLength += 2;
+            pChannel->KeyLength += 2;
             pChannel->VoiceParams.VoiceParamFlags |= 0x1FF93;
             Sound_MapInstrumentToAltSampleBank((u32) g_pActiveMusicContext->StatusFlags, pChannel);
         }
         else
         {
-            pChannel->Length1 = 4U;
-            pChannel->Length2 = 2U;
+            pChannel->NoteLength = 4;
+            pChannel->KeyLength  = 2;
             pChannel->ProgramCounter = (u8*)&g_Sound_ProgramCounter;
         }
-        pChannel->VoiceParams.AssignedVoiceNumber = 0x18;
+        pChannel->VoiceParams.AssignedVoiceNumber = VOICE_INVALID_INDEX;
         Flags--;
         pChannel++;
         Mask <<= 1;

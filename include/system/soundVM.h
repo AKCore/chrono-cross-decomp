@@ -1,7 +1,22 @@
 #ifndef _SOUND_VM_H
 #define _SOUND_VM_H
 
-/*
+#include "common.h"
+
+struct FSoundChannel;
+
+#define AKAO_OPCODE_NOTE_ON_MIN    0x00   /* 0x00-0x83: note on */
+#define AKAO_OPCODE_NOTE_ON_MAX    0x83   /* 0x00-0x83: note on */
+#define AKAO_OPCODE_TIED_NOTE_MIN  0x84   /* 0x84-0x8E: tied notes / legato */
+#define AKAO_OPCODE_REST_MIN       0x8F   /* 0x8F-0x9F: rests */
+#define AKAO_OPCODE_COMMAND_MIN    0xA0   /* 0xA0+: commands */
+#define AKAO_LENGTH_PREFIX_MIN     0xF0   /* 0xF0-0xFD: length prefix */
+#define AKAO_LENGTH_PREFIX_COUNT   0xE    /* 0xF0-0xFD: length prefix */
+#define AKAO_NOTE_LENGTH_COUNT      11    /* number of note lengths to choose from */
+
+typedef void (*PAkaoOpcodeHandler)(struct FSoundChannel*, u32);
+
+/**
  * Akao Sequence VM Opcodes
  *
  * Byte encoding:
@@ -135,7 +150,6 @@ typedef enum EAkaoOpCode
 } EAkaoOpCode;
 
 /* Extended opcodes (0xFE prefix) */
-
 typedef enum EAkaoExtOpCode
 {
     /* Tempo */
@@ -161,6 +175,7 @@ typedef enum EAkaoExtOpCode
     /* Instrument */
     AKAO_EXT_0A_CLEAR_INSTRUMENT                       = 0x0A,
     AKAO_EXT_0B_UNK                                    = 0x0B,
+
     /* 0x0C-0x0D: unimplemented */
 
     /* Flow control */
@@ -175,7 +190,9 @@ typedef enum EAkaoExtOpCode
     AKAO_EXT_14_CHANGE_PATCH                           = 0x14,
     AKAO_EXT_15_UNK                                    = 0x15,
     AKAO_EXT_16_UNK                                    = 0x16,
+
     /* 0x17-0x18: unimplemented */
+
     AKAO_EXT_19_UNK                                    = 0x19,
     AKAO_EXT_1A_UNK                                    = 0x1A,
     AKAO_EXT_1B_UNK                                    = 0x1B,
@@ -187,5 +204,7 @@ typedef enum EAkaoExtOpCode
 
 } EAkaoExtOpCode;
 
+extern PAkaoOpcodeHandler g_Sound_AkaoOpcodeHandlers[];
+extern PAkaoOpcodeHandler g_Sound_AkaoOpcodeHandlersExt[];
 
 #endif // _SOUND_VM_H
