@@ -591,7 +591,14 @@ s32 IsSpuTransferring()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004AC0C);
+extern s32 D_80095064;
+
+s32 func_8004AC0C()
+{
+    D_80095064 = 0;
+    g_Sound_GlobalFlags.ControlLatches |= SOUND_CTL_INSTRUMENT_TRANSFER_ACTIVE;
+    return 0;
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004AC2C);
