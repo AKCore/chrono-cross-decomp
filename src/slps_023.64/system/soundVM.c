@@ -231,13 +231,13 @@ void SoundVM_FE19_KeyOnVolumeSlide( FSoundChannel* in_pChannel, u32 in_VoiceFlag
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void SoundVM_FE1A_800543d8( FSoundChannel* in_pChannel, u32 in_VoiceFlags )
+void SoundVM_FE1A_SetChannelTenuto( FSoundChannel* in_pChannel, u32 in_VoiceFlags )
 {
     in_pChannel->UpdateFlags |= SOUND_CHANNEL_UPDATE_TENUTO;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void SoundVM_FE1B_800543ec( FSoundChannel* in_pChannel, u32 in_VoiceFlags )
+void SoundVM_FE1B_UnsetChannelTenuto( FSoundChannel* in_pChannel, u32 in_VoiceFlags )
 {
     in_pChannel->UpdateFlags &= ~SOUND_CHANNEL_UPDATE_TENUTO;
 }

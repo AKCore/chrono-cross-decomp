@@ -194,8 +194,8 @@ typedef enum EAkaoExtOpCode
     /* 0x17-0x18: unimplemented */
 
     AKAO_EXT_19_UNK                                    = 0x19,
-    AKAO_EXT_1A_UNK                                    = 0x1A,
-    AKAO_EXT_1B_UNK                                    = 0x1B,
+    AKAO_EXT_1A_SET_CHANNEL_TENUTO                     = 0x1A,
+    AKAO_EXT_1B_UNSET_CHANNEL_TENUTO                   = 0x1B,
 
     /* Program counter */
     AKAO_EXT_1C_INCREMENT_PROGRAM_COUNTER              = 0x1C,

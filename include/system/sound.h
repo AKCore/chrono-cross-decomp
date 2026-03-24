@@ -373,8 +373,8 @@ typedef struct FSoundChannel
     /* 0x070 */ s32  KeyOnVolume;
     /* 0x074 */ s32  KeyOnVolumeSlideStep;
     /* 0x078 */ u16  Type; /* Music, SFX, Menu */
-    /* 0x07A */ u16  NoteLength;
-    /* 0x07C */ u16  KeyLength;
+    /* 0x07A */ u16  NoteLength; /* Full given length of the note */
+    /* 0x07C */ u16  KeyLength;  /* Length of the key on portion, minus the "breath" portion at the end of the note */
     /* 0x07E */ u16  InstrumentIndex;
     /* 0x080 */ u16  PanMod;
     /* 0x082 */ u16  PanModStepsRemaining;
@@ -767,8 +767,8 @@ void SoundVM_FE12_VolumeBalanceSlide( FSoundChannel* in_pChannel, u32 in_VoiceFl
 void SoundVM_A8_ChannelVolume( FSoundChannel* in_pChannel, u32 in_VoiceFlags );
 void SoundVM_A9_ChannelVolumeSlide( FSoundChannel* in_pChannel, u32 in_VoiceFlags );
 void SoundVM_FE19_KeyOnVolumeSlide( FSoundChannel* in_pChannel, u32 in_VoiceFlags );
-void SoundVM_FE1A_800543d8( FSoundChannel* in_pChannel, u32 in_VoiceFlags );
-void SoundVM_FE1B_800543ec( FSoundChannel* in_pChannel, u32 in_VoiceFlags );
+void SoundVM_FE1A_SetChannelTenuto( FSoundChannel* in_pChannel, u32 in_VoiceFlags );
+void SoundVM_FE1B_UnsetChannelTenuto( FSoundChannel* in_pChannel, u32 in_VoiceFlags );
 void SoundVM_AA_ChannelPan( FSoundChannel* in_pChannel, u32 in_VoiceFlags );
 void SoundVM_AB_ChannelPanSlide( FSoundChannel* in_pChannel, u32 in_VoiceFlags );
 void SoundVM_A5_SetOctave( FSoundChannel* in_pChannel, u32 in_VoiceFlags );
