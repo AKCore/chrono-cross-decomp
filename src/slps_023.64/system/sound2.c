@@ -405,6 +405,8 @@ INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/sound2", Sound_EvictSfxVoice);
 #define RELEASE_MODE_PRIORITY   0x40000000
 #define RELEASE_MODE_PAIR       0x80000000  // Negative value check
 
+// TODO(jperos): This is *not* a voice mask, the way it's being tested
+// Unless it's packed???
 void Sound_EvictSfxVoice( u32 in_ChannelIndex, u32 in_VoiceMask )
 {
     FSoundChannel* pChannel;
@@ -418,7 +420,7 @@ void Sound_EvictSfxVoice( u32 in_ChannelIndex, u32 in_VoiceMask )
     u32 i;
 
     ActiveVoices = g_Sound_SfxState.ActiveVoiceMask | g_Sound_SfxState.SuspendedVoiceMask;
-    MaskedArg = in_VoiceMask & VOICE_MASK_ALL;
+    MaskedArg = in_VoiceMask & VOICE_MASK_ALL; // Is this shit packed or what...
 
     if (MaskedArg != 0)
     {
@@ -687,8 +689,8 @@ void FreeVoiceChannels( FSoundChannel* in_Channel, u32 in_Voice )
 //----------------------------------------------------------------------------------------------------------------------
 void Sound_PlaySfxProgram( FSoundCommandParams* in_pCommandParams, u8* in_pProgramCounter1, u8* in_pProgramCounter2, s32 in_NoEvict )
 {
-    FSoundChannel* channel;
-    u32 voiceBit;
+    FSoundChannel* pChannel;
+    u32 VoiceBit;
     s32 slotsRemaining;
     s32 activeVoices;
     
@@ -704,23 +706,23 @@ void Sound_PlaySfxProgram( FSoundCommandParams* in_pCommandParams, u8* in_pProgr
 
     do
     {
-        channel = &g_SfxSoundChannels[11];
-        voiceBit = 1 << (VOICE_COUNT - 1);
+        pChannel = &g_SfxSoundChannels[11];
+        VoiceBit = 1 << (SOUND_SFX_CHANNEL_LAST_INDEX - 1);
         activeVoices = ( g_Sound_SfxState.ActiveVoiceMask | g_Sound_SfxState.SuspendedVoiceMask ) | g_Sound_Cutscene_StreamState.VoicesInUseFlags;
         if( ( in_pProgramCounter1 != 0 ) && (in_pProgramCounter2 != 0 ) )
         {
             slotsRemaining = 11; 
-            channel--;
-            voiceBit = 1 << (VOICE_COUNT - 2);
+            pChannel--;
+            VoiceBit = 1 << (SOUND_SFX_CHANNEL_LAST_INDEX - 2);
             while( slotsRemaining != 0 )
             {
-                if( !( activeVoices & ( voiceBit | ( voiceBit << 1 ) ) ) )
+                if( !( activeVoices & ( VoiceBit | ( VoiceBit << 1 ) ) ) )
                 {
                     break;
                 }
                 slotsRemaining--;
-                channel--;
-                voiceBit >>= 1;
+                pChannel--;
+                VoiceBit >>= 1;
                 if (slotsRemaining == 0) 
                 {
                     break;
@@ -732,13 +734,13 @@ void Sound_PlaySfxProgram( FSoundCommandParams* in_pCommandParams, u8* in_pProgr
             slotsRemaining = 12;
             while( slotsRemaining != 0 )
             {
-                if( !( activeVoices & voiceBit ) )
+                if( !( activeVoices & VoiceBit ) )
                 {
                     break;
                 }
                 slotsRemaining--;
-                channel--;
-                voiceBit >>= 1;
+                pChannel--;
+                VoiceBit >>= 1;
             };
         }
         if (slotsRemaining != 0) 
@@ -746,7 +748,7 @@ void Sound_PlaySfxProgram( FSoundCommandParams* in_pCommandParams, u8* in_pProgr
             break;
         }
         
-        Sound_EvictSfxVoice( 0, 0x40000000 );
+        Sound_EvictSfxVoice( 0, 1 << 30 );
 
         if( activeVoices == (g_Sound_SfxState.ActiveVoiceMask | g_Sound_SfxState.SuspendedVoiceMask | g_Sound_Cutscene_StreamState.VoicesInUseFlags) )
         {
@@ -756,21 +758,21 @@ void Sound_PlaySfxProgram( FSoundCommandParams* in_pCommandParams, u8* in_pProgr
     
     if( in_pProgramCounter1 != 0 )
     {
-        func_8004E7D8( channel, in_pCommandParams, voiceBit, in_pProgramCounter1 );
-        FreeVoiceChannels( g_ActiveMusicChannels, channel->VoiceParams.AssignedVoiceNumber );
+        func_8004E7D8( pChannel, in_pCommandParams, VoiceBit, in_pProgramCounter1 );
+        FreeVoiceChannels( g_ActiveMusicChannels, pChannel->VoiceParams.AssignedVoiceNumber );
     }
     if( in_pProgramCounter2 )
     {
         if( in_pProgramCounter1 != 0 )
         {
-            channel++;
-            voiceBit <<= 1;
+            pChannel++;
+            VoiceBit <<= 1;
         }
-        func_8004E7D8( channel, in_pCommandParams, voiceBit, in_pProgramCounter2 );
-        FreeVoiceChannels( g_ActiveMusicChannels, channel->VoiceParams.AssignedVoiceNumber );
+        func_8004E7D8( pChannel, in_pCommandParams, VoiceBit, in_pProgramCounter2 );
+        FreeVoiceChannels( g_ActiveMusicChannels, pChannel->VoiceParams.AssignedVoiceNumber );
         if( in_pProgramCounter1 != 0 )
         {
-            channel->UpdateFlags |= SOUND_CHANNEL_UPDATE_STEREO_LINKED;
+            pChannel->UpdateFlags |= SOUND_CHANNEL_UPDATE_STEREO_LINKED;
         }
     }
     g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_04 | SOUND_GLOBAL_UPDATE_08;
