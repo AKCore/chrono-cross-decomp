@@ -16,7 +16,7 @@ void Sound_Cutscene_StopStream()
         SetVoiceRepeatAddr( g_Sound_Cutscene_StreamState.VoiceIndex + 1, 0x1030U );
         g_Sound_SfxState.ReverbVoiceFlags &= ~g_Sound_Cutscene_StreamState.VoicesInUseFlags;
         g_Sound_Cutscene_StreamState.VoicesInUseFlags = 0;
-        g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_08;
+        g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_VOICE_MODES;
     }
 }
 
@@ -201,7 +201,7 @@ void Sound_Cutscene_StartStream()
     g_Sound_SfxState.ReverbVoiceFlags &= ~g_Sound_Cutscene_StreamState.VoicesInUseFlags;
     g_Sound_SfxState.FmVoiceFlags &= ~g_Sound_Cutscene_StreamState.VoicesInUseFlags;
     g_Sound_SfxState.NoiseVoiceFlags &= ~g_Sound_Cutscene_StreamState.VoicesInUseFlags;
-    g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_08;
+    g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_VOICE_MODES;
 }
 
 //----------------------------------------------------------------------------------------------------------------------

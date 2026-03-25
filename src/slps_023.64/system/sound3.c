@@ -279,7 +279,7 @@ u32 Music_UpdateChannels( FSoundChannel* in_pChannel, EMusicContextType in_Conte
                     GlobalUpdateFlags = g_Sound_GlobalFlags.UpdateFlags;
                     if( in_ContextType == MUSIC_CONTEXT_ACTIVE )
                     {
-                        g_Sound_GlobalFlags.UpdateFlags = GlobalUpdateFlags | SOUND_GLOBAL_UPDATE_07;
+                        g_Sound_GlobalFlags.UpdateFlags = GlobalUpdateFlags | SOUND_GLOBAL_UPDATE_REVERB_DEPTH;
                     }
                 }
 
@@ -618,7 +618,7 @@ s32 Sound_PlayKeymapNote( FSoundChannel* in_pChannel, s32 in_ChannelMask, s32 in
     {
         g_pActiveMusicContext->ReverbChannelFlags &= ~in_ChannelMask;
     }
-    g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_08;
+    g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_VOICE_MODES;
     return out_Pitch;
 }
 

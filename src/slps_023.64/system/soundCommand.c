@@ -956,7 +956,7 @@ void Sound_Cmd_F1_StopSfx( FSoundCommandParams* in_Params )
         CurrentChannelMask <<= 1;
     };
 
-    g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_04 | SOUND_GLOBAL_UPDATE_08;
+    g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_NOISE_CLOCK | SOUND_GLOBAL_UPDATE_VOICE_MODES;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -1073,7 +1073,7 @@ void Sound_Cmd_9A_RestoreMusic( FSoundCommandParams* in_Params )
         ActiveChannelMask = g_pActiveMusicContext->SuspendedChannelMask;
         g_pActiveMusicContext->SuspendedChannelMask = 0;
         g_pActiveMusicContext->ActiveChannelMask = ActiveChannelMask;
-        g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_08;
+        g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_VOICE_MODES;
     }
     D_80094FFC &= ~(1 << 0);
 }

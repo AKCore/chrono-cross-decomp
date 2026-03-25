@@ -358,7 +358,7 @@ void Sound_LoadAkaoSequence( FAkaoSequence* in_Sequence, s32 in_Mask )
     g_pActiveMusicContext->JumpThreshold = 0;
     g_pActiveMusicContext->ActiveNoteMask = 0;
     g_pActiveMusicContext->PendingKeyOnMask = 0;
-    g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_08;
+    g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_VOICE_MODES;
 }
 #endif
 
@@ -604,7 +604,7 @@ void Sound_EvictSfxVoice( u32 in_ChannelIndex, u32 in_VoiceMask )
         };
     }
 
-    g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_04 | SOUND_GLOBAL_UPDATE_08;
+    g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_NOISE_CLOCK | SOUND_GLOBAL_UPDATE_VOICE_MODES;
 }
 #endif
 
@@ -775,7 +775,7 @@ void Sound_PlaySfxProgram( FSoundCommandParams* in_pCommandParams, u8* in_pProgr
             pChannel->UpdateFlags |= SOUND_CHANNEL_UPDATE_STEREO_LINKED;
         }
     }
-    g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_04 | SOUND_GLOBAL_UPDATE_08;
+    g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_NOISE_CLOCK | SOUND_GLOBAL_UPDATE_VOICE_MODES;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -888,7 +888,7 @@ void Sound_SetMusicSequence( FAkaoSequence* in_Sequence, s32 in_SwapWithSavedSta
     g_pActiveMusicContext->PendingKeyOnMask = 0;
     g_pActiveMusicContext->StatusFlags &= ~0x30;
     Delta = (u32)in_Sequence - (u32)PrevSequence;
-    g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_07;
+    g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_REVERB_DEPTH;
     g_pActiveMusicContext->SequencePatchTable += Delta;
     g_pActiveMusicContext->KeymapTable += Delta;
     g_pActiveMusicContext->PendingKeyOnMask = g_pActiveMusicContext->ActiveNoteMask;
@@ -951,7 +951,7 @@ void Sound_SetMusicSequence( FAkaoSequence* in_Sequence, s32 in_SwapWithSavedSta
     // lw      v0,0xc(a1)
     // or      v0,v0,a0
     g_Sound_SfxState.KeyOffFlags |= VoicesToKeyOff;
-    g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_08;
+    g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_VOICE_MODES;
     
     if( D_80094FFC & ( 1 << 0) )
     {
