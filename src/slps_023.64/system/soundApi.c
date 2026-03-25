@@ -611,7 +611,10 @@ INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004AE4C);
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004AE6C);
 
 //----------------------------------------------------------------------------------------------------------------------
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004AF00);
+void Sound_StopCutsceneStream()
+{
+    Sound_ExecuteSoundVm2Function( SOUND_CMD_E2_STOP_CUTSCENE_STREAM );
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 void Sound_SetCutsceneVolume( s32 in_Volume )
