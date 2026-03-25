@@ -61,6 +61,7 @@ typedef enum ESoundCommand
     SOUND_CMD_D8_UNK                                 = 0xD8,
     SOUND_CMD_D9_UNK                                 = 0xD9,
     SOUND_CMD_DA_UNK                                 = 0xDA,
+    SOUND_CMD_E5_FADE_OUT_CUTSCENE                   = 0xE5,
     SOUND_CMD_E8_UNK                                 = 0xE8,
     SOUND_CMD_F0_STOP_MUSIC                          = 0xF0,
     SOUND_CMD_F1_STOP_SFX                            = 0xF1

@@ -146,7 +146,7 @@ u32 Sound_Cutscene_AdvancePage( u32* in_pStreamPageIndex )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void func_8004AF50( s32, s32 );
+void Sound_FadeOutCutscene( s32, s32 );
 
 void Sound_Cutscene_StartStream()
 {
@@ -172,7 +172,7 @@ void Sound_Cutscene_StartStream()
         {
             Volume = g_Sound_Cutscene_StreamState.Volume;
             g_Sound_Cutscene_StreamState.Volume = 0;
-            func_8004AF50( pAkaoHeader->unk_0x28, Volume >> 8 );
+            Sound_FadeOutCutscene( pAkaoHeader->unk_0x28, Volume >> 8 );
         }
     }
 

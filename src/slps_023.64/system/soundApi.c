@@ -617,19 +617,25 @@ INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004AF00);
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004AF20);
 
 //----------------------------------------------------------------------------------------------------------------------
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004AF50);
+void Sound_FadeOutCutscene( u32 arg0, s32 arg1 )
+{
+    g_Sound_Vm2Params.Param1 = arg0;
+    g_Sound_Vm2Params.Param2 = ( arg1 & 0x7F ) << 8;
+    Sound_ExecuteSoundVm2Function( SOUND_CMD_E5_FADE_OUT_CUTSCENE );
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 s32 func_8004AF88( u32 arg0, u32 arg1 )
 {
-    if( arg1 != 0 )
+    if( arg1 == 0 )
     {
-        g_Sound_Vm2Params.Param1 = arg0;
-        g_Sound_Vm2Params.Param2 = arg1;
-        Sound_ExecuteSoundVm2Function( SOUND_CMD_E8_UNK );
-        return 0;
+        return -1;
     }
-    return -1;
+
+    g_Sound_Vm2Params.Param1 = arg0;
+    g_Sound_Vm2Params.Param2 = arg1;
+    Sound_ExecuteSoundVm2Function( SOUND_CMD_E8_UNK );
+    return 0;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
