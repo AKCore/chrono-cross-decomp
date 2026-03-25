@@ -1,4 +1,5 @@
 #include "common.h"
+#include "psyq/libcd.h"
 #include "system/sound.h"
 #include "system/soundCommand.h"
 #include "system/soundCutscene.h"
@@ -608,7 +609,33 @@ INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004AC2C);
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004AE4C);
 
 //----------------------------------------------------------------------------------------------------------------------
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004AE6C);
+extern CdlATV D_800917E8;
+int CdMix(CdlATV *vol);
+
+s32 func_8004AE6C( s32 arg0 )
+{
+
+    if( g_Sound_GlobalFlags.MixBehavior & 2 )
+    {
+        CdlATV* p = &D_800917E8;
+        u32 Val;
+        Val = (u32)( arg0 * 0xB570 ) >> 0x11;
+        p->val3 = (s8)Val;
+        p->val1 = (s8)Val;
+        p->val2 = (s8)Val;
+        p->val0 = (s8)Val;
+    }
+    else
+    {
+        CdlATV* p = &D_800917E8;
+        p->val2 = arg0;
+        p->val0 = arg0;
+        p->val3 = 0;
+        p->val1 = 0;
+    }
+    CdMix( &D_800917E8 );
+    return 0;
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 void Sound_StopCutsceneStream()
