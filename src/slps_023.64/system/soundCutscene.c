@@ -146,8 +146,6 @@ u32 Sound_Cutscene_AdvancePage( u32* in_pStreamPageIndex )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Sound_FadeOutCutscene( s32, s32 );
-
 void Sound_Cutscene_StartStream()
 {
     s32 VoiceIndex;

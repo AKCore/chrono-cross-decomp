@@ -611,6 +611,7 @@ void Sound_SetMutedMusicChannelMask( u32 in_ChannelMask );
 void Sound_SetMusicJumpThreshold( u32 arg0 );
 void Sound_SuspendChannelsByType( u32 in_ChannelType );
 void Sound_RestoreChannelsByType( u32 in_ChannelType );
+void Sound_FadeOutCutscene( u32 arg0, s32 arg1 );
 
 // SPU management
 void Sound_CopyAndRelocateInstruments( FSoundInstrumentInfo* in_A, FSoundInstrumentInfo* in_B, s32 in_AddrOffset, s32 in_Count);
