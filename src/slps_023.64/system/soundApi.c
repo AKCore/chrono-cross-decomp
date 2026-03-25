@@ -620,7 +620,17 @@ INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004AF20);
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004AF50);
 
 //----------------------------------------------------------------------------------------------------------------------
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004AF88);
+s32 func_8004AF88( u32 arg0, u32 arg1 )
+{
+    if( arg1 != 0 )
+    {
+        g_Sound_Vm2Params.Param1 = arg0;
+        g_Sound_Vm2Params.Param2 = arg1;
+        Sound_ExecuteSoundVm2Function( SOUND_CMD_E8_UNK );
+        return 0;
+    }
+    return -1;
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 u32 func_8004AFC8( void )
