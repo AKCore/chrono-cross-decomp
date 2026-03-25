@@ -227,53 +227,47 @@ void Sound_Cmd_C0_SetMasterVolumeByMusicId( FSoundCommandParams* in_pCmd )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-#ifndef NON_MATCHING
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_C1_FadeMasterVolumeByMusicId);
-#else
-void Sound_Cmd_C1_FadeMasterVolumeByMusicId(FSoundCommandParams* in_Params) 
+void Sound_Cmd_C1_FadeMasterVolumeByMusicId( FSoundCommandParams* in_Params )
 {
-    FSoundMusicContext* pMusicContext;
-    FSoundChannel* pChannels;
     s32 Length;
     s32 TargetVolume;
     s32 CurrentVolume;
     s32 MusicId;
-    s32 VolumeStep;
 
     Length = 1;
-    if ( in_Params->Param2 != 0 )
+    if( in_Params->Param2 != 0 )
+    {
         Length = in_Params->Param2;
+    }
 
     TargetVolume = ( (s32)( in_Params->Param3 & 0x7F ) << 16 ) | 0x8000;
     MusicId = in_Params->Param1;
 
-    if ( MusicId == 0 || MusicId == g_pActiveMusicContext->MusicId )
+    if( MusicId == MUSIC_ID_ANY || MusicId == g_pActiveMusicContext->MusicId )
     {
-        pMusicContext = g_pActiveMusicContext;
-        CurrentVolume = ( pMusicContext->MasterVolume & 0xFFFF0000 ) | 0x8000;
-        pMusicContext->MasterVolume = CurrentVolume;
-        VolumeStep = ( TargetVolume - CurrentVolume ) / (s32)Length;
-        pMusicContext->MasterVolumeStep = VolumeStep;
-        pMusicContext->MasterVolumeStepsRemaining = (s16)Length;
-        Sound_MarkActiveChannelsVolumeDirty( pMusicContext, g_ActiveMusicChannels );
+        g_pActiveMusicContext->MasterVolumeStepsRemaining = Length;
+        CurrentVolume = g_pActiveMusicContext->MasterVolume;
+        CurrentVolume &= 0xFFFF0000;
+        CurrentVolume |= 0x8000;
+        g_pActiveMusicContext->MasterVolume = CurrentVolume;
+        TargetVolume -= CurrentVolume;
+        TargetVolume /= Length;
+        g_pActiveMusicContext->MasterVolumeStep = TargetVolume;
+        Sound_MarkActiveChannelsVolumeDirty( g_pActiveMusicContext, g_ActiveMusicChannels );
     }
-    else
+    else if( g_pSuspendedMusicContext != NULL && MusicId != MUSIC_ID_ANY && MusicId == g_pSuspendedMusicContext->MusicId )
     {
-        pMusicContext = g_pSuspendedMusicContext;
-
-        if ( pMusicContext == NULL || MusicId == 0 || MusicId != pMusicContext->MusicId )
-            return;
-
-        
-        CurrentVolume = ( pMusicContext->MasterVolume & 0xFFFF0000 ) | 0x8000;
-        pMusicContext->MasterVolume = CurrentVolume;
-        VolumeStep = ( TargetVolume - CurrentVolume ) / (s32)Length;
-        pMusicContext->MasterVolumeStep = VolumeStep;
-        pMusicContext->MasterVolumeStepsRemaining = (s16)Length;
-        Sound_MarkActiveChannelsVolumeDirty( pMusicContext, g_pSecondaryMusicChannels );
+        g_pSuspendedMusicContext->MasterVolumeStepsRemaining = Length;
+        CurrentVolume = g_pSuspendedMusicContext->MasterVolume;
+        CurrentVolume &= 0xFFFF0000;
+        CurrentVolume |= 0x8000;
+        g_pSuspendedMusicContext->MasterVolume = CurrentVolume;
+        TargetVolume -= CurrentVolume;
+        TargetVolume /= Length;
+        g_pSuspendedMusicContext->MasterVolumeStep = TargetVolume;
+        Sound_MarkActiveChannelsVolumeDirty( g_pSuspendedMusicContext, g_pSecondaryMusicChannels );
     }
 }
-#endif
 
 //----------------------------------------------------------------------------------------------------------------------
 void Sound_Cmd_C2_FadeMasterVolumeFromByMusicId( FSoundCommandParams* in_Params )
@@ -293,7 +287,7 @@ void Sound_Cmd_C2_FadeMasterVolumeFromByMusicId( FSoundCommandParams* in_Params 
 
     MusicId = in_Params->Param1;
 
-    if( MusicId == 0 || MusicId == g_pActiveMusicContext->MusicId )
+    if( MusicId == MUSIC_ID_ANY || MusicId == g_pActiveMusicContext->MusicId )
     {
         pMusicContext = g_pActiveMusicContext;
         pChannels = g_ActiveMusicChannels;
@@ -302,7 +296,7 @@ void Sound_Cmd_C2_FadeMasterVolumeFromByMusicId( FSoundCommandParams* in_Params 
     {
         pMusicContext = g_pSuspendedMusicContext;
 
-        if( pMusicContext == NULL || MusicId == 0 || MusicId != pMusicContext->MusicId )
+        if( pMusicContext == NULL || MusicId == MUSIC_ID_ANY || MusicId != pMusicContext->MusicId )
         {
             return;
         }
@@ -329,7 +323,7 @@ void Sound_Cmd_C4_SetPanByMusicId( FSoundCommandParams* in_pCmd )
 
     MusicId = in_pCmd->Param1;
 
-    if ( MusicId == 0 || MusicId == (u32)g_pActiveMusicContext->MusicId )
+    if ( MusicId == MUSIC_ID_ANY || MusicId == (u32)g_pActiveMusicContext->MusicId )
     {
         pMusicContext = g_pActiveMusicContext;
         pMusicContext->MasterPanOffset = ( in_pCmd->Param2 & 0x7F ) << 0x10;
@@ -340,7 +334,7 @@ void Sound_Cmd_C4_SetPanByMusicId( FSoundCommandParams* in_pCmd )
 
     pMusicContext = g_pSuspendedMusicContext;
 
-    if ( pMusicContext == NULL || MusicId == 0 || MusicId != (u32)pMusicContext->MusicId )
+    if ( pMusicContext == NULL || MusicId == MUSIC_ID_ANY || MusicId != (u32)pMusicContext->MusicId )
     {
         return;
     }
@@ -370,7 +364,7 @@ void Sound_Cmd_C5_FadePanByMusicId( FSoundCommandParams* in_Params )
     MusicId   = in_Params->Param1;
     TargetPan = ( in_Params->Param3 & 0x7F ) << 16;
 
-    if ( MusicId == 0 || MusicId == g_pActiveMusicContext->MusicId )
+    if ( MusicId == MUSIC_ID_ANY || MusicId == g_pActiveMusicContext->MusicId )
     {
         pMusicContext = g_pActiveMusicContext;
         pChannels = g_ActiveMusicChannels;
@@ -383,7 +377,7 @@ void Sound_Cmd_C5_FadePanByMusicId( FSoundCommandParams* in_Params )
     }
     else
     {
-        if ( g_pSuspendedMusicContext == NULL || MusicId == 0 || MusicId != g_pSuspendedMusicContext->MusicId )
+        if ( g_pSuspendedMusicContext == NULL || MusicId == MUSIC_ID_ANY || MusicId != g_pSuspendedMusicContext->MusicId )
         {
             return;
         }
