@@ -1,6 +1,7 @@
 #include "common.h"
 #include "system/sound.h"
 #include "system/soundCommand.h"
+#include "system/soundCutscene.h"
 
 //----------------------------------------------------------------------------------------------------------------------
 s32 InitSound()
@@ -622,7 +623,23 @@ INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004AF50);
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004AF88);
 
 //----------------------------------------------------------------------------------------------------------------------
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004AFC8);
+u32 func_8004AFC8( void )
+{
+    u32 temp_v1;
+
+    g_Sound_Cutscene_StreamState.field9_0x24++;
+    temp_v1 = g_Sound_Cutscene_StreamState.field14_0x38 + 1;
+    g_Sound_Cutscene_StreamState.field14_0x38 = (s32)temp_v1;
+    if( (u32)( g_Sound_Cutscene_StreamState.PageRingBufferSize - 1 ) < temp_v1 )
+    {
+        g_Sound_Cutscene_StreamState.field14_0x38 = 0;
+    }
+    if( ( g_Sound_Cutscene_StreamState.field2_0x8 & 0x01000000 ) && ( (u32)g_Sound_Cutscene_StreamState.field14_0x38 >= 2U ) )
+    {
+        Sound_Cutscene_StartStream( &g_Sound_Cutscene_StreamState );
+    }
+    return g_Sound_Cutscene_StreamState.StreamPageIndex;
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 u32 Sound_MuteSfx( u32 arg0 )

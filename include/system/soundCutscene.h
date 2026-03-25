@@ -73,7 +73,7 @@ void Sound_Cutscene_StopStream();
 s32 Sound_Cutscene_FindFreeVoicePair();
 void Sound_Cutscene_InitVoice( u32 in_Voice, s32 in_PanMode, u32 in_StartAddr, u32 in_RepeatAddr );
 u32 Sound_Cutscene_AdvancePage( u32* in_pStreamPageIndex );
-// StartStream
+void Sound_Cutscene_StartStream();
 void Sound_Cutscene_BeginPlayback(s32,u32,SpuIRQCallbackProc);
 void Sound_Cutscene_OnInitialTransferComplete();
 u32 Sound_Cutscene_LoadNextBuffer( u32 in_RepeatAddressL, u32 in_RepeatAddressR, int in_Param3, SpuIRQCallbackProc in_IrqCallback );
