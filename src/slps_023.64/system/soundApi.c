@@ -625,7 +625,12 @@ INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004AF88);
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004AFC8);
 
 //----------------------------------------------------------------------------------------------------------------------
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004B04C);
+u32 Sound_MuteSfx( u32 arg0 )
+{
+    g_Sound_Vm2Params.Param1 = arg0;
+    Sound_ExecuteSoundVm2Function( SOUND_CMD_AE_MUTE_SFX );
+    return arg0;
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 u32 Sound_UnmuteSfx( u32 arg0 )
