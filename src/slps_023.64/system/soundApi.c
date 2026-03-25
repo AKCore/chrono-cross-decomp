@@ -636,7 +636,7 @@ u32 func_8004AFC8( void )
     }
     if( ( g_Sound_Cutscene_StreamState.field2_0x8 & 0x01000000 ) && ( (u32)g_Sound_Cutscene_StreamState.field14_0x38 >= 2U ) )
     {
-        Sound_Cutscene_StartStream( &g_Sound_Cutscene_StreamState );
+        Sound_Cutscene_StartStream();
     }
     return g_Sound_Cutscene_StreamState.StreamPageIndex;
 }
