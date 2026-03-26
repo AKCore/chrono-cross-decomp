@@ -189,7 +189,72 @@ void Sound_Cmd_20_PlaySfx( FSoundCommandParams* in_Params )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_24_PlaySfxFromPointer);
+typedef struct FAkaoSfxAsset
+{
+    /* 0x00 */ s32  Magic;           // AKAO
+    /* 0x04 */ s32  ProgramCount;    // total programs (primary + linked)
+    /* 0x08 */ u8   unk_0x8[0x8];
+    /* 0x10 */ s32  ProgramData[1]; /* ProgramData[0..ProgramCount-1]: offsets to program pairs
+                                       ProgramData[ProgramCount..]:    program bytecode */
+} FAkaoSfxAsset;
+
+void Sound_Cmd_24_PlaySfxFromPointer( FSoundCommandParams* in_Params )
+{
+    u16* pEntry; // A pair of PCs, since programs always play in pairs
+    u8* Pc1;
+    u8* Pc2;
+    s32 ProgramCount;
+    s32* pData;
+    u8* pProgramBase;
+    FAkaoSfxAsset* pAssetBase;
+    int NumOffsets;
+
+    pAssetBase = (FAkaoSfxAsset*)in_Params->Param1;
+    in_Params->ExtParam1 = 0;
+
+    pData = pAssetBase->ProgramData;
+    ProgramCount = pAssetBase->ProgramCount;
+    NumOffsets = ProgramCount;
+    pProgramBase = (u8*)&pData[NumOffsets];  // skip past the offset table to reach the bytecode region
+    
+    pEntry = (u16*)( pProgramBase + pData[0] );
+
+    Pc1 = ( *pEntry != 0xFFFF )
+        ? (u8*)( *pEntry + (s32)pEntry + sizeof(u16) * 2 )
+        : NULL;
+
+    pEntry++;
+    
+    Pc2 = ( *pEntry != 0xFFFF )
+        ? (u8*)( *pEntry + (s32)pEntry + sizeof(u16) )
+        : NULL;
+    
+    pEntry++;
+    Sound_PlaySfxProgram( in_Params, Pc1, Pc2, false );
+
+    ProgramCount--;
+    if( ProgramCount != 0 )
+    {
+
+        do {
+            pData++;
+            pEntry = (u16*)( pProgramBase + pData[0] );
+
+            Pc1 = ( *pEntry != 0xFFFF )
+                ? (u8*)(  *pEntry + (s32)pEntry + sizeof(u16) * 2 )
+                : NULL;
+
+            pEntry++;
+            Pc2 = ( *pEntry != 0xFFFF )
+                ? (u8*)(  *pEntry + (s32)pEntry + sizeof(u16) )
+                : NULL;
+
+            Sound_PlaySfxProgram( in_Params, Pc1, Pc2, true );
+
+            ProgramCount--;
+        } while( ProgramCount != 0 );
+    }
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 void Sound_Cmd_21_EvictSfxVoice( FSoundCommandParams* in_Params )
