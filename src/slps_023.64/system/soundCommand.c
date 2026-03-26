@@ -189,7 +189,68 @@ void Sound_Cmd_20_PlaySfx( FSoundCommandParams* in_Params )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundCommand", Sound_Cmd_24_PlaySfxFromPointer);
+typedef struct FAkaoSfxAsset
+{
+    /* 0x00 */ s32  Magic;           // AKAO
+    /* 0x04 */ s32  ProgramCount;    // total programs (primary + linked)
+    /* 0x08 */ u8   unk_0x8[0x8];
+    /* 0x10 */ s32  ProgramOffsets[1]; // ProgramCount entries, relative to end of table
+} FAkaoSfxAsset;
+
+void Sound_Cmd_24_PlaySfxFromPointer( FSoundCommandParams* in_Params )
+{
+    u16* pProgramPair;
+    u8* Pc1;
+    u8* Pc2;
+    s32 ProgramCount;
+    s32* pOffsets;
+    u8* pProgramBase;
+    u8* pAssetBase;
+
+    pAssetBase = (u8*)in_Params->Param1;
+    in_Params->ExtParam1 = 0;
+
+    pOffsets = (s32*)( pAssetBase + 0x10 );
+    ProgramCount = *(s32*)( pAssetBase + 4 );
+    pProgramBase = (u8*)pOffsets + ProgramCount * 4;
+
+    pProgramPair = (u16*)( pProgramBase + pOffsets[0] );
+
+    Pc1 = ( *pProgramPair != 0xFFFF )
+        ? (u8*)(  *pProgramPair + (s32)pProgramPair + 4 )
+        : NULL;
+
+    pProgramPair++;
+    Pc2 = ( *pProgramPair != 0xFFFF )
+        ? (u8*)(  *pProgramPair + (s32)pProgramPair + 2 )
+        : NULL;
+
+    pProgramPair++;
+    Sound_PlaySfxProgram( in_Params, Pc1, Pc2, false );
+
+    ProgramCount--;
+    if( ProgramCount != 0 )
+    {
+
+        do {
+            pOffsets++;
+            pProgramPair = (u16*)( pProgramBase + *pOffsets );
+
+            Pc1 = ( *pProgramPair != 0xFFFF )
+                ? (u8*)(  *pProgramPair + (s32)pProgramPair + 4 )
+                : NULL;
+
+            pProgramPair++;
+            Pc2 = ( *pProgramPair != 0xFFFF )
+                ? (u8*)(  *pProgramPair + (s32)pProgramPair + 2 )
+                : NULL;
+
+            Sound_PlaySfxProgram( in_Params, Pc1, Pc2, true );
+
+            ProgramCount--;
+        } while( ProgramCount != 0 );
+    }
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 void Sound_Cmd_21_EvictSfxVoice( FSoundCommandParams* in_Params )
