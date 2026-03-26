@@ -194,38 +194,42 @@ typedef struct FAkaoSfxAsset
     /* 0x00 */ s32  Magic;           // AKAO
     /* 0x04 */ s32  ProgramCount;    // total programs (primary + linked)
     /* 0x08 */ u8   unk_0x8[0x8];
-    /* 0x10 */ s32  ProgramOffsets[1]; // ProgramCount entries, relative to end of table
+    /* 0x10 */ s32  ProgramData[1]; /* ProgramData[0..ProgramCount-1]: offsets to program pairs
+                                       ProgramData[ProgramCount..]:    program bytecode */
 } FAkaoSfxAsset;
 
 void Sound_Cmd_24_PlaySfxFromPointer( FSoundCommandParams* in_Params )
 {
-    u16* pProgramPair;
+    u16* pEntry; // A pair of PCs, since programs always play in pairs
     u8* Pc1;
     u8* Pc2;
     s32 ProgramCount;
-    s32* pOffsets;
+    s32* pData;
     u8* pProgramBase;
-    u8* pAssetBase;
+    FAkaoSfxAsset* pAssetBase;
+    int NumOffsets;
 
-    pAssetBase = (u8*)in_Params->Param1;
+    pAssetBase = (FAkaoSfxAsset*)in_Params->Param1;
     in_Params->ExtParam1 = 0;
 
-    pOffsets = (s32*)( pAssetBase + 0x10 );
-    ProgramCount = *(s32*)( pAssetBase + 4 );
-    pProgramBase = (u8*)pOffsets + ProgramCount * 4;
+    pData = pAssetBase->ProgramData;
+    ProgramCount = pAssetBase->ProgramCount;
+    NumOffsets = ProgramCount;
+    pProgramBase = (u8*)&pData[NumOffsets];  // skip past the offset table to reach the bytecode region
+    
+    pEntry = (u16*)( pProgramBase + pData[0] );
 
-    pProgramPair = (u16*)( pProgramBase + pOffsets[0] );
-
-    Pc1 = ( *pProgramPair != 0xFFFF )
-        ? (u8*)(  *pProgramPair + (s32)pProgramPair + 4 )
+    Pc1 = ( *pEntry != 0xFFFF )
+        ? (u8*)( *pEntry + (s32)pEntry + sizeof(u16) * 2 )
         : NULL;
 
-    pProgramPair++;
-    Pc2 = ( *pProgramPair != 0xFFFF )
-        ? (u8*)(  *pProgramPair + (s32)pProgramPair + 2 )
+    pEntry++;
+    
+    Pc2 = ( *pEntry != 0xFFFF )
+        ? (u8*)( *pEntry + (s32)pEntry + sizeof(u16) )
         : NULL;
-
-    pProgramPair++;
+    
+    pEntry++;
     Sound_PlaySfxProgram( in_Params, Pc1, Pc2, false );
 
     ProgramCount--;
@@ -233,16 +237,16 @@ void Sound_Cmd_24_PlaySfxFromPointer( FSoundCommandParams* in_Params )
     {
 
         do {
-            pOffsets++;
-            pProgramPair = (u16*)( pProgramBase + *pOffsets );
+            pData++;
+            pEntry = (u16*)( pProgramBase + pData[0] );
 
-            Pc1 = ( *pProgramPair != 0xFFFF )
-                ? (u8*)(  *pProgramPair + (s32)pProgramPair + 4 )
+            Pc1 = ( *pEntry != 0xFFFF )
+                ? (u8*)(  *pEntry + (s32)pEntry + sizeof(u16) * 2 )
                 : NULL;
 
-            pProgramPair++;
-            Pc2 = ( *pProgramPair != 0xFFFF )
-                ? (u8*)(  *pProgramPair + (s32)pProgramPair + 2 )
+            pEntry++;
+            Pc2 = ( *pEntry != 0xFFFF )
+                ? (u8*)(  *pEntry + (s32)pEntry + sizeof(u16) )
                 : NULL;
 
             Sound_PlaySfxProgram( in_Params, Pc1, Pc2, true );
