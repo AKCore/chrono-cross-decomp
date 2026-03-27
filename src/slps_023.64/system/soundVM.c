@@ -30,7 +30,7 @@ void SoundVM_A0_FinishChannel( FSoundChannel* in_pChannel, u32 in_VoiceFlags )
         Sound_ClearVoiceFromSfxState( in_pChannel, in_VoiceFlags );
     }
     in_pChannel->UpdateFlags = 0;
-    g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_04 | SOUND_GLOBAL_UPDATE_08;
+    g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_NOISE_CLOCK | SOUND_GLOBAL_UPDATE_VOICE_MODES;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -75,7 +75,7 @@ void SoundVM_FE02_SetMasterReverbDepth( FSoundChannel* in_pChannel, u32 in_Voice
     Depth |= pc[0] << 0xC;
     in_pChannel->ProgramCounter += sizeof(s16);
     g_pActiveMusicContext->ReverbDepthSlideLength = 0;
-    g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_07;
+    g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_REVERB_DEPTH;
     g_pActiveMusicContext->RevDepth = Depth;
 }
 
@@ -762,7 +762,7 @@ void SoundVM_C4_EnableNoiseVoices( FSoundChannel* in_pChannel, u32 in_VoiceFlags
     {
         g_Sound_SfxState.NoiseVoiceFlags |= in_VoiceFlags;
     }
-    g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_04 | SOUND_GLOBAL_UPDATE_08;
+    g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_NOISE_CLOCK | SOUND_GLOBAL_UPDATE_VOICE_MODES;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -776,7 +776,7 @@ void SoundVM_C5_DisableNoiseVoices( FSoundChannel* in_pChannel, u32 in_VoiceFlag
     {
         g_Sound_SfxState.NoiseVoiceFlags &= ~in_VoiceFlags;
     }
-    g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_04 | SOUND_GLOBAL_UPDATE_08;
+    g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_NOISE_CLOCK | SOUND_GLOBAL_UPDATE_VOICE_MODES;
     in_pChannel->NoiseTimer = 0;
 }
 
@@ -791,7 +791,7 @@ void SoundVM_C6_EnableFmVoices( FSoundChannel* in_pChannel, u32 in_VoiceFlags )
     {
         g_Sound_SfxState.FmVoiceFlags |= in_VoiceFlags;
     }
-    g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_08;
+    g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_VOICE_MODES;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -805,7 +805,7 @@ void SoundVM_C7_DisableFmVoices( FSoundChannel* in_pChannel, u32 in_VoiceFlags )
     {
         g_Sound_SfxState.FmVoiceFlags &= ~in_VoiceFlags;
     }
-    g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_08;
+    g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_VOICE_MODES;
     in_pChannel->FmTimer = 0;
 }
 
@@ -820,7 +820,7 @@ void SoundVM_C2_EnableReverbVoices( FSoundChannel* in_pChannel, u32 in_VoiceFlag
     {
         g_Sound_SfxState.ReverbVoiceFlags |= in_VoiceFlags;
     }
-    g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_08;
+    g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_VOICE_MODES;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -834,7 +834,7 @@ void SoundVM_C3_DisableReverbVoices( FSoundChannel* in_pChannel, u32 in_VoiceFla
     {
         g_Sound_SfxState.ReverbVoiceFlags &= ~in_VoiceFlags;
     }
-    g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_08;
+    g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_VOICE_MODES;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -886,7 +886,7 @@ void SoundVM_AC_NoiseClockFrequency( FSoundChannel* in_pChannel, u32 in_VoiceFla
             g_Sound_SfxState.NoiseClock = Frequency;
         }
     }
-    g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_04;
+    g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_NOISE_CLOCK;
 }
 
 //----------------------------------------------------------------------------------------------------------------------

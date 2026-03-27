@@ -408,7 +408,7 @@ void Sound_UpdateSlidesAndDelays( FSoundChannel* in_pChannel, u32 in_VoiceFlags,
             {
                 g_Sound_SfxState.NoiseVoiceFlags ^= in_VoiceFlags;
             }
-            g_Sound_GlobalFlags.UpdateFlags |= ( SOUND_GLOBAL_UPDATE_04 | SOUND_GLOBAL_UPDATE_08 );
+            g_Sound_GlobalFlags.UpdateFlags |= ( SOUND_GLOBAL_UPDATE_NOISE_CLOCK | SOUND_GLOBAL_UPDATE_VOICE_MODES );
         }
     }
 
@@ -425,7 +425,7 @@ void Sound_UpdateSlidesAndDelays( FSoundChannel* in_pChannel, u32 in_VoiceFlags,
             {
                 g_Sound_SfxState.FmVoiceFlags ^= in_VoiceFlags;
             }
-            g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_08;
+            g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_VOICE_MODES;
         }
     }
 
@@ -1105,7 +1105,7 @@ void Sound_AssignAndUpdateMusicVoice( FSoundChannel* in_pChannel, u32 in_Channel
                     {
                         SetVoiceParams( in_pChannel->VoiceParams.AssignedVoiceNumber, &in_pChannel->VoiceParams, in_pChannel->VoiceParams.VolumeScale );
                         g_Sound_VoiceOwnerContexts[in_pChannel->VoiceParams.AssignedVoiceNumber] = g_pActiveMusicContext;
-                        g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_08;
+                        g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_VOICE_MODES;
                     }
                 }
                 else
@@ -1526,5 +1526,5 @@ void Sound_BuildVoiceModeMask( s32* out_VoiceModeMask, s32 in_SavedChannelModeMa
 
     VoiceMask |= in_PersistentVoiceMask;
     *out_VoiceModeMask = VoiceMask;
-    g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_08;
+    g_Sound_GlobalFlags.UpdateFlags |= SOUND_GLOBAL_UPDATE_VOICE_MODES;
 }
