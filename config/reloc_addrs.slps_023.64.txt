@@ -1,4 +1,11 @@
 //----------------------------------------------------------------------------------------------------------------------
+// main
+rom:0xAF88 reloc:MIPS_GPREL16 symbol:D_80073B84
+rom:0xAF98 reloc:MIPS_GPREL16 symbol:D_80073B84
+rom:0xAFB8 reloc:MIPS_GPREL16 symbol:D_80073B84
+rom:0xB040 reloc:MIPS_GPREL16 symbol:D_80073B84
+
+//----------------------------------------------------------------------------------------------------------------------
 // LIBSPU/S_W.OBJ
 rom:0x0003C3FC reloc:MIPS_26   symbol:_spu_Fw
 rom:0x0003C404 reloc:MIPS_HI16 symbol:_spu_transferCallback

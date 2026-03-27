@@ -15,6 +15,8 @@ options:
 
   ld_script_path: linker/slps_023.64.ld
   ld_dependencies: True
+  # HACK(jperos): this should be main_SDATA_START but for some reason I can't get that emitting
+  ld_gp_expression: main_DATA_END
   ld_sections_allowlist:
     - .pdr
     - .mdebug
@@ -80,7 +82,7 @@ segments:
     # bss_contains_common: True
     bss_contains_common: False
     align: 4
-    section_order: [".text", ".rodata", ".sdata", ".data", ".sbss", ".bss"]
+    section_order: [".text", ".rodata", ".data", ".sdata", ".bss"]
     subsegments:
 
       # === .text ===
@@ -446,9 +448,11 @@ segments:
       - [0x63EC0, o, ../lib/450/libspu/s_rmp2, .data]  # size: 0x2b0
 
       - [0x64170, data]    # Some rodata from the game module
-      - [0x64380, data]    # 0x80073B80
 
-      - [0x64380, sbss]    # 0x80073B80
+      # TODO(jperos): for some reason, main_SDATA_START will not emit in the linker
+      # Might be something to do with the main game's bss being generated before it
+      - [0x64370, sdata]    # 0x80073B70 / gp
+
       - [0x64388, o, ../lib/450/libc2/itoa, .bss] # size: 0x10
       - [0x64398, o, ../lib/450/libc2/putchar, .bss] # size: 0x20
       - [0x643B8, o, ../lib/450/libc2/rand, .bss] # size: 0x10
