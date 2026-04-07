@@ -606,7 +606,10 @@ s32 func_8004AC0C()
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004AC2C);
 
 //----------------------------------------------------------------------------------------------------------------------
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/soundApi", func_8004AE4C);
+void* func_8004AE4C( void* arg0, s32 arg1, s32 arg2 )
+{
+    return func_8004AB8C( arg0, arg2 );
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 extern CdlATV D_800917E8;
