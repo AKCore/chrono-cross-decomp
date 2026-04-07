@@ -123,8 +123,8 @@ void* Sound_PlaySfxFromPointer( void* arg0, s32 arg1, s32 arg2, s32 arg3 )
 {
     if( Sound_IsNotAkaoFile( arg0 ) )
     {
-        // TODO(jperos): Is this VOICE_COUNT?
-        return Sound_PlaySfxProtected( 0x18 );
+        // TODO(jperos): What happens when this gets VOICE_INVALID_INDEX?
+        return Sound_PlaySfxProtected( VOICE_INVALID_INDEX );
     }
     else
     {
