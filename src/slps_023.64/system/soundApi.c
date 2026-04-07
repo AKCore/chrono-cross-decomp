@@ -595,7 +595,7 @@ s32 func_8004AB8C( s32 arg0, s32 arg1 )
 
     if( bLoadSuccessful == AKAO_LOAD_FAILURE )
     {
-        Sound_PlaySfxProtected( 0x18 );
+        Sound_PlaySfxProtected( VOICE_INVALID_INDEX );
     }
 
     return bLoadSuccessful;
