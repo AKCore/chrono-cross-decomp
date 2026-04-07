@@ -76,9 +76,9 @@ s32 Sound_TryLoadInstrumentBank( FAkaoSequence* in_pAkao, s32 in_bWait)
     if( Sound_IsNotAkaoFile( in_pAkao ) == false )
     {
         Sound_LoadInstrumentBank( in_pAkao, in_bWait, in_pAkao->unk18, in_pAkao->unk10 );
-        return 0;
+        return AKAO_LOAD_SUCCESS;
     }
-    return -1;
+    return AKAO_LOAD_FAILURE;
 }
 
 //----------------------------------------------------------------------------------------------------------------------

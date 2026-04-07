@@ -484,6 +484,13 @@ typedef struct
 } FAkaoSequence; // size 0x40 (header), data blob variable
 static_assert( sizeof(FAkaoSequence) - align(sizeof(member_type(FAkaoSequence,Payload))) == 0x40 );
 
+typedef enum EAkaoLoadStatus
+{
+    AKAO_LOAD_SUCCESS  =  0,
+    AKAO_LOAD_RETRY    =  1,
+    AKAO_LOAD_FAILURE  = -1,
+} EAkaoLoadStatus;
+
 
 typedef enum EMusicContextStatusFlags
 {

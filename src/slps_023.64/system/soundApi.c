@@ -591,9 +591,9 @@ s32 func_8004AB8C( s32 arg0, s32 arg1 )
     do
     {
         bLoadSuccessful = Sound_TryLoadInstrumentBank( (FAkaoSequence*)arg0, arg1 );
-    } while( bLoadSuccessful == 1 );
+    } while( bLoadSuccessful == AKAO_LOAD_RETRY );
 
-    if( bLoadSuccessful == -1 )
+    if( bLoadSuccessful == AKAO_LOAD_FAILURE )
     {
         Sound_PlaySfxProtected( 0x18 );
     }
