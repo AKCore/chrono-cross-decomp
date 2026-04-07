@@ -584,23 +584,21 @@ void Sound_StopSfx()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-extern s32 func_8004B284(s32 arg0, s32 arg1);
-
-//----------------------------------------------------------------------------------------------------------------------
-s32 func_8004AB8C(s32 arg0, s32 arg1)
+// TODO(jperos): this function and the downstream ones may take in a void* and cast it somewhere along the line
+s32 func_8004AB8C( s32 arg0, s32 arg1 )
 {
-    s32 ret;
+    s32 bLoadSuccessful;
     do
     {
-        ret = func_8004B284(arg0, arg1);
-    } while (ret == 1);
+        bLoadSuccessful = Sound_TryLoadInstrumentBank( (FAkaoSequence*)arg0, arg1 );
+    } while( bLoadSuccessful == 1 );
 
-    if (ret == -1)
+    if( bLoadSuccessful == -1 )
     {
-        Sound_PlaySfxProtected(0x18);
+        Sound_PlaySfxProtected( 0x18 );
     }
 
-    return ret;
+    return bLoadSuccessful;
 }
 
 //----------------------------------------------------------------------------------------------------------------------

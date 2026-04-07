@@ -621,6 +621,8 @@ void SetSpuTransferCallback();
 void WriteSpu( s32 in_Addr, s32 in_Size );
 void ReadSpu( s32 in_Addr, s32 in_Size );
 void WaitForSpuTransfer();
+s32 Sound_TryLoadInstrumentBank( FAkaoSequence* in_pAkao, s32 arg1 );
+s32 Sound_LoadInstrumentBank( FAkaoSequence* in_Akao, s32 in_bWait, s32 arg2, u32 in_StartAddr );
 void Sound_Setup();
 void Sound_Start();
 void Sound_Stop();

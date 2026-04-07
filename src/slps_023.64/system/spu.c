@@ -71,8 +71,17 @@ void WaitForSpuTransfer()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/spu", func_8004B284);
+s32 Sound_TryLoadInstrumentBank( FAkaoSequence* in_pAkao, s32 in_bWait)
+{
+    if( Sound_IsNotAkaoFile( in_pAkao ) == false )
+    {
+        Sound_LoadInstrumentBank( in_pAkao, in_bWait, in_pAkao->unk18, in_pAkao->unk10 );
+        return 0;
+    }
+    return -1;
+}
 
+//----------------------------------------------------------------------------------------------------------------------
 INCLUDE_ASM("asm/slps_023.64/nonmatchings/system/spu", Sound_LoadInstrumentBank);
 
 //----------------------------------------------------------------------------------------------------------------------
