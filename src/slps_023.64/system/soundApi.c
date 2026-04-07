@@ -595,6 +595,7 @@ s32 func_8004AB8C( s32 arg0, s32 arg1 )
 
     if( bLoadSuccessful == AKAO_LOAD_FAILURE )
     {
+        // TODO(jperos): What happens in here when you play a SFX on an invalid voice index?
         Sound_PlaySfxProtected( VOICE_INVALID_INDEX );
     }
 
